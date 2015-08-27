@@ -1,0 +1,14 @@
+/* lists */
+.styleless { list-style-type: none; }
+
+li.tweet-cntr { display: block; margin-bottom: 20px;}
+.tweet { border: 1px solid #eee; }
+.tweet-user-info { margin-bottom: 20px;}
+.tweet-user-name { font-size: 110%; font-weight: bold; }
+.tweet-user-screen-name { padding-left: 20px; color: #999;}
+.tweet-creation-time { padding-left: 20px; color: #999;}
+
+.tweet-interaction-stats { margin-top: 12px;}
+
+.retweet-text { margin: 5px 30px; padding: 20px; border: 1px solid #ccc;}
+

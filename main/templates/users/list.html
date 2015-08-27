@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load bootstrap_pagination %}
+
+{% block content %}
+
+<table class="table table-striped">
+<thead>
+	<tr>
+		<th>id</th>
+		<th>screen name</th>
+		<th>name</th>
+		<th>location</th>
+		<th>tweet count</th>
+	</tr>
+</thead>
+<tbody>
+{% for user in object_list %}
+	<tr>
+		<td>{{user.id}}</td>
+		<td>{{user.screen_name}}</td>
+		<td>{{user.name}}</td>
+		<td>{{user.location}}</td>
+		<td>{{user.tweet__count}}</td>
+	</tr>
+{% endfor %}
+</tbody>
+<table>
+
+{% bootstrap_paginate page_obj range=10 show_prev_next="false" show_first_last="true" %}
+
+{% endblock %}

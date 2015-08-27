@@ -1,0 +1,51 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head {% block head_attrs %}{% endblock %}>
+	<meta charset="utf-8">
+	<title>{% block title %}Coding Tool{% endblock %}</title>
+
+	<link rel="stylesheet" href="{% static "bower_components/normalize-css/normalize.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "bower_components/bootstrap/dist/css/bootstrap.css" %}">
+	<link rel="stylesheet" href="{% static "css/default.css" %}">
+
+
+	{% block additional_head %}
+	{% endblock %}
+
+    <style>
+    {% block page_style %}
+    {% endblock %}
+    </style>
+</head>
+<body>
+	<div id="page-wrapper">
+		{% include "header.html" %}
+
+		<div id="content-wrapper">
+			<div class="content">
+				{% block content %}
+					<h1>{% block inpage_title %}{% endblock %}</h1>
+					{% block inner_content %}{% endblock %}
+				{% endblock %}
+			</div>
+		</div>
+
+		{% include "footer.html" %}
+	</div>
+
+
+	<script src="{% static "bower_components/jquery/dist/jquery.min.js" %}"></script>
+	<script src="{% static "bower_components/angular/angular.js" %}"></script>
+	<script src="{% static "bower_components/angular-route/angular-route.js" %}"></script>
+	<script src="{% static "bower_components/angular-cookies/angular-cookies.js" %}"></script>
+	<script src="{% static "bower_components/bootstrap/dist/js/bootstrap.min.js" %}"></script>
+
+
+    {% block end_scripts %}
+    {% endblock %}
+
+
+</body>
+</html>

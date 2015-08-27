@@ -1,0 +1,29 @@
+{% block header %}
+<!-- header-footer header -->
+<header>
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">TweetCoder</a>
+            </div>
+
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'users-list' %}">Users</a></li>
+                <li><a href="{% url 'tweets-list' %}">Tweets</a></li>
+                <li><a href="{% url 'urls-list' %}">URLs</a></li>
+                <li><a href="{% url 'media-list' %}">Media</a></li>
+                <li><a href="{% url 'codes-list' %}">Codes</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+{% endblock %} 
+
+

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+		<div class="tweet" id="tweet-{{tweet.id}}" data-id="{{tweet.id}}">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-1 tweet-pic-cntr">
+						<div style="width: 64px; height: 64px; background: #aaa; margin: 10px;">
+						</div>
+					</div>
+					<div class="col-md-9 tweet-body">
+						<div class="row">
+							<div class="col-md-12 tweet-user-info">
+								<span class="tweet-user-name">{{tweet.user.name}}</span>
+								{% if tweet.user__verified %}<span class="tweet-user-verified">Verified</span>{% endif %}
+								<span class="tweet-user-screen-name">@{{tweet.user_screen_name}}</span>
+								<span class="tweet-creation-time">{{tweet.created_ts}}</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 tweet-text">
+								{{tweet.text}}
+							</div>
+						</div>
+						{% if tweet.retweeted_status %}
+						<div class="row">
+							<div class="retweet-text col-md-9 col-md-offset-1">
+								@{{tweet.retweeted_status_user_screen_name}}: {{tweet.retweeted_status.text}}
+							</div>
+						</div>
+						{% endif %}
+						{% if tweet.media_set.count > 0 %}
+						{% for media in tweet.media_set.all %}
+						<div class="row">
+							<div class="col-md-12">
+								{{media.type}} ||
+								{{media.expanded_url}} ||
+								{{media.media_url}} ||
+								{{media.media_id}}
+								<img src="{{media.media_url}}">
+							</div>
+						</div>
+						{% endfor %}
+						{% endif %}
+						<div class="tweet-interaction-stats">
+							<div class="row">
+								<div class="col-md-3">Retweets: {{tweet.retweet_count}}</div>
+								<div class="col-md-3">Favorites: {{tweet.favorite_count}}</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+</div>
+
+{% endblock %}

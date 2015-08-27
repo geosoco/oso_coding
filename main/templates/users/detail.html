@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+	<h1>User: {{object.screen_name}}</h1>
+
+	<a href="http://www.twitter.com/{{object.screen_name}}/">View on Twitter</a>
+
+	<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Field</th>
+			<th>Data</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr><th>id</th><td>{{object.id}}</td></tr>
+	    <tr><th>screen_name</th><td>{{object.screen_name}}</td></tr>
+	    <tr><th>description</th><td>{{object.description}}</td></tr>
+	    <tr><th>followers_count</th><td>{{object.followers_count}}</td></tr>
+	    <tr><th>friends_count</th><td>{{object.friends_count}}</td></tr>
+	    <tr><th>statuses_count</th><td>{{object.statuses_count}}</td></tr>
+	    <tr><th>favourites_count</th><td>{{object.favourites_count}}</td></tr>
+	    <tr><th>location</th><td>{{object.location}}</td></tr>
+	    <tr><th>created_ts</th><td>{{object.created_ts}}</td></tr>
+	    <tr><th>geo_enabled</th><td>{{object.geo_enabled}}</td></tr>
+	    <tr><th>lang</th><td>{{object.lang}}</td></tr>
+	    <tr><th>listed_count</th><td>{{object.listed_count}}</td></tr>
+	    <tr><th>name</th><td>{{object.name}}</td></tr>
+	    <tr><th>time_zone</th><td>{{object.time_zone}}</td></tr>
+	    <tr><th>url</th><td>{% if object.url %}<a href="{{object.url}}">{{object.url}}</a>{% endif %}</td></tr>
+	    <tr><th>utc_offset</th><td>{{object.utc_offset}}</td></tr>
+	    <tr><th>verified</th><td>{{object.verified}}</td></tr>
+	</tbody>
+	</table>
+
+</div>
+{% endblock %}
+
+
