@@ -98,6 +98,20 @@ class TweetSnapshot(models.Model):
     user_url = models.CharField(max_length=512, blank=True, null=True)
     user_utc_offset = models.IntegerField(blank=True, null=True)
     user_verified = models.IntegerField(blank=True, null=True)
+    user_profile_use_background_image = models.IntegerField(blank=True, null=True)
+    user_default_profile_image = models.IntegerField(blank=True, null=True)
+    user_profile_sidebar_fill_color = models.CharField(max_length=16, blank=True, null=True)
+    user_profile_text_color = models.CharField(max_length=16, blank=True, null=True)
+    user_profile_sidebar_border_color = models.CharField(max_length=16, blank=True, null=True)
+    user_profile_background_color = models.CharField(max_length=16, blank=True, null=True)
+    user_profile_link_color = models.CharField(max_length=16, blank=True, null=True)
+    user_profile_image_url = models.CharField(max_length=256, blank=True, null=True)
+    user_profile_banner_url = models.CharField(max_length=256, blank=True, null=True)
+    user_profile_background_image_url = models.CharField(max_length=256, blank=True, null=True)
+    user_profile_background_tile = models.IntegerField(blank=True, null=True)
+    user_contributors_enabled = models.IntegerField(blank=True, null=True)
+    user_default_profile = models.IntegerField(blank=True, null=True)
+    user_is_translator = models.IntegerField(blank=True, null=True)    
     retweet_count = models.IntegerField(blank=True, null=True)
     favorite_count = models.IntegerField(blank=True, null=True)
     retweeted_status_id = models.BigIntegerField(blank=True, null=True)
@@ -155,10 +169,25 @@ class Tweet(models.Model):
     local_time = models.DateTimeField(blank=True, null=True)
     retweet_source = models.ForeignKey('self', blank=True, null=True, related_name="source_retweet")
     mentions = models.ManyToManyField('User', through=TweetMention, related_name="user_mentions")
+    source_snapshot = models.ForeignKey(TweetSnapshot, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'tweets'
+
+class TweetStats(models.Model):
+    id = models.OneToOneField(Tweet, db_column='id', primary_key=True)
+    replies_count = models.IntegerField(blank=True, null=True)
+    retweet_count = models.IntegerField(blank=True, null=True)
+    retweets_in_set = models.IntegerField(blank=True, null=True)
+    favorites_count = models.IntegerField(blank=True, null=True)
+    duplicate_count = models.IntegerField(blank=True, null=True)
+    duplicate_of_tweet = models.ForeignKey(Tweet, db_column='duplicate_of_tweet', blank=True, null=True, related_name="duplicates")
+    snapshot_count = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'tweets_stats'        
 
 
 class Url(models.Model):
@@ -192,10 +221,115 @@ class User(models.Model):
     url = models.CharField(max_length=512, blank=True, null=True)
     utc_offset = models.IntegerField(blank=True, null=True)
     verified = models.IntegerField(blank=True, null=True)
+    profile_use_background_image = models.IntegerField(blank=True, null=True)
+    default_profile_image = models.IntegerField(blank=True, null=True)
+    profile_sidebar_fill_color = models.CharField(max_length=16, blank=True, null=True)
+    profile_text_color = models.CharField(max_length=16, blank=True, null=True)
+    profile_sidebar_border_color = models.CharField(max_length=16, blank=True, null=True)
+    profile_background_color = models.CharField(max_length=16, blank=True, null=True)
+    profile_link_color = models.CharField(max_length=16, blank=True, null=True)
+    profile_image_url = models.CharField(max_length=256, blank=True, null=True)
+    profile_banner_url = models.CharField(max_length=256, blank=True, null=True)
+    profile_background_image_url = models.CharField(max_length=256, blank=True, null=True)
+    profile_background_tile = models.IntegerField(blank=True, null=True)
+    contributors_enabled = models.IntegerField(blank=True, null=True)
+    default_profile = models.IntegerField(blank=True, null=True)
+    is_translator = models.IntegerField(blank=True, null=True)
+    source_snapshot_id = models.IntegerField(blank=True, null=True)    
 
     class Meta:
         managed = False
         db_table = 'users'
+
+
+class UserCurrent(models.Model):
+    id = models.OneToOneField(User, db_column='id', primary_key=True)
+    screen_name = models.CharField(max_length=140, blank=True, null=True)
+    description = models.CharField(max_length=512, blank=True, null=True)
+    followers_count = models.IntegerField(blank=True, null=True)
+    friends_count = models.IntegerField(blank=True, null=True)
+    statuses_count = models.IntegerField(blank=True, null=True)
+    favourites_count = models.IntegerField(blank=True, null=True)
+    location = models.CharField(max_length=512, blank=True, null=True)
+    created_at = models.CharField(max_length=64, blank=True, null=True)
+    created_ts = models.DateTimeField(blank=True, null=True)
+    geo_enabled = models.IntegerField(blank=True, null=True)
+    lang = models.CharField(max_length=8, blank=True, null=True)
+    listed_count = models.IntegerField(blank=True, null=True)
+    name = models.CharField(max_length=140, blank=True, null=True)
+    time_zone = models.CharField(max_length=64, blank=True, null=True)
+    url = models.CharField(max_length=512, blank=True, null=True)
+    utc_offset = models.IntegerField(blank=True, null=True)
+    verified = models.IntegerField(blank=True, null=True)
+    profile_use_background_image = models.IntegerField(blank=True, null=True)
+    default_profile_image = models.IntegerField(blank=True, null=True)
+    profile_sidebar_fill_color = models.CharField(max_length=16, blank=True, null=True)
+    profile_text_color = models.CharField(max_length=16, blank=True, null=True)
+    profile_sidebar_border_color = models.CharField(max_length=16, blank=True, null=True)
+    profile_background_color = models.CharField(max_length=16, blank=True, null=True)
+    profile_background_image_url_https = models.CharField(max_length=16, blank=True, null=True)
+    profile_link_color = models.CharField(max_length=16, blank=True, null=True)
+    profile_image_url = models.CharField(max_length=256, blank=True, null=True)
+    profile_banner_url = models.CharField(max_length=256, blank=True, null=True)
+    profile_background_image_url = models.CharField(max_length=256, blank=True, null=True)
+    profile_background_tile = models.IntegerField(blank=True, null=True)
+    contributors_enabled = models.IntegerField(blank=True, null=True)
+    default_profile = models.IntegerField(blank=True, null=True)
+    is_translator = models.IntegerField(blank=True, null=True)
+    request_date = models.DateTimeField(blank=True, null=True)
+    deletion_noticed_date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'users_current'
+
+
+class UserStats(models.Model):
+    id = models.OneToOneField(User, db_column='id', primary_key=True)
+    statuses_count_in_set = models.IntegerField(blank=True, null=True)
+    snapshot_count_in_set = models.IntegerField(blank=True, null=True)
+    first_tweet_date = models.DateTimeField(blank=True, null=True)
+    last_tweet_date = models.DateTimeField(blank=True, null=True)
+    first_snapshot_date = models.DateTimeField(blank=True, null=True)
+    last_snapshot_date = models.DateTimeField(blank=True, null=True)
+    followers_count_min = models.IntegerField(blank=True, null=True)
+    followers_count_max = models.IntegerField(blank=True, null=True)
+    followers_count_delta = models.IntegerField(blank=True, null=True)
+    friends_count_min = models.IntegerField(blank=True, null=True)
+    friends_count_max = models.IntegerField(blank=True, null=True)
+    friends_count_delta = models.IntegerField(blank=True, null=True)
+    statuses_count_min = models.IntegerField(blank=True, null=True)
+    statuses_count_max = models.IntegerField(blank=True, null=True)
+    statuses_count_delta = models.IntegerField(blank=True, null=True)
+    favourites_count_min = models.IntegerField(blank=True, null=True)
+    favourites_count_max = models.IntegerField(blank=True, null=True)
+    favourites_count_delta = models.IntegerField(blank=True, null=True)
+    listed_count_min = models.IntegerField(blank=True, null=True)
+    listed_count_max = models.IntegerField(blank=True, null=True)
+    listed_count_delta = models.IntegerField(blank=True, null=True)
+    screen_name_change_count = models.IntegerField(blank=True, null=True)
+    name_change_count = models.IntegerField(blank=True, null=True)
+    location_change_count = models.IntegerField(blank=True, null=True)
+    geo_enabled_change_count = models.IntegerField(blank=True, null=True)
+    description_change_count = models.IntegerField(blank=True, null=True)
+    profile_change_count = models.IntegerField(blank=True, null=True)
+    url_change_count = models.IntegerField(blank=True, null=True)
+    timeline_total_retweets = models.IntegerField(blank=True, null=True)
+    timeline_total_replied = models.IntegerField(blank=True, null=True)
+    timeline_total_favorited = models.IntegerField(blank=True, null=True)
+    tweet_retweet_count = models.IntegerField(blank=True, null=True)
+    tweet_replies_count = models.IntegerField(blank=True, null=True)
+    tweet_with_mentions_count = models.IntegerField(blank=True, null=True)
+    tweet_with_urls_count = models.IntegerField(blank=True, null=True)
+    tweet_with_media_count = models.IntegerField(blank=True, null=True)
+    percent_tweets_retweets = models.DecimalField(max_digits=16, decimal_places=4, null=True, blank=True)
+    percent_tweets_replies = models.DecimalField(max_digits=16, decimal_places=4, null=True, blank=True)
+    percent_tweets_copies = models.DecimalField(max_digits=16, decimal_places=4, null=True, blank=True)
+    percent_tweets_originals = models.DecimalField(max_digits=16, decimal_places=4, null=True, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'users_stats'
 
 
 class Webpage(models.Model):
