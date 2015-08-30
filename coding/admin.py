@@ -1,3 +1,40 @@
 from django.contrib import admin
+import models
 
 # Register your models here.
+
+
+class CodeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'scheme', 'name', 'description',)
+    readonly_fields = ('id', 'scheme', 'name', 'description',)
+
+
+class TweetCodeInstanceAdmin(admin.ModelAdmin):
+    list_display = (
+        'id', 'created_date', 'created_by',
+        'deleted_date', 'deleted_by',
+        'code', 'tweet_id', 'assignment',)
+
+
+class UserCodeInstanceAdmin(admin.ModelAdmin):
+    list_display = (
+        'id', 'created_date', 'created_by',
+        'deleted_date', 'deleted_by',
+        'code', 'user_id', 'assignment',)
+
+
+class CodeAdminInline(admin.TabularInline):
+    model = models.Code
+    can_delete = True
+    verbose_name_plural = 'Codes'
+
+
+class CodeSchemeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'description')
+    inlines = [CodeAdminInline, ]
+
+
+admin.site.register(models.Code, CodeAdmin)
+admin.site.register(models.CodeScheme, CodeSchemeAdmin)
+admin.site.register(models.TweetCodeInstance, TweetCodeInstanceAdmin)
+admin.site.register(models.UserCodeInstance, UserCodeInstanceAdmin)
