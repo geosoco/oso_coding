@@ -12,6 +12,7 @@ from __future__ import unicode_literals
 from django.db import models
 
 
+
 class AccountType(models.Model):
     name = models.CharField(max_length=128, blank=True, null=True)
     set_id = models.IntegerField(blank=True, null=True)

@@ -137,6 +137,7 @@ LOCAL_APPS = (
     'base',
     'main',
     'api',
+    'coding',
 )
 
 

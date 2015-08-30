@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User, Group
 import main.models as main_models
+import coding.models as coding_models
 from rest_framework import viewsets
 from rest_framework.authentication import (
     SessionAuthentication, BasicAuthentication, TokenAuthentication)
@@ -165,6 +166,45 @@ class WebpageViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
 
+class CodeSchemeViewSet(viewsets.ModelViewSet):
+    """
+    Viewset for code scheme
+    """
+    queryset = coding_models.CodeScheme.objects.all()
+    serializer_class = api_serializers.CodeSchemeSerializer
+    authentication_classes = (SessionAuthentication,
+                              BasicAuthentication, TokenAuthentication)
+    permission_classes = (IsAuthenticated,)
 
 
-    
+class CodeViewSet(viewsets.ModelViewSet):
+    """
+    Viewset for code
+    """
+    queryset = coding_models.Code.objects.all()
+    serializer_class = api_serializers.CodeSerializer
+    authentication_classes = (SessionAuthentication,
+                              BasicAuthentication, TokenAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+
+class TweetCodeInstanceViewSet(viewsets.ModelViewSet):
+    """
+    Viewset for Tweet code instance
+    """
+    queryset = coding_models.TweetCodeInstance.objects.all()
+    serializer_class = api_serializers.TweetCodeInstanceSerializer
+    authentication_classes = (SessionAuthentication,
+                              BasicAuthentication, TokenAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+
+class UserCodeInstanceViewSet(viewsets.ModelViewSet):
+    """
+    Viewset for User code instance
+    """
+    queryset = coding_models.UserCodeInstance.objects.all()
+    serializer_class = api_serializers.UserCodeInstanceSerializer
+    authentication_classes = (SessionAuthentication,
+                              BasicAuthentication, TokenAuthentication)
+    permission_classes = (IsAuthenticated,)

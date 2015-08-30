@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User, Group
 import main.models as main_models
+import coding.models as coding_models
 from rest_framework import serializers
 
 
@@ -103,7 +104,6 @@ class TweetSerializer(serializers.ModelSerializer):
     mentions = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
     source_snapshot = serializers.PrimaryKeyRelatedField(read_only=True)
 
-
     class Meta:
         model = main_models.Tweet
         fields = (
@@ -133,7 +133,7 @@ class UrlSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     source_snapshot_id = serializers.PrimaryKeyRelatedField(read_only=True)
-    
+
     class Meta:
         model = main_models.User
         fields = (
@@ -157,3 +157,60 @@ class WebpageSerializer(serializers.ModelSerializer):
         fields = ('id', 'url', 'title')
 
 
+class CodeSchemeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = coding_models.CodeScheme
+        fields = (
+            'created_by', 'created_date', 'deleted_by', 'deleted_date',
+            'name', 'description', 'mutually_exclusive'
+            )
+
+
+class CodeSerializer(serializers.ModelSerializer):
+    scheme = serializers.PrimaryKeyRelatedField(
+        queryset=coding_models.CodeScheme.objects.all())
+
+    class Meta:
+        model = coding_models.Code
+        fields = (
+            'created_by', 'created_date', 'deleted_by', 'deleted_date',
+            'scheme', 'name', 'description', 'css_class', 'key'
+            )
+
+
+class TweetCodeInstanceSerializer(serializers.ModelSerializer):
+    code = serializers.PrimaryKeyRelatedField(
+        queryset=coding_models.Code.objects.all(), many=False,
+        style={'base_template': 'input.html'})
+    tweet = serializers.PrimaryKeyRelatedField(
+        queryset=main_models.Tweet.objects.all(), many=False,
+        style={'base_template': 'input.html'})
+    assignment = serializers.PrimaryKeyRelatedField(
+        queryset=coding_models.Assignment.objects.all(), many=False,
+        style={'base_template': 'input.html'})
+
+    class Meta:
+        model = coding_models.TweetCodeInstance
+        fields = (
+            'created_by', 'created_date', 'deleted_by', 'deleted_date',
+            'code', 'tweet', 'assignment'
+            )
+
+
+class UserCodeInstanceSerializer(serializers.ModelSerializer):
+    code = serializers.PrimaryKeyRelatedField(
+        queryset=coding_models.Code.objects.all(), many=False,
+        style={'base_template': 'input.html'})
+    user = serializers.PrimaryKeyRelatedField(
+        queryset=main_models.User.objects.all(), many=False,
+        style={'base_template': 'input.html'})
+    assignment = serializers.PrimaryKeyRelatedField(
+        queryset=coding_models.Assignment.objects.all(), many=False,
+        style={'base_template': 'input.html'})
+
+    class Meta:
+        model = coding_models.UserCodeInstance
+        fields = (
+            'created_by', 'created_date', 'deleted_by', 'deleted_date',
+            'code', 'user', 'assignment'
+            )
