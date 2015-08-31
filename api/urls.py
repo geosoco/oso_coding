@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from rest_framework import routers
 from api import views
 
-router = routers.DefaultRouter()
+router = routers.DefaultRouter(trailing_slash=True)
 router.register(r'sysusers', views.DjangoUserViewSet, base_name="sysusers")
 router.register(r'sysgroups', views.DjangoGroupViewSet, base_name="sysgroups")
 router.register(r'accounttype', views.AccountTypeViewSet)

@@ -1,0 +1,25 @@
+{% extends "angular-base.html" %}
+{% load staticfiles %}
+
+
+{% block ng_app %}coding.app{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div id="code-sidebar" class="sidebar col-md-3">
+			<h2>Codes</h2>
+			<div class="container">
+				<div ng-controller="CodeController as cntrl">
+				</div>
+			</div>
+		</div>
+		<div id="main-content" class="col-md-9">
+			<div class="" ng-controller="TweetListController as tweetlist">
+				{% verbatim %}
+				{{ tweetlist.test }}
+
+				{% endverbatim %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

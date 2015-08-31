@@ -7,7 +7,7 @@
 	<meta charset="utf-8">
 	<title>{% block title %}SM Capture Manager{% endblock %}</title>
 
-	<link rel="stylesheet" href="{% static "css/normalize.css" %}">
+	<link rel="stylesheet" href="{% static "bower_components/normalize-css/normalize.css" %}">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="{% static "bower_components/bootstrap/dist/css/bootstrap.min.css" %}">
 	<link rel="stylesheet" href="{% static "css/default.css" %}">
@@ -39,8 +39,8 @@
 
 					<ul class="nav navbar-nav">
 						<li><a href="/">Current Captures</a></li>
-						<li><a href="{% url 'archived-list' %}">Archived Captures</a></li>
-						<li><a href="{% url 'client-list' %}">Clients</a></li>
+						<li><a href="#">Archived Captures</a></li>
+						<li><a href="#">Clients</a></li>
 						<!-- <li><a href="/archive/">Archive</a></li>
 						<li><a href="/stats/">Stats</a></li> -->
 					</ul>
@@ -75,9 +75,7 @@
 	<script src="{% static "bower_components/spin.js/spin.min.js" %}"></script>
 	<script src="{% static "bower_components/angular-spinner/angular-spinner.js" %}"></script>
 
-	<script src="{% static "js/services.js" %}"></script>
-	<script src="{% static "js/controllers.js" %}"></script>
-	<script src="{% static "js/app.js" %}"></script>
+
 
 	{% block end_scripts %}
 	{% endblock %}
