@@ -1,0 +1,12 @@
+<div>
+	<h1>Assignment {{assignment.assignment.name}}</h1>
+	<p>id: {{assignment.assignment.id}} / {{assignment.assignment_id}}</p>
+	<p>test: {{assignment.test}} | {{test}}</p>
+
+	<h2>Users</h2>
+	<ul>
+		<li ng-repeat="user in assignment.assignment.assigned_users">
+			<a ui-sref="code.user({'id': user.id})">{{user.screen_name}}</a>
+		</li>
+	</ul>
+</div>

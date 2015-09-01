@@ -29,7 +29,6 @@
 	services.factory("CodeScheme", CodeSchemeService);
 	services.factory("UserCodeInstance", UserCodeInstanceService);
 	services.factory("TweetCodeInstance", TweetCodeInstanceService);
-	services.factory("Assignment", AssignmentService);
 
 
 
@@ -53,7 +52,4 @@
 		return $resource("/api/tweetcodeinstance/:id", {id: "@id"}, basicService );
 	}
 
-	function AssignmentService($resource) {
-		return $resource("/api/assignment/:id", {id: "@id"}, basicService );
-	}
 })();

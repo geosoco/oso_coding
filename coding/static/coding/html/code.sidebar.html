@@ -1,0 +1,23 @@
+				<div>
+					<h2>Codes</h2>
+					<div class="container">
+						<div ng-controller="CodeListController as cntrl">
+							<div>
+								<form class="form-inline" ng-submit="cntrl.addCode()">
+									<div class="form-group">
+										<label for="input-code-name" class="sr-only">Code name</label>
+										<input type="text" class="form-control" id="input-code-name" placeholder="Code name" ng-model="cntrl.codeName" />
+									</div>
+									<input type="submit" class="btn btn-default" value="Add code" />
+								</form>
+							</div>
+							<div class="container-fluid">
+								<div class="row">
+									<ul class="code-scheme-code-list">
+										<li ng-repeat="code in cntrl.codes|filter:{ name: cntrl.codeName }" class="code">{{code.name}}</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>

@@ -33,8 +33,13 @@ class CodeSchemeAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description')
     inlines = [CodeAdminInline, ]
 
+class AssignmentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'description', 'coder')
+    raw_id_fields = ('assigned_users', 'assigned_tweets')
+
 
 admin.site.register(models.Code, CodeAdmin)
 admin.site.register(models.CodeScheme, CodeSchemeAdmin)
 admin.site.register(models.TweetCodeInstance, TweetCodeInstanceAdmin)
 admin.site.register(models.UserCodeInstance, UserCodeInstanceAdmin)
+admin.site.register(models.Assignment, AssignmentAdmin)

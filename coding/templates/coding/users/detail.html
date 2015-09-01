@@ -4,22 +4,64 @@
 
 {% block ng_app %}coding.app{% endblock %}
 
-{% block content %}
-	<div class="container">
-		<div id="code-sidebar" class="sidebar col-md-3">
-			<h2>Codes</h2>
-			<div class="container">
-				<div ng-controller="CodeController as cntrl">
+{% block body_attributes %}ng-controller="CodingController"{% endblock %}
+
+{% block page_body %}
+
+	<div id="page-body" class="container-fluid" id="coding-controller" ng-controller="CodingController as app">
+		<div class="row">
+			<div id="code-sidebar" class="sidebar col-md-3">
+				<div class="test-cntr">
+				</div>
+				<h2>Codes</h2>
+				<div class="container">
+					<div ng-controller="CodeListController as cntrl">
+						<div>
+							<form class="form-inline" ng-submit="cntrl.addCode()">
+								<div class="form-group">
+									<label for="input-code-name" class="sr-only">Code name</label>
+									<input type="text" class="form-control" id="input-code-name" placeholder="Code name" ng-model="cntrl.codeName" />
+								</div>
+								<input type="submit" class="btn btn-default" value="Add code" />
+							</form>
+						</div>
+						<div class="container-fluid">
+							<div class="row">
+								{% verbatim %}
+									<ul class="code-scheme-code-list">
+										<li ng-repeat="code in cntrl.codes|filter:{ name: cntrl.codeName }" class="code">{{code.name}}</li>
+									</ul>
+								{% endverbatim %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="main-content" class="col-md-9">
+				<title ng-bind="$state.current.name + ' - ui-router'">ui-router</title>
+				<div ui-view></div>
+
+				<div class="" ng-controller="TweetListController as tweetlist">
+					{% verbatim %}
+					<pre>
+					$state = {{$state.current.name}}
+					$stateParams =	 {{$stateParams}}
+					$state full url = {{ $state.$current.url.source }}
+      				</pre>
+
+					{{ tweetlist.test }}
+
+					{% endverbatim %}
 				</div>
 			</div>
 		</div>
-		<div id="main-content" class="col-md-9">
-			<div class="" ng-controller="TweetListController as tweetlist">
-				{% verbatim %}
-				{{ tweetlist.test }}
-
-				{% endverbatim %}
-			</div>
-		</div>
 	</div>
+{% endblock %}
+
+{% block end_scripts %}
+	<script src="{% static "coding/js/services.js" %}"></script>
+	<script src="{% static "coding/js/coding.app.js" %}"></script>
+	<script src="{% static "coding/js/coding.controller.js" %}"></script>
+	<script src="{% static "coding/js/tweetlist.controller.js" %}"></script>
+	<script src="{% static "coding/js/codelist.controller.js" %}"></script>
 {% endblock %}

@@ -1,0 +1,21 @@
+{% extends "angular-base.html" %}
+{% load staticfiles %}
+
+
+{% block ng_app %}coding.app{% endblock %}
+
+{% block body_attributes %}{% endblock %}
+
+{% block page_body %}
+	<div id="assignment-root-view" ui-view></div>
+{% endblock %}
+
+{% block end_scripts %}
+	<script src="{% static "coding/js/services.js" %}"></script>
+	<script src="{% static "coding/js/coding.app.js" %}"></script>
+	<script src="{% static "coding/js/coding.controller.js" %}"></script>
+	<script src="{% static "coding/js/tweetlist.controller.js" %}"></script>
+	<script src="{% static "coding/js/codelist.controller.js" %}"></script>
+	<script src="{% static "coding/js/assignment.controller.js" %}"></script>
+	<script src="{% static "coding/js/user.coding.controller.js" %}"></script>
+{% endblock %}

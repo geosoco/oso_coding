@@ -19,6 +19,7 @@ router.register(r'codescheme', views.CodeSchemeViewSet)
 router.register(r'code', views.CodeViewSet)
 router.register(r'tweetcodeinstance', views.TweetCodeInstanceViewSet)
 router.register(r'usercodeinstance', views.UserCodeInstanceViewSet)
+router.register(r'assignment', views.AssignmentViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

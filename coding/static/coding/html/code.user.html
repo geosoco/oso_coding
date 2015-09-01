@@ -1,0 +1,51 @@
+<div>
+	<div class="container-fluid">
+		<div class="row well">
+
+		</div>
+	</div>
+
+	<div ng-repeat="user in user">
+		<div class="container-fluid" style="background-color: {{user.profile_background_color}}; background-image: url('{{user.profile_background_image_url}}'); color: #{{user.profile_text_color}};  ">
+			<div class="row">
+				<div class="col-md-2">
+					<img src="{{user.profile_image_url}}">
+				</div>
+				<div class="col-md-10">
+					<h1>{{user.screen_name}}</h1>
+					<h4>{{user.name}} ({{user.id}})</h4>
+				</div>
+			</div>
+
+			<div class="row">
+				<div ng-switch on="user.description">
+					<span ng-switch-when="null" class="user-missing">No Description</span>
+					<span ng-switch-default>{{user.description}}</span>
+				</div>
+				<div ng-switch on="user.location">
+					<span ng-switch-when="null" class="user-missing">No location</span>
+					<span ng-switch-default>{{user.location}}</span>
+				</div>
+			</div>
+
+			<div class="row">
+				<h3>Social Info</h3>
+			</div>
+			<div class="row">
+				<div class="col-md-1 col-md-offset-1 well">
+					<div class="row">Followers</div>
+					<div class="row">{{user.followers_count}}</div>
+				</div>
+				<div class="col-md-1 col-md-offset-1 well">
+					<div class="row">Following</div>
+					<div class="row">{{user.friends_count}}</div>
+				</div>
+				<div class="col-md-1  col-md-offset-1 well">
+					<div class="row">Listed</div>
+					<div class="row">{{user.listed_count}}</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

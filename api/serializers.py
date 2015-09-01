@@ -151,20 +151,17 @@ class UserSerializer(serializers.ModelSerializer):
             'source_snapshot_id')
 
 
+class UserSimpleSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = main_models.User
+        fields = ('id', 'screen_name')
+
+
 class WebpageSerializer(serializers.ModelSerializer):
     class Meta:
         model = main_models.Webpage
         fields = ('id', 'url', 'title')
-
-
-class CodeSchemeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = coding_models.CodeScheme
-        fields = (
-            'created_by', 'created_date', 'deleted_by', 'deleted_date',
-            'name', 'description', 'mutually_exclusive'
-            )
-
 
 class CodeSerializer(serializers.ModelSerializer):
     scheme = serializers.PrimaryKeyRelatedField(
@@ -176,6 +173,17 @@ class CodeSerializer(serializers.ModelSerializer):
             'created_by', 'created_date', 'deleted_by', 'deleted_date',
             'scheme', 'name', 'description', 'css_class', 'key'
             )
+
+class CodeSchemeSerializer(serializers.ModelSerializer):
+    code_set = CodeSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = coding_models.CodeScheme
+        fields = (
+            'created_by', 'created_date', 'deleted_by', 'deleted_date',
+            'name', 'description', 'mutually_exclusive', 'code_set'
+            )
+        #read_only_fields = ('codes')
 
 
 class TweetCodeInstanceSerializer(serializers.ModelSerializer):
@@ -213,4 +221,22 @@ class UserCodeInstanceSerializer(serializers.ModelSerializer):
         fields = (
             'created_by', 'created_date', 'deleted_by', 'deleted_date',
             'code', 'user', 'assignment'
+            )
+
+class AssignmentSerializer(serializers.ModelSerializer):
+    coder = serializers.PrimaryKeyRelatedField(
+        queryset=coding_models.Code.objects.all(), many=False)
+    assigned_users = UserSimpleSerializer(
+        many=True,
+        style={'base_template': 'input.html'})
+    assigned_tweets = TweetSerializer(
+        many=True,
+        style={'base_template': 'input.html'})
+
+    class Meta:
+        model = coding_models.Assignment
+        fields = (
+            'created_by', 'created_date', 'deleted_by', 'deleted_date',
+            'id', 'name', 'description',
+            'coder', 'assigned_users', 'assigned_tweets'
             )

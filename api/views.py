@@ -208,3 +208,14 @@ class UserCodeInstanceViewSet(viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
+
+
+class AssignmentViewSet(viewsets.ModelViewSet):
+    """
+    Viewset for assignment
+    """
+    queryset = coding_models.Assignment.objects.all()
+    serializer_class = api_serializers.AssignmentSerializer
+    authentication_classes = (SessionAuthentication,
+                              BasicAuthentication, TokenAuthentication)
+    permission_classes = (IsAuthenticated,)

@@ -34,13 +34,20 @@ class Code(base_models.FullAuditModel):
 
 
 class Assignment(base_models.FullAuditModel):
-    user = models.ForeignKey(User)
+    name = models.CharField(max_length=64)
+    description = models.TextField(null=True, blank=True)
+    coder = models.ForeignKey(User)
+    assigned_users = models.ManyToManyField(mainUser)
+    assigned_tweets = models.ManyToManyField(mainTweet)
 
     def __str__(self):
-        return "%d (%d - %d)" % (self.id, self.user.id)
+        return "%s (%s - %s)" % (
+            self.id,
+            self.name, 
+            self.coder.id)
 
     def __unicode__(self):
-        return u"%d (%d - %d)" % (self.id, self.user.id)
+        return u"%s (%s - %s)" % (self.id, self.name, self.coder.id)
 
 
 class TweetCodeInstance(base_models.FullAuditModel):
@@ -70,3 +77,4 @@ class UserCodeInstance(base_models.FullAuditModel):
     def __unicode__(self):
         return u"%s - %d - %s" % (
             self.assignment.id, self.user.id, self.code.name)
+
