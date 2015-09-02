@@ -20,8 +20,8 @@ from django.conf import settings
 urlpatterns = patterns(
     '',
     url(r'', include('main.urls')),
-    url(r'api/', include('api.urls')),
-    url(r'coding/', include('coding.urls')),
+    url(r'^api/', include('api.urls')),
+    url(r'^coding/', include('coding.urls')),
     url('^', include('django.contrib.auth.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )
