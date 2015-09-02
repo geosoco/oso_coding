@@ -190,7 +190,7 @@ class CodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = coding_models.Code
         fields = (
-            'created_by', 'created_date', 'deleted_by', 'deleted_date',
+            'id', 'created_by', 'created_date', 'deleted_by', 'deleted_date',
             'scheme', 'name', 'description', 'css_class', 'key'
             )
 
@@ -200,7 +200,7 @@ class CodeSchemeSerializer(serializers.ModelSerializer):
     class Meta:
         model = coding_models.CodeScheme
         fields = (
-            'created_by', 'created_date', 'deleted_by', 'deleted_date',
+            'id', 'created_by', 'created_date', 'deleted_by', 'deleted_date',
             'name', 'description', 'mutually_exclusive', 'code_set'
             )
         #read_only_fields = ('codes')
@@ -220,12 +220,13 @@ class TweetCodeInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = coding_models.TweetCodeInstance
         fields = (
-            'created_by', 'created_date', 'deleted_by', 'deleted_date',
+            'id', 'created_by', 'created_date', 'deleted_by', 'deleted_date',
             'code', 'tweet', 'assignment'
             )
 
 
 class UserCodeInstanceSerializer(serializers.ModelSerializer):
+    code_obj = CodeSerializer(source="code", many=False, read_only=True)
     code = serializers.PrimaryKeyRelatedField(
         queryset=coding_models.Code.objects.all(), many=False,
         style={'base_template': 'input.html'})
@@ -239,8 +240,8 @@ class UserCodeInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = coding_models.UserCodeInstance
         fields = (
-            'created_by', 'created_date', 'deleted_by', 'deleted_date',
-            'code', 'user', 'assignment'
+            'id', 'created_by', 'created_date', 'deleted_by', 'deleted_date',
+            'code', 'user', 'assignment', 'code_obj'
             )
 
 class AssignmentSerializer(serializers.ModelSerializer):

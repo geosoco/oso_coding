@@ -5,10 +5,10 @@
 		.module("coding.app")
 		.controller("CodeListController", CodeListController);
 
-	CodeListController.$inject = ['$location', '$document', 'CodeScheme', 'UserCodeInstance'];
+	CodeListController.$inject = ['$rootScope', '$location', '$document', 'CodeScheme', 'UserCodeInstance'];
 
 
-	function CodeListController($location, $document, CodeScheme, UserCodeInstance) {
+	function CodeListController($rootScope, $location, $document, CodeScheme, UserCodeInstance) {
 		var self = this;
 
 		self.test = "Testing!";
@@ -21,6 +21,19 @@
 
 		////////
 
+		function updateInstances() {
+			$rootScope.user_instances = UserCodeInstance.query({
+				created_by: "current",
+				assignment: $rootScope.assignment_id,
+				user: $rootScope.coding_user_id
+			});
+
+			$rootScope.user_instances.$promise.then(function(data){
+				console.log("got instances");
+			})
+
+		}
+
 		function init() {
 			CodeScheme.query()
 				.$promise.then(function(schemes){
@@ -32,7 +45,10 @@
 						self.codeScheme = scheme;
 						self.codes = scheme.code_set;
 					}
-				})
+				});
+
+				updateInstances();
+
 		}
 
 		function getCodeId(codeName) {
@@ -57,9 +73,23 @@
 				}				
 			}
 
-
-
 			console.log("id: " + id);
+
+			if(id !== undefined && id != null && id >= 0) {
+
+				console.log(">>assignment: " + $rootScope.assignment.id);
+				console.log(">>user: " + $rootScope.coding_user.id);
+
+				var codeInstance = new UserCodeInstance({
+					user: $rootScope.coding_user.id, 
+					assignment: $rootScope.assignment.id,
+					code: id});
+				codeInstance.$save().then(function(data){
+					updateInstances();
+				});
+			}
+
+			
 
 		}
 
@@ -67,6 +97,32 @@
 		self.createCode = function(name) {
 			console.log("create code: " + name);
 		}
+
+
+		function deleteInstance(id) {
+
+		}
+
+
+		self.deleteCode = function(old_instance) {
+			console.log("delete code");
+
+			console.dir(old_instance);
+
+			var instance = new UserCodeInstance({id: old_instance.id});
+
+			console.dir(instance);
+			var ret = instance.$delete({id: old_instance.id}).then(function(data){
+				updateInstances();	
+			});
+
+			
+
+		}
+
+
+		$rootScope.deleteCode = self.deleteCode;
+
 
 	}
 

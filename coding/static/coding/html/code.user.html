@@ -3,12 +3,22 @@
 		<div class="row well">
 			<p>Codes Applied</p>
 			<ul class="applied-code-instances">
+				<li ng-repeat="instance in user_instances">
+					<span class="badge">{{instance.code_obj.name}}<a href="" ng-click="deleteCode(instance)"><span class="code-delete" >&times;</span></a>
+						
+					</span></li>
 			</ul>
 		</div>
 	</div>
 
 	<div ng-repeat="user in user">
-		<div class="container-fluid" style="background-color: {{user.profile_background_color}}; background-image: url('{{user.profile_background_image_url}}'); color: #{{user.profile_text_color}};  ">
+		<!-- <div class="container-fluid" style="background-color: {{user.profile_background_color}}; background-image: url('{{user.profile_background_image_url}}'); color: #{{user.profile_text_color}};  "> -->
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-2">
+					<a href="http://www.twitter.com/{{user.screen_name}}/" target="_blank" class="btn btn-default">Twitter Account Page</a>
+				</div>
+			</div>
 			<div class="row">
 				<div class="col-md-2">
 					<img src="{{user.profile_image_url}}">

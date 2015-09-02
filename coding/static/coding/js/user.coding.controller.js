@@ -5,10 +5,10 @@
 		.module("coding.app")
 		.controller("UserCodingController", UserCodingController);
 
-	UserCodingController.$inject = ['$location', '$document', '$stateParams', 'CodeScheme', 'User', 'Tweet'];
+	UserCodingController.$inject = ['$rootScope', '$location', '$document', '$stateParams', 'CodeScheme', 'User', 'Tweet'];
 
 
-	function UserCodingController($location, $document, $stateParams, CodeScheme, User, Tweet ) {
+	function UserCodingController($rootScope, $location, $document, $stateParams, CodeScheme, User, Tweet ) {
 		var self = this;
 
 
@@ -18,7 +18,11 @@
 
 
 		function init() {
+			$rootScope.coding_user_id = $stateParams.id;
+
+
 			self.user = User.get({id: $stateParams.id});
+			$rootScope.coding_user = self.user;
 			self.user.tweets = Tweet.get({user: $stateParams.id});
 
 			self.user.tweets.$promise.then(function(data) {

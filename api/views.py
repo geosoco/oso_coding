@@ -136,6 +136,7 @@ class TweetViewSet(viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
+    page_size = 200
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = (
         "user", "in_reply_to_user", "in_reply_to_status_id",
@@ -236,14 +237,38 @@ class UserCodeInstanceViewSet(viewsets.ModelViewSet):
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
     filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ("code", "assignment", "user", "deleted_date")
 
     def get_queryset(self):
         pk = self.request.query_params.get("created_by", None)
         if pk == "current":
             user = self.request.user
-            return coding_models.UserCodeInstance.objects.filter(created_by=user.id)
+            filtered = coding_models.UserCodeInstance.objects.filter(created_by=user.id, deleted_date=None)
+            print filtered.count()
+            return filtered
         else:
-            return coding_models.UserCodeInstance.objects.all()
+            return coding_models.UserCodeInstance.objects.filter(deleted_date=None)
+
+    def create(self, request, *args, **kwargs):
+        request.data["created_by"] = request.user.id
+        return super(UserCodeInstanceViewSet, self).create(request, *args, **kwargs)
+
+    def perform_destroy(self, instance):
+        print "performing delete..."
+        if instance is not None:
+            instance.deleted_date = timezone.now()
+            instance.deleted_by = self.request.user
+            instance.save()
+
+    def delete(self, request, pk, format=None):
+        print "delete"
+        instance = self.get_object(pk)
+        if instance is not None:
+            instance.deleted_date = timezone.now()
+            instance.deleted_by = self.requeset.user
+            instance.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 
 

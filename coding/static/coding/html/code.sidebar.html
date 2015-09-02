@@ -21,7 +21,9 @@
 							<div class="container-fluid">
 								<div class="row">
 									<ul class="code-scheme-code-list">
-										<li ng-repeat="code in (cntrl.filteredItems = (cntrl.codes|filter:{ name: cntrl.codeName }))" class="code">{{code.name}}</li>
+										<li ng-repeat="code in (cntrl.filteredItems = (cntrl.codes|filter:{ name: cntrl.codeName }))" class="code">
+											<a href="" ng-click="cntrl.addCode(code.id);" class="code-link">{{code.name}}</a>
+										</li>
 									</ul>
 								</div>
 							</div>

@@ -10,3 +10,6 @@ ul.styleless { list-style: none; list-style-position: inside; }
 /* user tweet list */
 .user-tweet-list { list-style: none; list-style-position: inside;}
 .user-tweet-list > li { display: block; background: #fff; border: 1px solid #ccc; margin-top: 20px; overflow: auto;}
+
+.code-link, .code-link:link, .code-link:visited { color: #fff; text-decoration: none; }
+.code-link:hover, .code-link:active { color: #ccf; text-decoration: underline;}

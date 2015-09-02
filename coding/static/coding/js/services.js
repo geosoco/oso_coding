@@ -10,7 +10,9 @@
 					transformResponse: transformGetResponse,
 					isArray: true
 				},
-				update: { method: 'PUT'}
+				update: { method: 'PATCH'},
+				delete: { method: 'DELETE'},
+				save: { method: 'POST'}
 			};
 
 	/*
