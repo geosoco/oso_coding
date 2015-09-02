@@ -103,7 +103,7 @@ STATICFILES_FINDERS = (
 # static files
 #
 
-STATIC_ROOT = os.path.join(BASE_DIR, "assets")
+STATIC_ROOT = os.path.join(ROOT_DIR, "assets")
 
 STATICFILES_DIRS = (
 #    os.path.join(BASE_DIR, "static"),
