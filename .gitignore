@@ -60,3 +60,11 @@ oso_coding/assets/
 
 # local settings file
 oso_coding/settings/local.py
+
+env/
+
+
+# local wsgi files
+oso_coding/local_wsgi.py
+oso_coding/wsgi_params
+
