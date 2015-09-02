@@ -4,6 +4,26 @@ import coding.models as coding_models
 from rest_framework import serializers
 
 
+class UserSimpleSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = main_models.User
+        fields = ('id', 'screen_name')
+
+
+class UserWithProfileSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = main_models.User
+        fields = ('id', 'screen_name', 'profile_image_url')
+
+
+class UrlSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = main_models.Url
+        fields = ('id', 'url', 'expanded_url', 'display_url')
+
+
 class DjangoUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -94,15 +114,26 @@ class TweetSnapshotSerializer(serializers.ModelSerializer):
             'user_default_profile', 'user_is_translator')
 
 
+class SimpleTweetSerializer(serializers.ModelSerializer):
+    user = UserWithProfileSerializer(read_only=True)
+
+    class Meta:
+        model = main_models.Tweet
+        fields = ('id', 'created_ts', 'text', 'user')
+
+
 class TweetSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)
     retweeted_status = serializers.PrimaryKeyRelatedField(read_only=True)
-    retweeted_status_user = serializers.PrimaryKeyRelatedField(read_only=True)
+    retweeted_status_user = UserSimpleSerializer(read_only=True)
     in_reply_to_status = serializers.PrimaryKeyRelatedField(read_only=True)
-    in_reply_to_user = serializers.PrimaryKeyRelatedField(read_only=True)
+    in_reply_to_user = UserSimpleSerializer(read_only=True)
     retweet_source = serializers.PrimaryKeyRelatedField(read_only=True)
-    mentions = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
+    mentions = UserSimpleSerializer(read_only=True, many=True)
     source_snapshot = serializers.PrimaryKeyRelatedField(read_only=True)
+    url_set = UrlSerializer(many=True,read_only=True)
+    media_set = MediaSerializer(many=True,read_only=True)
+    replies = SimpleTweetSerializer(many=True, read_only=True)
 
     class Meta:
         model = main_models.Tweet
@@ -122,13 +153,8 @@ class TweetSerializer(serializers.ModelSerializer):
             'retweeted_status_user_followers_count', 'source',
             'in_reply_to_screen_name', 'in_reply_to_status',
             'in_reply_to_user', 'local_time', 'retweet_source', 'mentions',
-            'source_snapshot')
+            'source_snapshot', 'media_set', 'url_set', 'replies')
 
-
-class UrlSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = main_models.Url
-        fields = ('id', 'url', 'expanded_url', 'display_url')
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -150,12 +176,6 @@ class UserSerializer(serializers.ModelSerializer):
             'contributors_enabled', 'default_profile', 'is_translator',
             'source_snapshot_id')
 
-
-class UserSimpleSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = main_models.User
-        fields = ('id', 'screen_name')
 
 
 class WebpageSerializer(serializers.ModelSerializer):

@@ -6,8 +6,10 @@ import models as coding_models
 import forms as coding_forms
 import main.models as main_models
 from django.utils.timezone import now
+from base.views import LoginRequiredMixin
 
-class HomeView(ListView):
+
+class HomeView(LoginRequiredMixin, ListView):
 
     """Home view."""
 
@@ -24,7 +26,7 @@ class HomeView(ListView):
     #    return context
 
 
-class UserView(TemplateView):
+class UserView(LoginRequiredMixin, TemplateView):
     """
     User View.
     """
@@ -32,7 +34,7 @@ class UserView(TemplateView):
     template_name = "coding/users/detail.html"
 
 
-class CodingView(TemplateView):
+class CodingView(LoginRequiredMixin, TemplateView):
     """
     Coding View.
     """
@@ -40,7 +42,7 @@ class CodingView(TemplateView):
     template_name = "coding/assignments/index.html"
 
 
-class CreateAssignmentView(CreateView):
+class CreateAssignmentView(LoginRequiredMixin, CreateView):
     """
     Create AssignmentView
     """

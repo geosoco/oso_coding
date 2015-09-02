@@ -23,14 +23,16 @@
 		return results.results;
 	}
 
-
+	services.factory("SysUser", SysUserService);
 	services.factory("User", UserService);
 	services.factory("Tweet", TweetService);
 	services.factory("CodeScheme", CodeSchemeService);
 	services.factory("UserCodeInstance", UserCodeInstanceService);
 	services.factory("TweetCodeInstance", TweetCodeInstanceService);
 
-
+	function SysUserService($resource) {
+		return $resource("/api/sysusers/:id", {id: "@id"}, basicService );
+	}
 
 	function UserService($resource) {
 		return $resource("/api/user/:id", {id: "@id"}, basicService );

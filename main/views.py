@@ -6,11 +6,12 @@ from django.db.models import Count
 from django.core import serializers
 from django_genericfilters.views import FilteredListView
 from forms import TweetListForm
+from base.views import LoginRequiredMixin
 
 import main.models as main_models
 
 
-class HomeView(TemplateView):
+class HomeView(LoginRequiredMixin, TemplateView):
 
 	"""Home view."""
 
@@ -21,7 +22,7 @@ class HomeView(TemplateView):
 		return context
 
 
-class UserListView(ListView):
+class UserListView(LoginRequiredMixin, ListView):
 
 	"""List of all users."""
 
@@ -41,7 +42,7 @@ class UserListView(ListView):
 		return context
 
 
-class UserDetailView(DetailView):
+class UserDetailView(LoginRequiredMixin, DetailView):
 	model = main_models.User
 	template_name = "users/detail.html"
 	slug_field = 'screen_name'
@@ -49,7 +50,7 @@ class UserDetailView(DetailView):
 	query_pk_and_slug = True
 
 
-class TweetListView(ListView):
+class TweetListView(LoginRequiredMixin, ListView):
 
 	"""list all the tweets!"""
 
@@ -68,7 +69,7 @@ class TweetListView(ListView):
 		return context
 
 
-class TweetDetailView(DetailView):
+class TweetDetailView(LoginRequiredMixin, DetailView):
 
 	"""detail info for the Tweet."""
 
@@ -78,7 +79,7 @@ class TweetDetailView(DetailView):
 
 
 
-class TweetFilterListView(FilteredListView):
+class TweetFilterListView(LoginRequiredMixin, FilteredListView):
 	"""filtered list."""
 	model = main_models.Tweet
 	template_name = "tweets/list.html"

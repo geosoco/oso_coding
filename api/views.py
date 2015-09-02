@@ -6,6 +6,7 @@ from rest_framework.authentication import (
     SessionAuthentication, BasicAuthentication, TokenAuthentication)
 from rest_framework.permissions import IsAuthenticated
 import api.serializers as api_serializers
+from rest_framework import filters
 import django_filters
 from django.utils import timezone
 
@@ -14,17 +15,21 @@ class DjangoUserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = User.objects.all()
+    
     serializer_class = api_serializers.DjangoUserSerializer
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
+    #filter_backends = (filters.DjangoFilterBackend,)
+    #filter_fields = ("id", )
 
-    def dispatch(self, request, *args, **kwargs):
-        if kwargs.get('pk') == 'current' and request.user:
-            kwargs['pk'] = request.user.pk
+    def get_queryset(self):
+        if self.request.query_params.get("pk", None) == "current":
+            user = self.request.user
+            return User.objects.filter(pk=user.id)
+        else:
+            return User.objects.all()
 
-        return super(DjangoUserViewSet, self).dispatch(request, *args, **kwargs)
 
 class DjangoGroupViewSet(viewsets.ModelViewSet):
     """
@@ -47,6 +52,7 @@ class AccountTypeViewSet(viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
 
 
 
@@ -60,6 +66,7 @@ class HashtagViewSet(viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
 
 
 
@@ -73,6 +80,7 @@ class MediaViewSet(viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
 
 
 
@@ -86,6 +94,7 @@ class SubsetTagViewSet(viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
 
 
 
@@ -99,6 +108,7 @@ class TweetMentionViewSet(viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
 
 
 
@@ -112,6 +122,7 @@ class TweetSnapshotViewSet(viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
 
 
 
@@ -125,6 +136,10 @@ class TweetViewSet(viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = (
+        "user", "in_reply_to_user", "in_reply_to_status_id",
+        "created_ts")
 
 
 
@@ -138,6 +153,7 @@ class UrlViewSet(viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
 
 
 
@@ -151,6 +167,7 @@ class UserViewSet(viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
 
 
 
@@ -164,6 +181,7 @@ class WebpageViewSet(viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
 
 
 class CodeSchemeViewSet(viewsets.ModelViewSet):
@@ -175,6 +193,7 @@ class CodeSchemeViewSet(viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
 
 
 class CodeViewSet(viewsets.ModelViewSet):
@@ -186,36 +205,63 @@ class CodeViewSet(viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
 
 
 class TweetCodeInstanceViewSet(viewsets.ModelViewSet):
     """
     Viewset for Tweet code instance
     """
-    queryset = coding_models.TweetCodeInstance.objects.all()
     serializer_class = api_serializers.TweetCodeInstanceSerializer
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
+
+    def get_queryset(self):
+        pk = self.request.query_params.get("created_by", None)
+        if pk == "current":
+            user = self.request.user
+            return coding_models.TweetCodeInstance.objects.filter(created_by=user.id)
+        else:
+            return coding_models.TweetCodeInstance.objects.all()
 
 
 class UserCodeInstanceViewSet(viewsets.ModelViewSet):
     """
     Viewset for User code instance
     """
-    queryset = coding_models.UserCodeInstance.objects.all()
     serializer_class = api_serializers.UserCodeInstanceSerializer
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
+
+    def get_queryset(self):
+        pk = self.request.query_params.get("created_by", None)
+        if pk == "current":
+            user = self.request.user
+            return coding_models.UserCodeInstance.objects.filter(created_by=user.id)
+        else:
+            return coding_models.UserCodeInstance.objects.all()
+
 
 
 class AssignmentViewSet(viewsets.ModelViewSet):
     """
     Viewset for assignment
     """
-    queryset = coding_models.Assignment.objects.all()
+    #queryset = coding_models.Assignment.objects.all()
     serializer_class = api_serializers.AssignmentSerializer
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.DjangoFilterBackend,)
+
+    def get_queryset(self):
+        pk = self.request.query_params.get("coder", None)
+        if pk == "current":
+            user = self.request.user
+            return coding_models.Assignment.objects.filter(coder=user.id)
+        else:
+            return coding_models.Assignment.objects.all()

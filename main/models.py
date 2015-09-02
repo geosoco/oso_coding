@@ -106,7 +106,7 @@ class TweetSnapshot(models.Model):
     user_profile_sidebar_border_color = models.CharField(max_length=16, blank=True, null=True)
     user_profile_background_color = models.CharField(max_length=16, blank=True, null=True)
     user_profile_link_color = models.CharField(max_length=16, blank=True, null=True)
-    user_profile_image_url = models.CharField(max_length=256, blank=True, null=True)
+    f = models.CharField(max_length=256, blank=True, null=True)
     user_profile_banner_url = models.CharField(max_length=256, blank=True, null=True)
     user_profile_background_image_url = models.CharField(max_length=256, blank=True, null=True)
     user_profile_background_tile = models.IntegerField(blank=True, null=True)

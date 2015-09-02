@@ -5,15 +5,23 @@
 		.module("coding.app")
 		.controller("CodingController", CodingController);
 
-	CodingController.$inject = ['$location', '$document', 'CodeScheme'];
+	CodingController.$inject = ['$rootScope', '$location', '$document', 'CodeScheme'];
 
 
-	function CodingController($location, $document, CodeScheme) {
-		var vm = this;
+	function CodingController($rootScope, $location, $document, CodeScheme) {
+		var self = this;
 
-		vm.test = "Testing!";
+		self.instances = [];
 
-		vm.tweets = CodeScheme.query();
+		init();
+
+		////////
+
+		function init() {
+			console.log(self.assignment_id);
+		}
+
+		
 	}
 
 })();
