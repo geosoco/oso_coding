@@ -287,6 +287,10 @@ class AssignmentViewSet(viewsets.ModelViewSet):
         pk = self.request.query_params.get("coder", None)
         if pk == "current":
             user = self.request.user
-            return coding_models.Assignment.objects.filter(coder=user.id)
+            qs = coding_models.Assignment.objects.filter(coder=user.id)
         else:
-            return coding_models.Assignment.objects.all()
+            qs = coding_models.Assignment.objects.all()
+
+        return qs.select_related()
+
+

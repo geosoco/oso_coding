@@ -5,10 +5,10 @@
 		.module("coding.app")
 		.controller("CodeListController", CodeListController);
 
-	CodeListController.$inject = ['$rootScope', '$location', '$document', 'CodeScheme', 'UserCodeInstance'];
+	CodeListController.$inject = ['$rootScope', '$location', '$document', '$stateParams', 'CodeScheme', 'UserCodeInstance'];
 
 
-	function CodeListController($rootScope, $location, $document, CodeScheme, UserCodeInstance) {
+	function CodeListController($rootScope, $location, $document, $stateParams, CodeScheme, UserCodeInstance) {
 		var self = this;
 
 		self.test = "Testing!";
@@ -44,10 +44,15 @@
 
 						self.codeScheme = scheme;
 						self.codes = scheme.code_set;
+						updateInstances();
 					}
 				});
 
-				updateInstances();
+				$rootScope.$watch("assignment", updateInstances);
+				$rootScope.$watch("user", updateInstances);
+
+				console.log("state params in codelist");
+				console.dir($stateParams);
 
 		}
 
