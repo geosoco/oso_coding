@@ -34,30 +34,30 @@
 	services.factory("Assignment", AssignmentService);
 
 	function SysUserService($resource) {
-		return $resource("/api/sysusers/:id", {id: "@id"}, basicService );
+		return $resource("/api/sysusers/:id/", {id: "@id"}, basicService );
 	}
 
 	function UserService($resource) {
-		return $resource("/api/user/:id", {id: "@id"}, basicService );
+		return $resource("/api/user/:id/", {id: "@id"}, basicService );
 	}
 
 	function TweetService($resource) {
-		return $resource("/api/tweet/:id", {id: "@id"}, basicService );
+		return $resource("/api/tweet/:id/", {id: "@id"}, basicService );
 	}
 
 	function CodeSchemeService($resource) {
-		return $resource("/api/codescheme/:id", {id: "@id"}, basicService );
+		return $resource("/api/codescheme/:id/", {id: "@id"}, basicService );
 	}
 
 	function UserCodeInstanceService($resource) {
-		return $resource("/api/usercodeinstance/:id", {id: "@id"}, basicService );
+		return $resource("/api/usercodeinstance/:id/", {id: "@id"}, basicService );
 	}
 
 	function TweetCodeInstanceService($resource) {
-		return $resource("/api/tweetcodeinstance/:id", {id: "@id"}, basicService );
+		return $resource("/api/tweetcodeinstance/:id/", {id: "@id"}, basicService );
 	}
 
 	function AssignmentService($resource) {
-		return $resource("/api/assignment/:id", {id: "@id"}, basicService );
+		return $resource("/api/assignment/:id/", {id: "@id"}, basicService );
 	}
 })();
