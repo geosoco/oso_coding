@@ -5,6 +5,7 @@ import main.models as main_models
 
 from main.models import Tweet as mainTweet, User as mainUser
 
+
 class CodeScheme(base_models.FullAuditModel):
     """Container for a group of codes."""
     name = models.CharField(max_length=64)
@@ -77,4 +78,3 @@ class UserCodeInstance(base_models.FullAuditModel):
     def __unicode__(self):
         return u"%s - %d - %s" % (
             self.assignment.id, self.user.id, self.code.name)
-

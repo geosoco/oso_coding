@@ -1,12 +1,18 @@
-<div>
-	<h1>Assignment {{assignment.assignment.name}}</h1>
-	<p>id: {{assignment.assignment.id}} / {{assignment.assignment_id}}</p>
-	<p>test: {{assignment.test}} | {{test}}</p>
+<div class="container">
+	<h1>Assignment: {{assignment.assignment.name}} ({{assignment.assignment.id}})</h1>
 
-	<h2>Users</h2>
+	<h2>Uncoded Users</h2>
+	<h4>{{assignment.uncoded.length}}</h4>
 	<ul>
-		<li ng-repeat="user in assignment.assignment.assigned_users">
-			<a ui-sref="code.user({'assignment_id': assignment.assignment.id, 'id': user.id})">{{user.screen_name}}</a>
+		<li ng-repeat="user in (assignment.uncoded = (assignment.assignment.assigned_users | filter: assignment.filterHasCodes))"> 
+			<a ui-sref="code.user({'assignment_id': assignment.assignment.id, 'id': user.id})">{{user.screen_name}} <span ng-if="user.usercodeinstance_set.length > 0">({{user.usercodeinstance_set.length}}) - </span></a>
 		</li>
 	</ul>
+	<h2>Coded Users</h2>
+	<ul>
+		<li ng-repeat="user in assignment.assignment.assigned_users | filter: assignment.filterHasNoCodes"> 
+			<a ui-sref="code.user({'assignment_id': assignment.assignment.id, 'id': user.id})">{{user.screen_name}} <span ng-if="user.usercodeinstance_set.length > 0">({{user.usercodeinstance_set.length}}) - </span></a>
+		</li>
+	</ul>
+
 </div>

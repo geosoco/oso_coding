@@ -8,7 +8,7 @@ class UserSimpleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = main_models.User
-        fields = ('id', 'screen_name', 'instances')
+        fields = ('id', 'screen_name')
 
 
 class UserWithProfileSerializer(serializers.ModelSerializer):

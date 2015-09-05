@@ -63,69 +63,7 @@
 			<ul class="styleless user-tweet-list">
 				<li ng-repeat="tweet in user.tweets">
 					<div class="row">
-						<div class="col-md-10 col-md-offset-1">
-							<div class="user-tweet-screen-name">{{tweet.user_screen_name}}</div>
-							<div class="user-tweet-creation-time">{{tweet.created_ts}}</div>
-							<div class="user-tweet-text">{{tweet.text}}</div>
-							<div ng-if="tweet.geo_coordinates_0">
-								<div class="user-geo-data">
-									{{tweet.geo_coordinates_0}}, {{tweet.geo_coodinates_1}}
-								</div>
-							</div>
-							<div class="media">
-								<ul class="styleless">
-									<li ng-repeat="media in tweet.media_set">
-										<div ng-switch on="media.type">
-											<div ng-switch-when="photo">
-												<img src="{{media.media_url}}" />
-											</div>
-											<div ng-switch-when="video">
-												<div>video: <a href="{{media.media_url}}">Video # {{media.media_id}}</a></div>
-											</div>
-										</div>
-									</li>
-								</ul>
-							</div>
-							<div class="row">
-								<div class="col-md-2">Retweets: {{tweet.retweet_count}}</div>
-								<div class="col-md-2">Favorites: {{tweet.favorite_count}}</div>
-								<div class="col-md-2">Replies: {{tweet.replies.length}}</div>
-							</div>
-							<div class="row" ng-if="tweet.mentions.length > 0">
-								<div class="tweet-mentions">
-									<h4>Mentions</h4>
-									<ul class="styleless">
-										<li ng-repeat="mention in tweet.mentions"><a ui-sref="code.user({ id: mention.id})">@{{mention.screen_name}}</a></li>
-									</ul>
-								</div>
-							</div>
-							<div class="row" ng-if="tweet.url_set.length > 0">
-								<div class="tweet-urls">
-									<h4>Urls</h4>
-									<ul class="styleless">
-										<li ng-repeat="url in tweet.url_set"><a href="{{url.expanded_url}}">{{url.display_url}}</a></li>
-									</ul>
-								</div>
-							</div>
-							<div class="row" ng-if="tweet.replies.length > 0">
-								<div class="tweet-replies">
-									<h4>Replies</h4>
-									<ul class="styleless">
-										<li class="tweet-reply container-fluid" ng-repeat="reply in tweet.replies"><a href="http://twitter.com/{{reply.user.screen_name}}/{{reply.id}}">
-											<div class="row">
-												<div class="col-md-1">
-													<img src="{{reply.user.profile_image_url}}" />
-												</div>
-												<div class="col-md-11">
-													<div class="tweet-screen-name">{{reply.user.screen_name}}</div>
-													<div class="tweet-text">{{reply.text}}</div>
-												</div>
-											</div>
-										</a></li>
-									</ul>
-								</div>
-							</div>							
-						</div>
+						<emTweet tweet="tweet" assignment="assignment"></emTweet>
 					</div>
 				</li>
 			</ul>

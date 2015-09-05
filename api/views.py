@@ -1,14 +1,14 @@
 from django.contrib.auth.models import User, Group
-import main.models as main_models
-import coding.models as coding_models
-from rest_framework import viewsets
+from django.utils import timezone
+from django.db.models import Prefetch
+import django_filters
+from rest_framework import filters, viewsets
 from rest_framework.authentication import (
     SessionAuthentication, BasicAuthentication, TokenAuthentication)
 from rest_framework.permissions import IsAuthenticated
 import api.serializers as api_serializers
-from rest_framework import filters
-import django_filters
-from django.utils import timezone
+import main.models as main_models
+import coding.models as coding_models
 
 
 class DjangoUserViewSet(viewsets.ModelViewSet):
@@ -288,9 +288,13 @@ class AssignmentViewSet(viewsets.ModelViewSet):
         if pk == "current":
             user = self.request.user
             qs = coding_models.Assignment.objects.filter(coder=user.id)
+            qs = qs.prefetch_related(
+                Prefetch(
+                    "assigned_users__usercodeinstance_set",
+                    queryset=coding_models.UserCodeInstance.objects.filter(
+                        created_by=self.request.user, deleted_date=None)))
         else:
-            qs = coding_models.Assignment.objects.all()
+            qs = coding_models.Assignment.objects.all().prefetch_related(
+                Prefetch("assigned_users__usercodeinstance_set"))
 
-        return qs.select_related()
-
-
+        return qs
