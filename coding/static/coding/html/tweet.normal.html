@@ -1,5 +1,5 @@
 	<div class="tweet-normal" >
-						<div class="col-md-10 col-md-offset-1">
+						<div class="col-md-8 col-md-offset-2">
 							<div class="user-tweet-screen-name">{{tweet.user_screen_name}}</div>
 							<div class="user-tweet-creation-time">{{tweet.created_ts}}</div>
 							<div class="user-tweet-text" ng-bind-html="html"></div>
@@ -51,7 +51,7 @@
 										<li class="tweet-reply container-fluid" ng-repeat="reply in tweet.replies"><a href="http://twitter.com/{{reply.user.screen_name}}/{{reply.id}}">
 											<div class="row">
 												<div class="col-md-1">
-													<img src="{{reply.user.profile_image_url}}" />
+													<tweet-profile-image imgUrl="{{reply.user.profile_img_url}}" size="small"></tweet-profile-image>
 												</div>
 												<div class="col-md-11">
 													<div class="tweet-screen-name">{{reply.user.screen_name}}</div>
