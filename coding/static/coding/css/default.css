@@ -13,3 +13,12 @@ ul.styleless { list-style: none; list-style-position: inside; }
 
 .code-link, .code-link:link, .code-link:visited { color: #fff; text-decoration: none; }
 .code-link:hover, .code-link:active { color: #ccf; text-decoration: underline;}
+
+.loading-container { position: relative; }
+
+.profile-bar-top { margin: 10px 0;}
+
+.profile-banner { min-height: 300px; position: relative;}
+.profile-background, .profile-banner-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
+.profile-background { height: 100%; }
+.profile-banner-img {  background-size: contain; background-position: center; background-repeat: no-repeat;}

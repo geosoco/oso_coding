@@ -1,31 +1,32 @@
 <div>
-	<div class="container-fluid">
-		<div class="row well">
-			<p>Codes Applied</p>
-			<ul class="applied-code-instances">
-				<li ng-repeat="instance in user_instances">
-					<span class="badge">{{instance.code_obj.name}}<a href="" ng-click="deleteCode(instance)"><span class="code-delete" >&times;</span></a>
-						
-					</span></li>
-			</ul>
-		</div>
-	</div>
-
-	<div ng-repeat="user in user">
-		<!-- <div class="container-fluid" style="background-color: {{user.profile_background_color}}; background-image: url('{{user.profile_background_image_url}}'); color: #{{user.profile_text_color}};  "> -->
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-2">
-					<a href="http://www.twitter.com/{{user.screen_name}}/" target="_blank" class="btn btn-default">Twitter Account Page</a>
+	<div class="row">
+		<div class="profile-bar-top">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-2">
+						<a href="http://www.twitter.com/{{user.screen_name}}/" target="_blank" class="btn btn-default">Visit Account Page on Twitter&nbsp;<i class="fa fa-twitter"></i></a>
+					</div>
 				</div>
 			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="profile-banner">
+			<div class="profile-background" style="background-color: {{user.profile_background_color}}; background-image: url('{{user.profile_background_image_url}}');"></div>
+			<div ng-if="user.profile_banner_url" class="profile-banner-img" style="background-image: url('{{user.profile_banner_url}}/1500x500');">
+			</div>
+		</div>
+	</div>
+	<div>
+		<div class="container-fluid">
+			<div class="loading-container"><span us-spinner spinner-key="user-details" spinner-start-active="true"></span></div>
 			<div class="row">
 				<div class="col-md-2">
 					<tweet-profile-image size="large"></tweet-profile-image>
 				</div>
 				<div class="col-md-10">
 					<h1>{{user.screen_name}}</h1>
-					<h4>{{user.name}} ({{user.id}})</h4>
+					<h4>{{user.user.name}} ({{user.id}})</h4>
 				</div>
 			</div>
 
@@ -60,6 +61,7 @@
 			</div>
 		</div>
 		<div class="container-fluid">
+			<div class="loading-container"><div us-spinner spinner-key="tweet-list" spinner-start-active="true"></div></div>
 			<ul class="styleless user-tweet-list">
 				<li ng-repeat="tweet in user.tweets">
 					<div class="row">

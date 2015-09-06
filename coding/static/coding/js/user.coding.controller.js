@@ -6,11 +6,11 @@
 		.controller("UserCodingController", UserCodingController);
 
 	UserCodingController.$inject = ['$rootScope', '$location', '$document', '$stateParams',
-		'CodeScheme', 'User', 'Tweet', 'UserCodeInstance'];
+		'CodeScheme', 'User', 'Tweet', 'UserCodeInstance', 'usSpinnerService'];
 
 
 	function UserCodingController($rootScope, $location, $document, $stateParams, 
-		CodeScheme, User, Tweet, UserCodeInstance ) {
+		CodeScheme, User, Tweet, UserCodeInstance, usSpinnerService ) {
 			var self = this;
 
 
@@ -23,13 +23,24 @@
 				$rootScope.coding_user_id = $stateParams.id;
 
 
-				self.user = User.get({id: $stateParams.id});
-				$rootScope.coding_user = self.user;
-				self.user.tweets = Tweet.get({user: $stateParams.id});
+				$rootScope.coding_user = User.get({id: $stateParams.id});
 
-				self.user.tweets.$promise.then(function(data) {
+				$rootScope.coding_user.$promise.then(
+					function(data){	// success
+						usSpinnerService.stop("user-details");
+						angular.copy(data, self);
+					}, 
+					function(error){ // error
+						console.error(error);
+					});
+
+				
+				self.tweets = Tweet.get({user: $stateParams.id});
+
+				self.tweets.$promise.then(function(data) {
 					console.log("user data");
-					self.user.tweets = data.results;
+					usSpinnerService.stop("tweet-list");
+					self.tweets = data.results;
 				})
 			}
 		}

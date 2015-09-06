@@ -20,6 +20,7 @@
 							</div>
 							<div class="container-fluid">
 								<div class="row">
+									<div class="loading-container" ng-show="cntrl.codes"><span us-spinner spinner-key="code-list" spinner-start-active="true"></span>
 									<ul class="code-scheme-code-list">
 										<li ng-repeat="code in (cntrl.filteredItems = (cntrl.codes|filter:{ name: cntrl.codeName }))" class="code">
 											<a href="" ng-click="cntrl.addCode(code.id);" class="code-link">{{code.name}}</a>
@@ -30,3 +31,17 @@
 						</div>
 					</div>
 				</div>
+	<div class="container-fluid">
+		<p>Codes Applied</p>
+								<div class="row well">
+									<div class="loading-container"><span us-spinner spinner-key="code-instance-list" spinner-start-active="true"></span>
+									</div>
+									<ul class="applied-code-instances">
+										<li ng-repeat="instance in user_instances">
+											<span class="badge">{{instance.code_obj.name}}<a href="" ng-click="deleteCode(instance)"><span class="code-delete" >&times;</span></a>
+												
+											</span></li>
+									</ul>
+								</div>
+							</div>					
+				

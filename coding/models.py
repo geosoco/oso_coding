@@ -39,7 +39,7 @@ class Assignment(base_models.FullAuditModel):
     description = models.TextField(null=True, blank=True)
     coder = models.ForeignKey(User)
     assigned_users = models.ManyToManyField(mainUser)
-    assigned_tweets = models.ManyToManyField(mainTweet)
+    assigned_tweets = models.ManyToManyField(mainTweet, blank=True, null=True)
 
     def __str__(self):
         return "%s (%s - %s)" % (

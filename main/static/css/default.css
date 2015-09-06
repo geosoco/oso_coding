@@ -12,3 +12,4 @@ li.tweet-cntr { display: block; margin-bottom: 20px;}
 
 .retweet-text { margin: 5px 30px; padding: 20px; border: 1px solid #ccc;}
 
+.loading-container { position: relative; }

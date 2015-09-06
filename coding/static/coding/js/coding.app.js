@@ -1,19 +1,20 @@
 (function() {
-	var codingApp = angular.module('coding.app', ['ngAnimate', 'ui.router', 'coding.services', 'toastr' ]);
+	var codingApp = angular.module('coding.app', ['ngAnimate', 'ui.router', 'coding.services', 'toastr', 'angularSpinner' ]);
 
 	/*
 	 * set up app config (csrf )
 	 */
 	codingApp.config(
 		['$resourceProvider', '$httpProvider', '$locationProvider', 
-		 '$stateProvider', '$urlRouterProvider', 'toastrConfig',
+		 '$stateProvider', '$urlRouterProvider', 'toastrConfig', 'usSpinnerConfigProvider', 
 			function(
 				$resourceProvider, 
 				$httpProvider, 
 				$locationProvider, 
 				$stateProvider, 
 				$urlRouterProvider,
-				toastrConfig) {
+				toastrConfig, 
+				usSpinnerConfigProvider) {
 
 				$resourceProvider.defaults.stripTrailingSlashes = false;
 
@@ -27,6 +28,9 @@
 					tapToDismiss: true,
 					maxOpened: 6,
 				});
+
+				// spinner
+				usSpinnerConfigProvider.setDefaults({width: 3, radius: 8, length: 6});
 
 				// locprovider setup
 				$locationProvider.html5Mode(false).hashPrefix('!');
