@@ -122,18 +122,29 @@ class SimpleTweetSerializer(serializers.ModelSerializer):
         fields = ('id', 'created_ts', 'text', 'user')
 
 
+class SimplifiedTweetSerializer(serializers.ModelSerializer):
+    user = UserWithProfileSerializer(read_only=True)
+
+    class Meta:
+        model = main_models.Tweet
+        fields = (
+            'id', 'created_ts', 'local_time', 'lang', 'text',
+            'geo_coordinates_0', 'geo_coordinates_1', 'user')
+
+
 class TweetSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(read_only=True)
-    retweeted_status = serializers.PrimaryKeyRelatedField(read_only=True)
+    user = UserWithProfileSerializer(read_only=True)
+    retweeted_status = SimplifiedTweetSerializer(read_only=True)
     retweeted_status_user = UserSimpleSerializer(read_only=True)
-    in_reply_to_status = serializers.PrimaryKeyRelatedField(read_only=True)
-    in_reply_to_user = UserSimpleSerializer(read_only=True)
+    in_reply_to_status = SimplifiedTweetSerializer(read_only=True)
+    in_reply_to_user = UserWithProfileSerializer(read_only=True)
     retweet_source = serializers.PrimaryKeyRelatedField(read_only=True)
     mentions = UserSimpleSerializer(read_only=True, many=True)
     source_snapshot = serializers.PrimaryKeyRelatedField(read_only=True)
     url_set = UrlSerializer(many=True,read_only=True)
     media_set = MediaSerializer(many=True,read_only=True)
     replies = SimpleTweetSerializer(many=True, read_only=True)
+    hashtag_set = HashtagSerializer(many=True, read_only=True)
 
     class Meta:
         model = main_models.Tweet
@@ -153,8 +164,8 @@ class TweetSerializer(serializers.ModelSerializer):
             'retweeted_status_user_followers_count', 'source',
             'in_reply_to_screen_name', 'in_reply_to_status',
             'in_reply_to_user', 'local_time', 'retweet_source', 'mentions',
-            'source_snapshot', 'media_set', 'url_set', 'replies')
-
+            'source_snapshot', 'media_set', 'url_set', 'replies', 
+            'hashtag_set')
 
 
 class UserSerializer(serializers.ModelSerializer):
