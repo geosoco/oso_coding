@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 import api.serializers as api_serializers
 import main.models as main_models
 import coding.models as coding_models
+import filters as api_filters
 
 
 class DjangoUserViewSet(viewsets.ModelViewSet):
@@ -20,8 +21,9 @@ class DjangoUserViewSet(viewsets.ModelViewSet):
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
-    #filter_backends = (filters.DjangoFilterBackend,)
-    #filter_fields = ("id", )
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ("id", )
+
 
     def get_queryset(self):
         if self.request.query_params.get("pk", None) == "current":
@@ -138,9 +140,10 @@ class TweetViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     page_size = 200
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = (
-        "user", "in_reply_to_user", "in_reply_to_status_id",
-        "created_ts")
+    filter_class = api_filters.TweetFilter
+    #filter_fields = (
+    #    "user", "in_reply_to_user", "in_reply_to_status_id",
+    #    "created_ts", "retweeted_status",)
 
 
 

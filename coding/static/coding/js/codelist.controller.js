@@ -28,8 +28,8 @@
 
 				$rootScope.user_instances = UserCodeInstance.query({
 					created_by: "current",
-					assignment: $rootScope.assignment_id,
-					user: $rootScope.coding_user_id
+					assignment: $stateParams.assignment_id,
+					user: $stateParams.user_id
 				});
 
 				$rootScope.user_instances.$promise.then(function(data){
@@ -50,6 +50,8 @@
 							self.codes = scheme.code_set;
 
 							usSpinnerService.stop("code-list");
+
+							updateInstances();
 						}
 					});
 
@@ -71,6 +73,7 @@
 
 					console.log("state params in codelist");
 					console.dir($stateParams);
+
 
 			}
 

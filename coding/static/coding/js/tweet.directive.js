@@ -146,10 +146,10 @@
 	function emTweetProfileImageDirective($compile) {
 		return {
 			restrict: 'E',
-			scope: { user: '=', imgUrl: '=', size: '@'},
+			scope: { imgUrl: '@', size: '@'},
 			transclude: 'element',
 			replace: true,
-			template: '<img src="{{imgUrl}}">',
+			template: '<div class="profile-image-url {{size}}"></div>',
 			link: emTweetProfileImageLink
 		}
 	}
@@ -163,18 +163,16 @@
 			size = size.toLowerCase();
 
 			if($scope.size === "large") {
-				url = url.replace("_normal.jpeg", "_400x400.jpeg");
+				url = url.replace("_normal.", "_400x400.");
 			}
 			else if($scope.size === "medium") {
-				url = url.replace("_normal.jpeg", "_bigger.jpeg")
+				url = url.replace("_normal.", "_bigger.")
 			}
 		}
 
 		html = '<img src="' + url + '">';
 
-		console.log("emTweetProfileImageLink: " + html)
-
-		return $elem.html(html);
+		$elem.html(html);
 	}
 
 

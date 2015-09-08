@@ -5,10 +5,10 @@
 		.module("coding.app")
 		.controller("CodingController", CodingController);
 
-	CodingController.$inject = ['$rootScope', '$location', '$document', '$stateParams', 'Assignment', 'CodeScheme'];
+	CodingController.$inject = ['$rootScope', '$scope', '$location', '$document', '$stateParams', 'Assignment', 'CodeScheme'];
 
 
-	function CodingController($rootScope, $location, $document, $stateParams, Assignment, CodeScheme) {
+	function CodingController($rootScope, $scope, $location, $document, $stateParams, Assignment, CodeScheme) {
 		var self = this;
 
 		self.instances = [];

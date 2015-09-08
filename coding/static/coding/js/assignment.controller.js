@@ -18,8 +18,8 @@
 		//////////
 
 		function init() {
-			self.assignment_id = $stateParams.id;
-			self.assignment = Assignment.get({id: $stateParams.id, coder: "current"});
+			self.assignment_id = $stateParams.assignment_id;
+			self.assignment = Assignment.get({id: $stateParams.assignment_id, coder: "current"});
 			console.log("assignment");
 			console.dir(self.assignment_id);
 			console.dir(self.assignment);

@@ -8,14 +8,14 @@ class UserSimpleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = main_models.User
-        fields = ('id', 'screen_name')
+        fields = ('id', 'name', 'screen_name')
 
 
 class UserWithProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = main_models.User
-        fields = ('id', 'screen_name', 'profile_image_url')
+        fields = ('id', 'name', 'screen_name', 'profile_image_url')
 
 
 class UrlSerializer(serializers.ModelSerializer):
@@ -165,7 +165,7 @@ class TweetSerializer(serializers.ModelSerializer):
             'in_reply_to_screen_name', 'in_reply_to_status',
             'in_reply_to_user', 'local_time', 'retweet_source', 'mentions',
             'source_snapshot', 'media_set', 'url_set', 'replies', 
-            'hashtag_set')
+            'hashtag_set',)
 
 
 class UserSerializer(serializers.ModelSerializer):

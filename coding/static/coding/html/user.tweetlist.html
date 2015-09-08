@@ -1,0 +1,58 @@
+					<div class="tweet-list-container">
+						<div class="container-fluid">
+							<div class="tweet-list-header row">
+								<nav class="tweet-list-filter-tabs">
+									<ul class="styleless nav nav-pills">
+										<li class="col-md-3 tweet-list-tab" ng-class="{active: ('tweets' == tweetlist.list_type )}">
+											<a ui-sref="code.user.tweets({page: 1, list_type: 'tweets'})">All Tweets</a>
+										</li>
+										<li class="col-md-3 tweet-list-tab" ng-class="{active: 'original' == tweetlist.list_type}">
+											<a ui-sref="code.user.tweets({page: 1, list_type: 'original'})">Original Tweets</a>
+										</li>
+										<li class="col-md-3 tweet-list-tab" ng-class="{active: 'media' == tweetlist.list_type}">
+											<a ui-sref="code.user.tweets({page: 1, list_type: 'media'})">Media</a>
+										</li>									
+									</ul>
+								</nav>
+							</div>
+							<div class="row">
+									<div ng-if="tweetlist.loading">
+										<div class="loading-container col-md-12">
+											<div us-spinner spinner-key="tweet-list" spinner-start-active="true"></div>
+										</div>
+									</div>
+									<div ng-if="!tweetlist.loading">
+										<ul class="styleless user-tweet-list col-md-12">
+											<li ng-repeat="tweet in tweetlist.tweets">
+												<emTweet tweet="tweet" assignment="assignment"></emTweet>
+											</li>
+										</ul>
+									</div>
+							</div>
+						</div>
+					</div>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="pagecontrol" ng-controller="TweetPaginationController as pager">
+								<nav>
+									<ul class="pagination">
+										<li ng-class="{disabled: pager.first_page == pager.pagelist_min}">
+											<a ui-sref="{{pager.current_view}}({'page': pager.first_page})">First</a>
+										</li>
+										<li ng-class="{disabled: pager.current_page == pager.first_page}">
+											<a ui-sref="{{pager.current_view}}({'page': pager.prev_page})">Previous</a>
+										</li>
+										<li ng-repeat="page in pager.pagelist" ng-class="{active: pager.current_page == page.page}">
+											<a ui-sref="{{pager.current_view}}({'page': page.page})" ng-class="">{{page.page}}</a>
+										</li>
+										<li ng-class="{disabled: pager.current_page == pager.last_page}">
+											<a ui-sref="{{pager.current_view}}({'page': pager.next_page})">Next</a>
+										</li>
+										<li ng-class="{disabled: pager.current_page == pager.pagelist_max}">
+											<a ui-sref="{{pager.current_view}}({'page': pager.last_page})">Last</a>
+										</li>						
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>

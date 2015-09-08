@@ -1,5 +1,6 @@
 (function() {
-	var codingApp = angular.module('coding.app', ['ngAnimate', 'ui.router', 'coding.services', 'toastr', 'angularSpinner' ]);
+	var codingApp = angular.module('coding.app', ['ngAnimate', 'ui.router', 'coding.services', 
+		'toastr', 'angularSpinner', 'angularMoment' ]);
 
 	/*
 	 * set up app config (csrf )
@@ -43,29 +44,45 @@
 				$stateProvider
 					.state(
 						"code", {
-							url: "/code/{assignment_id:int}/",
+							url: "/code/{assignment_id:int}",
 							templateUrl: "static/coding/html/code.html",
-							controller: "CodingController"									
+							controller: "CodingController"				
 						})
 					.state(
 						"code.user", {
-							url: "user/{id:int}/",
-							"views": {
+							url: "/user/{user_id:int}",
+							abstract: true,							
+							views: {
 								"sidebar": {
-									templateUrl: "static/coding/html/code.sidebar.html",
-									controller: function($scope) {
-										console.log("----sidebar")
-									}
+									templateUrl: "static/coding/html/code.sidebar.html"
 								},
 								"main-content": {
 									templateUrl: "static/coding/html/code.user.html",
-									controller: "UserCodingController as user"
+									controller: "UserCodingController as user",
+								}
+							}
+						})
+					.state(
+						"code.user.tweets", {
+							url: "/{list_type}/{page:int}",
+							params: {
+								list_type : {
+									value: "tweets"
+								},
+								page: {
+									value: 1
+								}
+							},
+							views: {
+								"tweet-list": {
+									templateUrl: "static/coding/html/user.tweetlist.html",
+									controller: "TweetListController as tweetlist"
 								}
 							}
 						})
 					.state(
 						"assignment", {
-							url: "/{id:int}/",
+							url: "/{assignment_id:int}/",
 							templateUrl: "/static/coding/html/assignment.detail.html",
 							controller: "AssignmentController as assignment"
 						})
@@ -81,24 +98,24 @@
 
 			$rootScope.$on("$stateChangeStart", 
 				function(event, toState, toParams, fromState, fromParams) {
-					console.log("stateChangeStart");
+					console.log("!!! stateChangeStart: " + fromState.name + " -> " + toState.name);
 					console.dir(event);
 					console.dir(toState);
 				});
 
 			$rootScope.$on("$stateChangeError",
 				function(event, toState, toParams, fromState, fromParams) {
-					console.log("stateChangeError");
+					console.log("!!! stateChangeError");
 				});
 
 			$rootScope.$on("$stateNotFound",
 				function(event, unfoundState, fromState, fromParams){
-					console.log("stateNotFound");
+					console.log("!!! stateNotFound");
 				})
 
 
 			var user = SysUser.get({'pk': "current"}).$promise.then(function(data){
-				console.log(">>> got user")
+				console.log("got user")
 				console.dir(data);
 				if(data.results && data.results.length == 1) {
 					$rootScope.sysuser = data.results[0];

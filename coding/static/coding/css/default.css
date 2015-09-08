@@ -1,20 +1,24 @@
 html, body, #assignment-root-view { min-height: 100%; height: 100%;}
 
 /* core */
-ul.styleless { list-style: none; list-style-position: inside; }
+ul.styleless { list-style: none; list-style-position: inside; padding-left: 0;}
 
 #page-body, #page-body .row { min-height: 100%; height: 100%;}
 #left-sidebar { background: #666; color: #eee; min-height: 100%; position: fixed;}
 
+.code-sidebar-link { min-height:50px; }
+.code-sidebar-link a:link, .code-sidebar-link a:visited, .code-sidebar-link a { color: #eee; text-decoration: none; }
+.code-sidebar-link a:hover, .code-sidebar-link a:active { color: #fff; text-decoration: underline; }
+
 
 /* user tweet list */
-.user-tweet-list { list-style: none; list-style-position: inside;}
-.user-tweet-list > li { display: block; background: #fff; border: 1px solid #ccc; margin-top: 20px; overflow: auto;}
+.user-tweet-list { list-style: none; list-style-position: inside; padding: 0;}
+.user-tweet-list > li { display: block; border-top: 1px solid #ccc; overflow: auto; }
 
 .code-link, .code-link:link, .code-link:visited { color: #fff; text-decoration: none; }
 .code-link:hover, .code-link:active { color: #ccf; text-decoration: underline;}
 
-.loading-container { position: relative; }
+.loading-container { position: relative; height: 50px;}
 
 .profile-bar-top { margin: 10px 0;}
 
@@ -22,3 +26,56 @@ ul.styleless { list-style: none; list-style-position: inside; }
 .profile-background, .profile-banner-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
 .profile-background { height: 100%; }
 .profile-banner-img {  background-size: contain; background-position: center; background-repeat: no-repeat;}
+
+.profile-stats-banner { height: 40px; margin: 10px 0;}
+
+.profile-main-content { background: #eee; padding-top: 10px; padding-bottom: 10px; }
+
+.profile-details { color: #333; }
+.profile-img-container { background: #aaa; border: 1px solid #ccc; }
+.profile-img-container.large { width: 200px; height: 200px; margin-top: -150px; }
+.profile-image-url.large { overflow: hidden; border: 2px solid #fff;}
+.profile-img-container.large, .profile-image-url.large { border-radius: 10px; }
+.profile-img-container.small, .profile-image-url.small { border-radius: 5px; }
+.profile-image-url > img { max-width: 194px; max-height: 194px; }
+.profile-name { font-size: 28px; }
+.profile-screen-name { color: #888; }
+.profile-description { margin-top: 20px; min-height: 48px;}
+
+
+.icon-detail-list .list-icon { margin-right: 10px; }
+
+.profile-details .list-icon { color: #888;}
+
+.profile-details-spacer { height: 20px; }
+
+
+.profile-stats-label { color: #888; font-size: 14px;}
+.profile-stats-value { color: #333; font-size: 18px; font-weight: 500;}
+
+.tweet-list-container { background: #fff; border: solid 1px #ccc; margin-top: 20px;}
+.tweet-list-header { height: 40px;  }
+.tweet-list-filter-tabs { padding: 10px 0;}
+.tweet-list-filter-tabs li.selected { border-bottom: 2px solid #888; text-align: center; margin-bottom: 10px ;}
+
+
+
+
+/*
+ *
+ * tweet specific
+ *
+ */ 
+.retweet-header {  padding: 10px 0 0 5px;}
+.retweet-icon { position: absolute; right: 0px; 
+    background-color: #77b255;
+    padding: 0 2px;
+    font-size: 12px;
+    color: #fff;
+}
+
+
+.tweet-profile-img-container { position: absolute; right: 0px;}
+.user-tweet-name { font-weight: bold;}
+.user-tweet-screen-name, .user-tweet-dot, .user-tweet-creation-time { color: #ccc; }
+

@@ -38,7 +38,7 @@ class Assignment(base_models.FullAuditModel):
     name = models.CharField(max_length=64)
     description = models.TextField(null=True, blank=True)
     coder = models.ForeignKey(User)
-    assigned_users = models.ManyToManyField(mainUser)
+    assigned_users = models.ManyToManyField(mainUser, blank=True, null=True)
     assigned_tweets = models.ManyToManyField(mainTweet, blank=True, null=True)
 
     def __str__(self):

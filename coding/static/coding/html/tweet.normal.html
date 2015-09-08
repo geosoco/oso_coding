@@ -1,7 +1,37 @@
 	<div class="tweet-normal" >
-						<div class="col-md-8 col-md-offset-2">
-							<div class="user-tweet-screen-name">{{tweet.user_screen_name}}</div>
-							<div class="user-tweet-creation-time">{{tweet.created_ts}}</div>
+					<div class="retweet-header" ng-if="tweet.retweeted_status">
+							<div class="col-md-2">
+								<div class="retweet-icon"><span class="glyphicon glyphicon-retweet"></span></div>
+							</div>
+							<div class="col-md-8">
+								<span class="user-tweet-name">{{tweet.user.name}}</span> retweeted
+							</div>
+					</div>
+					<div class="">
+						<div class="col-md-2">
+							<div class="container-fluid">
+								<div class="tweet-profile-img-container">
+									<tweet-profile-image img-url="{{tweet.user.profile_image_url}}" size="small"></tweet-profile-image>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-8">
+							<div ng-if="!tweet.retweeted_status">
+								<span class="user-tweet-name">{{tweet.user.name}}</span>
+								<span class="user-tweet-screen-name">@{{tweet.user_screen_name}}</span>
+								<span class="user-tweet-dot">&middot;</span>
+								<span class="user-tweet-creation-time" am-time-ago="tweet.creation_ts"></span>
+							</div>
+							<div ng-if="tweet.retweeted_status">
+							
+								<span class="user-tweet-name">{{tweet.user.name}}</span>
+								<span class="user-tweet-screen-name">@{{tweet.user_screen_name}}</span>
+								<span class="user-tweet-dot">&middot;</span>
+								<span class="user-tweet-creation-time" am-time-ago="tweet.creation_ts"></span>
+							</div>
+
+							
+
 							<div class="user-tweet-text" ng-bind-html="html"></div>
 							<emtweet-text tweet="tweet" assignment="assignment">{{tweet.text}}</emtweet-text>
 							<div ng-if="tweet.geo_coordinates_0">
@@ -62,4 +92,5 @@
 									</ul>
 								</div>
 							</div>
+						</div>
 	</div>
