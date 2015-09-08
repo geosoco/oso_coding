@@ -35,7 +35,7 @@
 						<div class="row">
 							<div class="pagecontrol" ng-controller="TweetPaginationController as pager">
 								<nav>
-									<ul class="pagination">
+									<ul class="pagination pagination-sm">
 										<li ng-class="{disabled: pager.first_page == pager.pagelist_min}">
 											<a ui-sref="{{pager.current_view}}({'page': pager.first_page})">First</a>
 										</li>

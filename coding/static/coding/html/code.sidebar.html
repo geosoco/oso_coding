@@ -17,8 +17,8 @@
 
 					</div>
 					<h4>Codes</h4>
-					<div class="container-fluid">
-						<div ng-controller="CodeListController as cntrl">
+					<div class="container-fluid" ng-controller="CodeListController as cntrl">
+						<div>
 							<div>
 								<form class="form" ng-submit="cntrl.addCode()">
 									<div class="row">
@@ -27,38 +27,47 @@
 											<input type="text" class="form-control" id="input-code-name" placeholder="Code name" ng-model="cntrl.codeName" />
 										</div>
 									</div>
-									<div class="row">
+									<div class="row" ng-if="cntrl.codeName">
 										<div class="form-group">
-											<input type="submit" class="btn btn-primary" value="Apply code" />
-											<input type="button" class="btn btn-default" value="Create new code" ng-show="!cntrl.filteredItems || (cntrl.filteredItems.length == 0) || (cntrl.filteredItems.length > 0 && cntrl.filteredItems[0].name != cntrl.codeName) " ng-click="cntrl.createCode(cntrl.codeName);"/>
+											<input type="submit" class="btn btn-default" value="Apply code" />
+											<!-- <input type="button" class="btn btn-default" value="Create new code" ng-show="!cntrl.filteredItems || (cntrl.filteredItems.length == 0) || (cntrl.filteredItems.length > 0 && cntrl.filteredItems[0].name != cntrl.codeName) " ng-click="cntrl.createCode(cntrl.codeName);"/> -->
 										</div>
 									</div>
 								</form>
 							</div>
-							<div class="container-fluid">
-								<div class="row">
-									<div class="loading-container" ng-show="cntrl.codes"><span us-spinner spinner-key="code-list" spinner-start-active="true"></span>
-									<ul class="code-scheme-code-list styleless">
-										<li ng-repeat="code in (cntrl.filteredItems = (cntrl.codes|filter:{ name: cntrl.codeName }))" class="code">
-											<a href="" ng-click="cntrl.addCode(code.id);" class="code-link">{{code.name}}</a>
+
+							<div class="row">
+								<div class="code-scheme-code-list">
+									<div class="loading-container" ng-show="cntrl.loading">
+										<span us-spinner="{color: 'white'}" spinner-key="code-list" spinner-start-active="true"></span>
+									</div>
+									<ul class="styleless">
+										<li ng-repeat="code in (cntrl.filteredItems = (cntrl.codes|filter:{ name: cntrl.codeName }))" class="code" ng-class="{applied: ( cntrl.isApplied(code.id) === true) }">
+											<div class="code-item-container">
+												<a href="" ng-click="cntrl.addCode(code.id);" class="code-link" title="Click to apply code">{{code.name}}</a>
+												<div class="code-delete-container pull-right" ng-if="cntrl.isApplied(code.id)">
+													<a href="" ng-click="cntrl.deleteCodeById(code.id)" title="Click to remove '{{code.name}}' code"><span class="code-delete" ><span class="glyphicon glyphicon-remove-sign"></span></span></a>
+												</div>
+											</div>
+
 										</li>
 									</ul>
+									<ul class="unfiltered-code-list styleless">
+										<li ng-repeat="code in cntrl.codes|filter:({ name: '!' + cntrl.codeName })" class="code" ng-class="{applied: ( cntrl.isApplied(code.id) === true) }">
+											<div class="code-item-container">
+												<a href="" ng-click="cntrl.addCode(code.id);" class="code-link" title="Click to apply code">{{code.name}}</a>
+												<div class="code-delete-container pull-right" ng-if="cntrl.isApplied(code.id)">
+													<a href="" ng-click="cntrl.deleteCodeById(code.id)"  title="Click to remove '{{code.name}}' code"><span class="code-delete" ><span class="glyphicon glyphicon-remove-sign"></span></span></a>
+												</div>
+											</div>
+
+										</li>
+									</ul>
+
 								</div>
 							</div>
+
 						</div>
 					</div>
-				</div>
-	<div class="container-fluid">
-		<p>Codes Applied</p>
-								<div class="row well">
-									<div class="loading-container"><span us-spinner spinner-key="code-instance-list" spinner-start-active="true"></span>
-									</div>
-									<ul class="applied-code-instances">
-										<li ng-repeat="instance in user_instances">
-											<span class="badge">{{instance.code_obj.name}}<a href="" ng-click="deleteCode(instance)"><span class="code-delete" >&times;</span></a>
-												
-											</span></li>
-									</ul>
-								</div>
-							</div>					
+			</div>					
 				

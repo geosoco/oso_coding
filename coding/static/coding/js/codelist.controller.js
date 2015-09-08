@@ -5,12 +5,12 @@
 		.module("coding.app")
 		.controller("CodeListController", CodeListController);
 
-	CodeListController.$inject = ['$rootScope', '$location', '$document', '$stateParams',  '$q', 'CodeScheme', 
-		'UserCodeInstance', 'usSpinnerService'];
+	CodeListController.$inject = ['$rootScope', '$scope', '$stateParams',  '$q', 'CodeScheme', 
+		'UserCodeInstance', 'usSpinnerService', 'toastr'];
 
 
-	function CodeListController($rootScope, $location, $document, $stateParams, $q, CodeScheme, 
-		UserCodeInstance, usSpinnerService) {
+	function CodeListController($rootScope, $scope, $stateParams, $q, CodeScheme, 
+		UserCodeInstance, usSpinnerService, toastr) {
 			var self = this;
 
 			self.test = "Testing!";
@@ -19,11 +19,14 @@
 			self.codes = null;
 			self.codeSchemeId = 0;
 
+			self.instance_map = {};
+
 			init();
 
 			////////
 
 			function updateInstances() {
+				self.loading = true;
 				usSpinnerService.spin("code-instance-list");
 
 				$rootScope.user_instances = UserCodeInstance.query({
@@ -34,7 +37,19 @@
 
 				$rootScope.user_instances.$promise.then(function(data){
 					console.log("got instances");
+					console.dir(data);
+					self.loading = false;
 					usSpinnerService.stop("code-instance-list");
+					
+
+					self.instance_map = {}
+					for( var i = 0; i < data.length; i++ ) {
+						var ci = data[i]; 
+
+						self.instance_map[ci.code] = ci;
+					}
+
+					
 				})
 
 			}
@@ -89,7 +104,6 @@
 			self.addCode = function(id) {
 				console.log("addCode");
 
-
 				if(id === undefined || id === null || id == -1) {
 					if(self.filteredItems && self.filteredItems.length > 0) {
 						id = self.filteredItems[0].id;
@@ -102,6 +116,12 @@
 				console.log("id: " + id);
 
 				if(id !== undefined && id != null && id >= 0) {
+
+					if(id in self.instance_map) {
+						toastr.info("Code already applied");
+						return;
+					}
+
 
 					console.log(">>assignment: " + $rootScope.assignment.id);
 					console.log(">>user: " + $rootScope.coding_user.id);
@@ -141,9 +161,23 @@
 				var ret = instance.$delete({id: old_instance.id}).then(function(data){
 					updateInstances();	
 				});
+			}
 
-				
+			self.deleteCodeById = function(code_id) {
 
+				if(code_id in self.instance_map) {
+					var instance = self.instance_map[code_id];
+					self.deleteCode(instance);
+				}
+			}			
+
+
+			self.isApplied = function(code_id) {
+				return (code_id in self.instance_map);
+				//var ret = (code_id in self.instance_map);
+
+				//console.log("isApplied(" + code_id + ") = " + ret);
+				//return ret;
 			}
 
 

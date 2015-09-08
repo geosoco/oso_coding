@@ -12,8 +12,28 @@
 				},
 				update: { method: 'PATCH'},
 				delete: { method: 'DELETE'},
-				save: { method: 'POST'}
+				save: { method: 'POST'},
+				get: { method: 'GET'}
 			};
+
+	var tweetService = angular.extend({}, basicService, {
+		query: {
+			method: 'GET',
+			transformResponse: transformTweetQueryResponse,
+			isArray: true
+		},
+		get: {
+			method: 'GET',
+			transformResponse: transformTweetQueryResponse	
+		}
+	});
+
+	var userService = angular.extend({}, basicService, {
+		get: {
+			method: 'GET',
+			transformResponse: transformUserGetResponse
+		}
+	})
 
 	/*
 	 *
@@ -23,6 +43,32 @@
 	function transformGetResponse(data) {
 		var results = angular.fromJson(data);
 		return results.results;
+	}
+
+	function transformTweetQueryResponse(data) {
+		var results = angular.fromJson(data);
+
+		for(var i=0; i < results.results.length; i++) {
+			var t = results.results[i];
+
+			t.created_ts = moment(t.created_ts).toDate();
+			t.local_time = moment(t.local_time).toDate();
+			t.user.created_ts = moment(t.created_ts).toDate();
+			if(t.retweeted_status) {
+				t.retweeted_status.created_ts = moment(t.retweeted_status.created_ts).toDate();
+				t.retweeted_status.local_time = moment(t.retweeted_status.local_time).toDate();
+				t.retweeted_status.user.created_ts = moment(t.retweeted_status.user.created_ts).toDate();
+			}
+		}
+
+		return results;
+	}
+
+	function transformUserGetResponse(data) {
+		var results = angular.fromJson(data);
+		results.created_ts = moment(results.created_ts).toDate();
+
+		return results;
 	}
 
 	services.factory("SysUser", SysUserService);
@@ -38,11 +84,11 @@
 	}
 
 	function UserService($resource) {
-		return $resource("/api/user/:id/", {id: "@id"}, basicService );
+		return $resource("/api/user/:id/", {id: "@id"}, userService );
 	}
 
 	function TweetService($resource) {
-		return $resource("/api/tweet/:id/", {id: "@id"}, basicService );
+		return $resource("/api/tweet/:id/", {id: "@id"}, tweetService );
 	}
 
 	function CodeSchemeService($resource) {

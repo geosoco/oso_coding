@@ -1,0 +1,176 @@
+	<div class="tweet-retweet" >
+		<div class="container-fluid">
+
+				<div class="retweet-header row">
+					<div class="col-md-2">
+						<div class="retweet-icon"><span class="glyphicon glyphicon-retweet"></span></div>
+					</div>
+					<div class="col-md-8">
+						<span class="user-tweet-name">{{tweet.user.name}}</span> retweeted: 
+						<span class="user-tweet-dot">&middot;</span>
+						<span class="user-tweet-creation-time">{{tweet.created_ts | amDateFormat:'MMM Do YYYY  h:mm a' }}</span>
+					</div>
+				</div>
+				<div class="retweet-tweet row">
+					<div class="col-md-2">
+						<div class="container-fluid">
+							<div class="tweet-profile-img-container">
+								<tweet-profile-image user="tweet.retweeted_status.user" size="small"></tweet-profile-image>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div class="tweet-header">
+							<span ng-if="tweet.retweeted_status.in_reply_to_status"><i class="fa fa-reply"></i></span>
+							<span class="user-tweet-name">{{tweet.retweeted_status.user.name}}</span>
+							<span class="user-tweet-screen-name">@{{tweet.retweeted_status.user.screen_name}}</span>
+							<span class="user-tweet-dot">&middot;</span>
+							<span class="user-tweet-creation-time">{{tweet.retweeted_status.created_ts | amDateFormat:'MMM Do YYYY  h:mm a' }}</span>
+						</div>
+						<div class="tweet-text-container">
+							<emtweet-text tweet="tweet" assignment="assignment" text="tweet.retweeted_status.text">{{tweet.retweeted_status.text}}</emtweet-text>
+							<div ng-if="cntrl.retweet_difference" class="tweet-modified-retweet-text">
+								<blockquote><emtweet-text tweet="tweet" assignment="assignment" text="tweet.text">{{tweet.retweeted_status.text}}</emtweet-text></blockquote>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2">
+
+						<!-- media -->
+						<div class="container-fluid">
+							<div class="row">
+								<div class="tweet-media">
+									<ul class="styleless">
+										<li ng-repeat="media in tweet.media_set">
+											<div ng-switch on="media.type">
+												<div ng-switch-when="photo">
+													<img src="{{media.media_url}}" />
+												</div>
+												<div ng-switch-when="video">
+													<div>video: <a href="{{media.media_url}}">Video # {{media.media_id}}</a></div>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+						<!-- retweet bar -->
+						<div class="row">
+							<div class="col-md-2 tweet-retweet-count"><span class="glyphicon glyphicon-retweet"></span> {{tweet.retweeted_status.retweet_count}}</div>
+							<div class="col-md-2 tweet-favorite-count"><span class="glyphicon glyphicon-star"></span> {{tweet.retweeted_status.favorite_count}}</div>
+							<div class="col-md-2 tweet-reply-count"><span class="fa fa-reply-all"></span> {{tweet.retweeted_status.replies.length}}</div>
+							<div class="col-md-2">
+								<div class="container-fluid">
+									<div class="tweet-menu dropup">
+										<a class="dropdown-toggle" id="dropdownMenu-{{tweet.id}}" data-toggle="dropdown" aria-haspopup="true">
+											<span class="glyphicon glyphicon-option-horizontal"></span>
+										</a>
+										<ul class="dropdown-menu" aria-labelledby="dropdownMenu-{{tweet.id}}">
+											<li><a ng-click="(cntrl.showDetails = !cntrl.showDetails)">Toggle Details</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+
+				<!-- extra metadata -->
+				<div class="row tweet-extra-data" ng-if="cntrl.showDetails">
+					<div class="col-md-8 col-md-offset-2">
+						<ul class="styleless">
+							<li><em>id</em>: {{tweet.id}}</li>
+							<li><em>in reply to id</em>: {{tweet.in_reply_to_status.id}}</li>
+							<li><em>retweeted status id</em>: {{tweet.retweeted_status.id}}</li>
+							<li></li>
+							<li><em>language</em>: {{tweet.lang}}</li>
+							<li><em>source</em>: <span ng-bind-html="tweet.source_html"></span></li>
+							<li></li>
+							<li><em>user geo enabled</em>: {{tweet.user_geo_enabled}}</li>
+							<li><em>user favorites count</em>: {{tweet.user_favourites_count}}</li>
+							<li><em>user followers count</em>: {{tweet.user_followers_count}}</li>
+							<li><em>user friends count</em>: {{tweet.user_friends_count}}</li>
+							<li><em>user statuses count</em>: {{tweet.user_statuses_count}}</li>
+						</ul>
+					</div>
+				</div>
+
+
+				<!-- extra metadata -->
+				<div class="row tweet-extra-data"  ng-if="cntrl.showDetails">
+					<div class="col-md-8 col-md-offset-2">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-8" ng-if="tweet.mentions.length > 0">
+									<div class="tweet-mentions">
+										<h4>Mentions</h4>
+										<ul class="styleless">
+											<li ng-repeat="mention in tweet.mentions"><a ui-sref="code.user({ id: mention.id})">@{{mention.screen_name}}</a></li>
+										</ul>
+									</div>
+								</div>
+								<div class="row" ng-if="tweet.url_set.length > 0">
+									<div class="tweet-urls">
+										<h4>Urls</h4>
+										<ul class="styleless">
+											<li ng-repeat="url in tweet.url_set"><a href="{{url.expanded_url}}">{{url.display_url}}</a></li>
+										</ul>
+									</div>
+								</div>
+
+
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- replies -->
+				<div class="row tweet-replies-container" ng-if="tweet.replies.length > 0">
+					<div class="col-md-8 col-md-offset-1">
+
+							<div class="row">
+								<div class="tweet-replies col-md-12">
+
+									<ul class="styleless">
+										<li class="tweet-reply container-fluid" ng-repeat="reply in tweet.replies">
+											
+												<div class="row">
+													<div class="col-md-2">
+														<div>{{reply.user.profile_img_url}}</div>
+														<div ng-bind="reply.user.profile_img_url"></div>
+														<tweet-profile-image user="reply.user" size="small"></tweet-profile-image>
+													</div>
+													<div class="col-md-10">
+														<div class="tweet-header">
+															<i class="fa fa-reply"></i>
+															<span class="user-tweet-name">{{reply.user.name}}</span>
+															<span class="user-tweet-screen-name">@{{reply.user.screen_name}}</span>
+															<span class="user-tweet-dot">&middot;</span>
+															<span class="user-tweet-creation-time">{{reply.created_ts | amDateFormat:'MMM Do YYYY  h:mm a' }}</span>
+															<span class="tweet-link"><a href="http://twitter.com/{{reply.user.screen_name}}/{{reply.id}}"><span class="fa fa-twitter"></span></a></span>
+														</div>
+
+														<div class="tweet-text">{{reply.text}}</div>
+													</div>
+												</div>
+											
+										</li>
+									</ul>
+								</div>
+							</div>	
+					</div>
+				</div>				
+
+
+		</div>
+	</div>

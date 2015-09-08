@@ -16,16 +16,17 @@
 	function emTweetDirective($compile) {
 		return {
 			restrict: 'E', 
-			scope: { tweet: '=', assignment: '='},
+			scope: { tweet: '=', assignment: '=', text: '=' },
 			transclude: true,
-			templateUrl: "/static/coding/html/tweet.normal.html"
+			template: '<ng-include src="getTemplateUrl()"/>',
+			controller: "TweetController as cntrl"
 		}
 	}
 
 	function emTweetTextDirective($compile) {
 		return {
 			restrict: 'EA', 
-			scope: { tweet: '=', assignment: '='},
+			scope: { tweet: '=', assignment: '=', text: '='},
 			transclude: true,
 			replace: true,
 			link: emTweetTextDirectiveLink
@@ -35,7 +36,7 @@
 
 		function emTweetTextDirectiveLink($scope, $elem, $attrs) {
 			var tweet = $scope.tweet,
-				html = tweet.text;
+				html = $scope.text;
 
 			$scope.unresolved_mentions = [];
 			$scope.unresolveld_urls = [];
@@ -44,49 +45,73 @@
 			//
 			// Mentions
 			//
-			for(var i=0; i < tweet.mentions.length; i++) {
-				var mention = tweet.mentions[i];
+			if( tweet.mentions ) {
+				for(var i=0; i < tweet.mentions.length; i++) {
+					var mention = tweet.mentions[i];
 
-				var mentionLink = '<tweet-mention assignment_id="' + $scope.assignment.id + '" screen_name="' + 
-				mention.screen_name + '" user_id="' + mention.id + '"></tweet-mention>';
+					var mentionLink = '<tweet-mention assignment_id="' + $scope.assignment.id + '" screen_name="' + 
+					mention.screen_name + '" user_id="' + mention.id + '"></tweet-mention>';
 
-				if(html.indexOf(mention.screen_name) >= 0) {
-					var mention_re = new RegExp('@' + mention.screen_name, "ig");
-					html = html.replace(mention_re, mentionLink);
-				} else {
-					$scope.unresolved_mentions.push(mention);
-				}
+					if(html.indexOf(mention.screen_name) >= 0) {
+						var mention_re = new RegExp('@' + mention.screen_name, "ig");
+						html = html.replace(mention_re, mentionLink);
+					} else {
+						$scope.unresolved_mentions.push(mention);
+					}
+				}				
 			}
-
 			//
 			// URLS
 			//
-			for(var i=0; i < tweet.url_set.length; i++) {
-				var url = tweet.url_set[i];
+			if( tweet.url_set ) {
+				for(var i=0; i < tweet.url_set.length; i++) {
+					var url = tweet.url_set[i];
 
-				var urlLink = '<tweet-url id="' + url.id + 
-					'" expanded_url="' + url.expanded_url + '" display_url="' + 
-					url.display_url + '" url="' + url.url + '" />';
+					var urlLink = '<tweet-url id="' + url.id + 
+						'" expanded_url="' + url.expanded_url + '" display_url="' + 
+						url.display_url + '" url="' + url.url + '" ></tweet-url>';
 
-					html = html.replace(url.url, urlLink);
+						html = html.replace(url.url, urlLink);
+				}
+
 			}
 
 			//
 			// Hashtags
 			//
-			for(var i=0; i < tweet.hashtag_set.length; i++) {
-				var ht = tweet.hashtag_set[i];
+			if( tweet.hashtag_set) {
+				for(var i=0; i < tweet.hashtag_set.length; i++) {
+					var ht = tweet.hashtag_set[i];
 
-				var htLink = '<tweet-hashtag ht-id="' + ht.id + '" ht-text="' + ht.text + '" />';
+					var htLink = '<tweet-hashtag ht-id="' + ht.id + '" ht-text="' + ht.text + '" ></tweet-hashtag>';
 
-				var hashtag_re = new RegExp('#' + ht.text, "ig");
-				html = html.replace(hashtag_re, htLink);
+					var hashtag_re = new RegExp('#' + ht.text, "ig");
+					html = html.replace(hashtag_re, htLink);
+				}
+
 			}
 
 			//
 			// Media
 			//
+			if( tweet.media_set) {
+				for(var i=0; i < tweet.media_set.length; i++) {
+					var media = tweet.media_set[i];
 
+					var mediaLink = '<tweet-media id="' + media.id + 
+						'" media_id="' + media.media_id + '" type= "' + media.type +
+						'"  expanded_url="' + media.expanded_url + '" display_url="' + 
+						media.display_url + '" media_url="' + media.media_url +
+						 '" ></tweet-media>';
+
+						var short_url = media.display_url.replace(
+							"pic.twitter.com/",
+							"http://t.co/"); 
+
+						html = html.replace(short_url, mediaLink);
+				}
+				
+			}
 
 			html = '<span class="tweet-text">' + html + '</span>';
 
@@ -148,7 +173,7 @@
 	function emTweetProfileImageDirective($compile) {
 		return {
 			restrict: 'E',
-			scope: { imgUrl: '@', size: '@'},
+			scope: { imgUrl: '=', size: '@', user: '='},
 			transclude: 'element',
 			replace: true,
 			template: '<div class="profile-image-url {{size}}"></div>',
@@ -157,9 +182,10 @@
 	}
 
 	function emTweetProfileImageLink($scope, $elem, $attrs) {
-		var url = $scope.imgUrl || "",
+		var url = $scope.user.profile_image_url || "",
 			size = $scope.size,
-			html = "";
+			html = "",
+			user = $scope.user;
 
 		if(size && size.length > 0) {
 			size = size.toLowerCase();

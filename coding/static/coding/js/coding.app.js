@@ -25,9 +25,10 @@
 
 
 				angular.extend(toastrConfig, {
-					timeOut: 30000,
+					timeOut: 5000,
 					tapToDismiss: true,
 					maxOpened: 6,
+					closeButton: true
 				});
 
 				// spinner

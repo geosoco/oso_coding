@@ -124,12 +124,14 @@ class SimpleTweetSerializer(serializers.ModelSerializer):
 
 class SimplifiedTweetSerializer(serializers.ModelSerializer):
     user = UserWithProfileSerializer(read_only=True)
+    replies = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = main_models.Tweet
         fields = (
             'id', 'created_ts', 'local_time', 'lang', 'text',
-            'geo_coordinates_0', 'geo_coordinates_1', 'user')
+            'geo_coordinates_0', 'geo_coordinates_1', 'user',
+            'retweet_count', 'favorite_count', 'replies')
 
 
 class TweetSerializer(serializers.ModelSerializer):

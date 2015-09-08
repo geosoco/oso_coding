@@ -52,6 +52,7 @@
 			self.tweets.$promise.then(function(data) {
 				console.log("got tweets...");
 				usSpinnerService.stop("tweet-list");
+
 				$scope.page_data = data;
 				self.tweets = data.results;
 				self.loading = false;

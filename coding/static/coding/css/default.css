@@ -4,21 +4,36 @@ html, body, #assignment-root-view { min-height: 100%; height: 100%;}
 ul.styleless { list-style: none; list-style-position: inside; padding-left: 0;}
 
 #page-body, #page-body .row { min-height: 100%; height: 100%;}
-#left-sidebar { background: #666; color: #eee; min-height: 100%; position: fixed;}
+#left-sidebar { background: #333; color: #eee; min-height: 100%; position: fixed;}
 
-.code-sidebar-link { min-height:60px; font-size: 12px;}
+.code-sidebar-link { min-height:60px; font-size: 12px; margin-bottom: 50px;}
 .code-sidebar-link a:link, .code-sidebar-link a:visited, .code-sidebar-link a { color: #eee; text-decoration: none; }
 .code-sidebar-link a:hover, .code-sidebar-link a:active { color: #fff; text-decoration: underline; }
 
+
+/* code list */
+.code-scheme-code-list { position: relative; }
+.code-scheme-code-list .code { font-size: 14px; line-height: 20px;}
+.code-scheme-code-list .code > div { padding-left: 10px ;}
+.code-scheme-code-list > .loading-container { position: absolute; top: 0; left: 0; z-index: -100; width: 100%;}
+
+.code-link, .code-link:link, .code-link:visited { color: #fff; text-decoration: none; }
+.code-link:hover, .code-link:active { color: #ccf; text-decoration: underline;}
+li.code.applied { font-weight: bold; background-color: #337ab7; }
+
+.code-item-container { position: relative; }
+li.code .code-delete { font-size: 18px; position: absolute; right: 8px; top: 0px; color: #fff;}
+
+.unfiltered-code-list { margin-top: 20px; }
 
 /* user tweet list */
 .user-tweet-list { list-style: none; list-style-position: inside; padding: 0;}
 .user-tweet-list > li { display: block; border-top: 1px solid #ccc; overflow: auto; }
 
-.code-link, .code-link:link, .code-link:visited { color: #fff; text-decoration: none; }
-.code-link:hover, .code-link:active { color: #ccf; text-decoration: underline;}
 
-.loading-container { position: relative; height: 50px;}
+
+
+.loading-container { position: relative; min-height: 50px;}
 
 .profile-bar-top { margin: 10px 0;}
 
@@ -44,7 +59,7 @@ ul.styleless { list-style: none; list-style-position: inside; padding-left: 0;}
 
 
 .icon-detail-list .list-icon { margin-right: 10px; }
-
+.icon-detail-list .list-text { font-size: 12px; color: #888;}
 .profile-details .list-icon { color: #888;}
 
 .profile-details-spacer { height: 20px; }
@@ -66,7 +81,7 @@ ul.styleless { list-style: none; list-style-position: inside; padding-left: 0;}
  * tweet specific
  *
  */ 
-.retweet-header {  padding: 10px 0 0 5px;}
+.retweet-header {  padding: 10px 0 0 5px; margin-bottom: 10px;}
 .retweet-icon { position: absolute; right: 0px; 
     background-color: #77b255;
     padding: 0 2px;
@@ -74,8 +89,25 @@ ul.styleless { list-style: none; list-style-position: inside; padding-left: 0;}
     color: #fff;
 }
 
+.tweet-header {
+	margin: 10px 0;
+}
 
-.tweet-profile-img-container { position: absolute; right: 0px;}
+.tweet-profile-img-container { position: absolute; right: 0px; min-height: 50px;}
 .user-tweet-name { font-weight: bold;}
-.user-tweet-screen-name, .user-tweet-dot, .user-tweet-creation-time { color: #ccc; }
+.user-tweet-screen-name, .user-tweet-dot, .user-tweet-creation-time { color: #aaa; }
 
+.tweet-media img { max-width: 100%;}
+.tweet-text-container { margin-bottom: 10px;}
+
+.tweet-extra-data { background-color: #eee; border-top: 1px solid #888; padding-bottom: 20px;}
+
+.tweet-modified-retweet-text { padding-left: 20px; }
+.tweet-modified-retweet-text blockquote { border: 1px solid #aaa; border-radius: 5px; padding: 10px; font-size: 14px;}
+
+.tweet-replies-container { background: #e8e8e8; border-top: 1px solid #aaa;}
+.tweet-replies { padding: 10px 0px 10px 32px; }
+
+.tweet-in-reply-to-tweet { background: #f0f0f0; }
+.tweet-profile-img-outer { position: relative; width: 80px; padding: 15px 10px 10px 17px; float: left; }
+.tweet-profile-img-outer .tweet-profile-img-container { position: relative; width: 48px; height: 60px; }
