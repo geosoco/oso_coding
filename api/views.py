@@ -133,7 +133,10 @@ class TweetViewSet(viewsets.ModelViewSet):
     """
     Viewset for Tweet
     """
-    queryset = main_models.Tweet.objects.all()
+    queryset = main_models.Tweet.objects.all().prefetch_related(
+        "retweeted_status", "user", "mentions", "media_set", 
+        "in_reply_to_user", "in_reply_to_status", "hashtag_set", 
+        "url_set")
     serializer_class = api_serializers.TweetSerializer
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
