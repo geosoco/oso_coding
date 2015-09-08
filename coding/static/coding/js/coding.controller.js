@@ -13,6 +13,9 @@
 
 		self.instances = [];
 
+
+		self._destroy = $scope.$on("$destroy", onDestroy);
+
 		init();
 
 		////////
@@ -26,6 +29,15 @@
 			$rootScope.assignment_id = $stateParams.assignment_id;
 		}
 
+
+
+		function onDestroy() {
+			
+
+
+			// remove handler
+			self._ondestroy();
+		}
 		
 	}
 

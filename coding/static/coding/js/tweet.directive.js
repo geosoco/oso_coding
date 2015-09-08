@@ -51,7 +51,8 @@
 				mention.screen_name + '" user_id="' + mention.id + '"></tweet-mention>';
 
 				if(html.indexOf(mention.screen_name) >= 0) {
-					html = html.replace('@' + mention.screen_name, mentionLink);
+					var mention_re = new RegExp('@' + mention.screen_name, "ig");
+					html = html.replace(mention_re, mentionLink);
 				} else {
 					$scope.unresolved_mentions.push(mention);
 				}
@@ -78,7 +79,8 @@
 
 				var htLink = '<tweet-hashtag ht-id="' + ht.id + '" ht-text="' + ht.text + '" />';
 
-				html = html.replace('#' + ht.text, htLink);
+				var hashtag_re = new RegExp('#' + ht.text, "ig");
+				html = html.replace(hashtag_re, htLink);
 			}
 
 			//
