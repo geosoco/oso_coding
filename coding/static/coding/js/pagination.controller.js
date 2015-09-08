@@ -80,13 +80,8 @@
 					self.first_page = 1;
 					self.last_page = Math.ceil(data.count / self.page_size);
 					
-					if(self.current_page + 1 < self.last_page) {
-						self.next_page = self.current_page + 1;
-					}
-
-					if(self.current_page - 1 >= 1 ) {
-						self.prev_page = self.current_page - 1;
-					}
+					self.next_page = Math.min( self.current_page + 1, self.last_page );
+					self.prev_page = Math.max( self.current_page - 1, 1 );
 				}
 			}
 
