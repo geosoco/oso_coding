@@ -51,7 +51,7 @@ li.code .code-delete { font-size: 18px; position: absolute; right: 8px; top: 0px
 
 .profile-banner { min-height: 300px; position: relative;}
 .profile-background, .profile-banner-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
-.profile-background { height: 100%; }
+.profile-background { height: 100%; background-size: cover; background-repeat: no-repeat; }
 .profile-banner-img {  background-size: contain; background-position: center; background-repeat: no-repeat;}
 
 .profile-stats-banner { height: 40px; margin: 10px 0;}
