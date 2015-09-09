@@ -44,11 +44,16 @@
 									<ul class="styleless">
 										<li ng-repeat="code in (cntrl.filteredItems = (cntrl.codes|filter:{ name: cntrl.codeName }))" class="code" ng-class="{applied: ( cntrl.isApplied(code.id) === true) }">
 											<div class="code-item-container">
-												<a href="" ng-click="cntrl.addCode(code.id);" class="code-link" title="Click to apply code">{{code.name}}</a>
+												<a href="" ng-click="cntrl.addCode(code.id);" class="code-link" title="Click to apply code">
+													<span class="code-key" ng-class="{missing: (!code.key)}">
+														<span>{{code.key}}</span>
+													</span>
+													<span class="code-name">{{code.name}}</span></a>
 												<div class="code-delete-container pull-right" ng-if="cntrl.isApplied(code.id)">
-													<a href="" ng-click="cntrl.deleteCodeById(code.id)" title="Click to remove '{{code.name}}' code"><span class="code-delete" ><span class="glyphicon glyphicon-remove-sign"></span></span></a>
+													<a href="" ng-click="cntrl.deleteCodeById(code.id)"  title="Click to remove '{{code.name}}' code"><span class="code-delete" ><span class="glyphicon glyphicon-remove-sign"></span></span></a>
 												</div>
 											</div>
+
 
 										</li>
 									</ul>

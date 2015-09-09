@@ -19,6 +19,7 @@ ul.styleless { list-style: none; list-style-position: inside; padding-left: 0;}
 
 .code-link, .code-link:link, .code-link:visited { color: #fff; text-decoration: none; }
 .code-link:hover, .code-link:active { color: #ccf; text-decoration: underline;}
+li.code { height: 24px; line-height: 24px;}
 li.code.applied { font-weight: bold; background-color: #337ab7; }
 
 .code-item-container { position: relative; }
@@ -30,7 +31,14 @@ li.code .code-delete { font-size: 18px; position: absolute; right: 8px; top: 0px
 .user-tweet-list { list-style: none; list-style-position: inside; padding: 0;}
 .user-tweet-list > li { display: block; border-top: 1px solid #ccc; overflow: auto; }
 
+.code .code-key { display: inline-block; background: #ddd; padding: 0px 6px; 
+	border: 1px solid #888; color: #333; font-weight: normal; margin-right: 5px;
+	border-radius: 5px;
+	-webkit-box-shadow: 0 2px 2px 1px rgba(0,0,0,0.3), 0 0 0 2px #fff inset;
+	box-shadow: 0 2px 2px 1px rgba(0,0,0,0.3), 0 0 0 2px #fff inset;
+}
 
+.code .code-key.missing { border: none; background: transparent; -webkit-box-shadow: none; box-shadow: none; width: 1.5em;}
 
 
 .loading-container { position: relative; min-height: 50px;}
