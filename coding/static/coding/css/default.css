@@ -13,7 +13,8 @@ ul.styleless { list-style: none; list-style-position: inside; padding-left: 0;}
 .code-sidebar-link a:link, .code-sidebar-link a:visited, .code-sidebar-link a { color: #eee; text-decoration: none; }
 .code-sidebar-link a:hover, .code-sidebar-link a:active { color: #fff; text-decoration: underline; }
 
-
+.assignment-next-user { text-align: right; }
+.assignment-status { text-align: center; }
 
 /* code list */
 .code-scheme-code-list { position: relative; }

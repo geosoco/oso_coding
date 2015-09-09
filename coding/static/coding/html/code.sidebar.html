@@ -5,11 +5,12 @@
 
 						<div class="assignment-nav-links" ng-controller="AssignmentNavigationController as anc">
 							<div class="row">
-								<div ng-if="anc.prev_user" class="col-md-6">
+								<div ng-if="anc.prev_user" class="col-md-3 assignment-previous-user">
 									<a ui-sref="code.user.tweets({'assignment_id': {{assignment_id}}, 'user_id': anc.prev_user, 'page': 1, 'list_type': 'tweets'})"><span class="glyphicon glyphicon-chevron-left"></span>Prev User</a>
 								</div>
+								<div class="col-md-6 assignment-status">{{anc.current_user_idx}} of {{anc.total_users}}</div>
 
-								<div ng-if="anc.next_user" class="col-md-6 pull-right">
+								<div ng-if="anc.next_user" class="col-md-3 pull-right assignment-next-user">
 									<a ui-sref="code.user.tweets({'assignment_id': {{assignment_id}}, 'user_id': anc.next_user, 'page': 1, 'list_type': 'tweets'})">Next User<span class="glyphicon glyphicon-chevron-right"></span></a>
 								</div>
 							</div>

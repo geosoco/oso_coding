@@ -14,6 +14,8 @@
 
 		self.next_user = null;
 		self.prev_user = null;
+		self.current_user_idx = null;
+		self.total_users = null;
 
 		self._watch = $rootScope.$watch("assignment", onAssignmentChanged);
 		self._destroy = $scope.$on("$destroy", onDestroy);
@@ -52,13 +54,17 @@
 			// reset values
 			self.next_user = null;
 			self.prev_user = null;
+			self.current_user_idx = null;
+			self.total_users = null;
 
 			// only if valid
 			if(data && data.assigned_users) {
-				var idx = findCurrentUserIndex(data.assigned_users);
+				self.current_user_idx = findCurrentUserIndex(data.assigned_users);
+				self.total_users = data.assigned_users.length;
 
-				self.next_user = getUserIdFromAssignmentList(data.assigned_users, idx + 1);
-				self.prev_user = getUserIdFromAssignmentList(data.assigned_users, idx - 1);
+
+				self.next_user = getUserIdFromAssignmentList(data.assigned_users, self.current_user_idx + 1);
+				self.prev_user = getUserIdFromAssignmentList(data.assigned_users, self.current_user_idx - 1);
 			}
 
 			console.log("prev assignment user: " + self.prev_user);
