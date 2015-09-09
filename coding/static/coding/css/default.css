@@ -6,9 +6,13 @@ ul.styleless { list-style: none; list-style-position: inside; padding-left: 0;}
 #page-body, #page-body .row { min-height: 100%; height: 100%;}
 #left-sidebar { background: #333; color: #eee; min-height: 100%; position: fixed;}
 
+
+.login-panel { margin-top: 100px;}
+
 .code-sidebar-link { min-height:60px; font-size: 12px; margin-bottom: 50px;}
 .code-sidebar-link a:link, .code-sidebar-link a:visited, .code-sidebar-link a { color: #eee; text-decoration: none; }
 .code-sidebar-link a:hover, .code-sidebar-link a:active { color: #fff; text-decoration: underline; }
+
 
 
 /* code list */
