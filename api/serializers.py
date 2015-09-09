@@ -74,8 +74,10 @@ class SubsetTagSerializer(serializers.ModelSerializer):
 
 
 class TweetMentionSerializer(serializers.ModelSerializer):
-    tweet = serializers.PrimaryKeyRelatedField(read_only=True)
-    user = serializers.PrimaryKeyRelatedField(read_only=True)
+    tweet = serializers.PrimaryKeyRelatedField(
+        pk_field=serializers.CharField(), read_only=True)
+    user = serializers.PrimaryKeyRelatedField(
+        pk_field=serializers.CharField(), read_only=True)
 
     class Meta:
         model = main_models.TweetMention
@@ -92,7 +94,6 @@ class TweetSnapshotSerializer(serializers.ModelSerializer):
     retweeted_status_id = serializers.CharField()
     in_reply_to_user = serializers.PrimaryKeyRelatedField(read_only=True)
     in_reply_to_status_id = serializers.CharField()
-
 
     class Meta:
         model = main_models.TweetSnapshot
@@ -137,7 +138,8 @@ class SimpleTweetSerializer(serializers.ModelSerializer):
 class SimplifiedTweetSerializer(serializers.ModelSerializer):
     id = serializers.CharField()
     user = UserWithProfileSerializer(read_only=True)
-    replies = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    replies = serializers.PrimaryKeyRelatedField(
+        pk_field=serializers.CharField(), many=True, read_only=True)
 
     class Meta:
         model = main_models.Tweet
@@ -154,11 +156,13 @@ class TweetSerializer(serializers.ModelSerializer):
     retweeted_status_user = UserSimpleSerializer(read_only=True)
     in_reply_to_status = SimplifiedTweetSerializer(read_only=True)
     in_reply_to_user = UserWithProfileSerializer(read_only=True)
-    retweet_source = serializers.PrimaryKeyRelatedField(read_only=True)
+    retweet_source = serializers.PrimaryKeyRelatedField(
+        pk_field=serializers.CharField(), read_only=True)
     mentions = UserSimpleSerializer(read_only=True, many=True)
-    source_snapshot = serializers.PrimaryKeyRelatedField(read_only=True)
-    url_set = UrlSerializer(many=True,read_only=True)
-    media_set = MediaSerializer(many=True,read_only=True)
+    source_snapshot = serializers.PrimaryKeyRelatedField(
+        pk_field=serializers.CharField(), read_only=True)
+    url_set = UrlSerializer(many=True, read_only=True)
+    media_set = MediaSerializer(many=True, read_only=True)
     replies = SimpleTweetSerializer(many=True, read_only=True)
     hashtag_set = HashtagSerializer(many=True, read_only=True)
 
@@ -180,12 +184,13 @@ class TweetSerializer(serializers.ModelSerializer):
             'retweeted_status_user_followers_count', 'source',
             'in_reply_to_screen_name', 'in_reply_to_status',
             'in_reply_to_user', 'local_time', 'retweet_source', 'mentions',
-            'source_snapshot', 'media_set', 'url_set', 'replies', 
+            'source_snapshot', 'media_set', 'url_set', 'replies',
             'hashtag_set',)
 
 
 class UserSerializer(serializers.ModelSerializer):
-    source_snapshot_id = serializers.PrimaryKeyRelatedField(read_only=True)
+    source_snapshot_id = serializers.PrimaryKeyRelatedField(
+        pk_field=serializers.CharField(), read_only=True)
 
     class Meta:
         model = main_models.User
@@ -204,11 +209,11 @@ class UserSerializer(serializers.ModelSerializer):
             'source_snapshot_id')
 
 
-
 class WebpageSerializer(serializers.ModelSerializer):
     class Meta:
         model = main_models.Webpage
         fields = ('id', 'url', 'title')
+
 
 class CodeSerializer(serializers.ModelSerializer):
     scheme = serializers.PrimaryKeyRelatedField(
@@ -221,6 +226,7 @@ class CodeSerializer(serializers.ModelSerializer):
             'scheme', 'name', 'description', 'css_class', 'key'
             )
 
+
 class CodeSchemeSerializer(serializers.ModelSerializer):
     code_set = CodeSerializer(many=True, read_only=True)
 
@@ -230,7 +236,7 @@ class CodeSchemeSerializer(serializers.ModelSerializer):
             'id', 'created_by', 'created_date', 'deleted_by', 'deleted_date',
             'name', 'description', 'mutually_exclusive', 'code_set'
             )
-        #read_only_fields = ('codes')
+        # read_only_fields = ('codes')
 
 
 class TweetCodeInstanceSerializer(serializers.ModelSerializer):
@@ -238,6 +244,7 @@ class TweetCodeInstanceSerializer(serializers.ModelSerializer):
         queryset=coding_models.Code.objects.all(), many=False,
         style={'base_template': 'input.html'})
     tweet = serializers.PrimaryKeyRelatedField(
+        pk_field=serializers.CharField(),
         queryset=main_models.Tweet.objects.all(), many=False,
         style={'base_template': 'input.html'})
     assignment = serializers.PrimaryKeyRelatedField(
@@ -271,6 +278,7 @@ class UserCodeInstanceSerializer(serializers.ModelSerializer):
             'code', 'user', 'assignment', 'code_obj'
             )
 
+
 class SimpleUserCodeInstanceSerializer(serializers.ModelSerializer):
     code = serializers.PrimaryKeyRelatedField(
         queryset=coding_models.Code.objects.filter(
@@ -288,6 +296,7 @@ class UserSimpleWithCodesSerializer(serializers.ModelSerializer):
     usercodeinstance_set = SimpleUserCodeInstanceSerializer(
         many=True,
         read_only=True)
+
     class Meta:
         model = main_models.User
         fields = ('id', 'screen_name', 'usercodeinstance_set')
