@@ -5,11 +5,11 @@
 		.module("coding.app")
 		.controller("CodeListController", CodeListController);
 
-	CodeListController.$inject = ['$rootScope', '$scope', '$stateParams',  '$q', 'CodeScheme', 
+	CodeListController.$inject = ['$rootScope', '$window', '$document', '$scope', '$stateParams',  '$q', 'CodeScheme', 
 		'UserCodeInstance', 'usSpinnerService', 'toastr'];
 
 
-	function CodeListController($rootScope, $scope, $stateParams, $q, CodeScheme, 
+	function CodeListController($rootScope, $window, $document, $scope, $stateParams, $q, CodeScheme, 
 		UserCodeInstance, usSpinnerService, toastr) {
 			var self = this;
 
@@ -21,25 +21,32 @@
 
 			self.instance_map = {};
 
+			self.key_map = {};
+
+			self._onDestroy = $scope.$on("$destroy", onDestroy);
+			$document.on("keydown", onKeyDown);
+
 			init();
 
 			////////
 
 			function updateInstances() {
+				console.log("------------------------")
+				console.log("requesting instances....");
 				self.loading = true;
 				usSpinnerService.spin("code-instance-list");
 
+				// request instances
 				$rootScope.user_instances = UserCodeInstance.query({
 					created_by: "current",
 					assignment: $stateParams.assignment_id,
 					user: $stateParams.user_id
 				});
 
+				// handle promise
 				$rootScope.user_instances.$promise.then(function(data){
 					console.log("got instances");
 					console.dir(data);
-					self.loading = false;
-					usSpinnerService.stop("code-instance-list");
 					
 
 					self.instance_map = {}
@@ -49,7 +56,12 @@
 						self.instance_map[ci.code] = ci;
 					}
 
+					self.loading = false;
+					usSpinnerService.stop("code-instance-list");
+
 					
+				}, function(error) {
+					toastr.error("Try refreshing the page.", "Could not load code instances.");
 				})
 
 			}
@@ -64,12 +76,17 @@
 							self.codeScheme = scheme;
 							self.codes = scheme.code_set;
 
+							updateKeyMap();
+
 							usSpinnerService.stop("code-list");
 
 							updateInstances();
 						}
-					});
+					},function(error) {
+						toastr.error("Try refreshing the page.", "Could not load code scheme.");
+				});
 
+					/*
 					if($rootScope.coding_user !== undefined && $rootScope.coding_user.$promise != undefined ) {
 						$q.all($rootScope.assignment.$promise, $rootScope.coding_user.$promise).then(updateInstances);	
 					} else {
@@ -81,6 +98,7 @@
 						});	
 
 					}
+					*/
 
 					
 					//$rootScope.$watch("assignment", updateInstances);
@@ -91,6 +109,25 @@
 
 
 			}
+
+
+			function onDestroy(event) {
+				console.log("<><><> unbinding handlers ...");
+				self._onDestroy();
+				//self._onKeyDown();
+				$document.off("keydown", onKeyDown);
+			}
+
+
+			function onKeyDown(event) {
+				//console.log("keydown: " + event.keyCode);
+				//console.dir(event);
+				var key = String.fromCharCode(event.keyCode);
+				if(key in self.key_map) {
+					self.toggleCode(self.key_map[key]);
+				}
+			}
+
 
 			function getCodeId(codeName) {
 				for(var i = 0; i < self.codes.length; i++) {
@@ -132,6 +169,8 @@
 						code: id});
 					codeInstance.$save().then(function(data){
 						updateInstances();
+					}, function(error) {
+						toastr.error("<div>Try refreshing the page.</div><pre>raw data: " + JSON.stringify(error) + "</pre>", "Failed to delete code", {timeOut: 0, allowHtml: true, extendedTimeOut: 0});
 					});
 				}
 
@@ -160,6 +199,8 @@
 				console.dir(instance);
 				var ret = instance.$delete({id: old_instance.id}).then(function(data){
 					updateInstances();	
+				}, function(error) {
+					toastr.error("<div>Try refreshing the page.</div><pre>raw data: " + JSON.stringify(error) + "</pre>", "Failed to delete code", {timeOut: 0, allowHtml: true, extendedTimeOut: 0});
 				});
 			}
 
@@ -178,6 +219,25 @@
 
 				//console.log("isApplied(" + code_id + ") = " + ret);
 				//return ret;
+			}
+
+
+			function updateKeyMap() {
+				for(var i = 0; i < self.codes.length; i++) {
+					var code = self.codes[i],
+						codekey = code.key;
+
+					self.key_map[codekey] = code.id;
+				}
+			}
+
+
+			self.toggleCode = function(code_id) {
+				if(self.isApplied(code_id)){
+					self.deleteCodeById(code_id);
+				} else {
+					self.addCode(code_id);
+				}
 			}
 
 

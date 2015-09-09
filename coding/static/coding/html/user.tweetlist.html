@@ -23,6 +23,9 @@
 									</div>
 									<div ng-if="!tweetlist.loading">
 										<ul class="styleless user-tweet-list col-md-12">
+											<li ng-if="tweetlist.tweets.length === 0">
+												<div class="empty-tweet-list">No tweets</div>
+											</li>
 											<li ng-repeat="tweet in tweetlist.tweets">
 												<emTweet tweet="tweet" assignment="assignment"></emTweet>
 											</li>

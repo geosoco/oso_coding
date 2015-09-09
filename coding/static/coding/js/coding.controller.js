@@ -5,10 +5,10 @@
 		.module("coding.app")
 		.controller("CodingController", CodingController);
 
-	CodingController.$inject = ['$rootScope', '$scope', '$location', '$document', '$stateParams', 'Assignment', 'CodeScheme'];
+	CodingController.$inject = ['$rootScope', '$scope', '$location', '$window', '$document', '$stateParams', 'Assignment', 'CodeScheme'];
 
 
-	function CodingController($rootScope, $scope, $location, $document, $stateParams, Assignment, CodeScheme) {
+	function CodingController($rootScope, $scope, $location, $window, $document, $stateParams, Assignment, CodeScheme) {
 		var self = this;
 
 		self.instances = [];
@@ -17,6 +17,9 @@
 		self._destroy = $scope.$on("$destroy", onDestroy);
 
 		init();
+
+
+
 
 		////////
 
@@ -38,6 +41,8 @@
 			// remove handler
 			self._ondestroy();
 		}
+
+
 		
 	}
 

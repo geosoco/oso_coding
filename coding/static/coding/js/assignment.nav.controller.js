@@ -5,18 +5,20 @@
 		.module("coding.app")
 		.controller("AssignmentNavigationController", AssignmentNavigationController);
 
-	AssignmentNavigationController.$inject = ['$rootScope', '$scope', '$state', 'usSpinnerService' ];
+	AssignmentNavigationController.$inject = ['$rootScope', '$document', '$scope', '$state', 'usSpinnerService', 'toastr' ];
 
 
 
-	function AssignmentNavigationController($rootScope, $scope, $state, uiSpinnerService) {
+	function AssignmentNavigationController($rootScope, $document, $scope, $state, uiSpinnerService, toastr) {
 		var self = this;
 
 		self.next_user = null;
 		self.prev_user = null;
 
 		self._watch = $rootScope.$watch("assignment", onAssignmentChanged);
-		self._destroy = $rootScope.$on("$destroy", onDestroy);
+		self._destroy = $scope.$on("$destroy", onDestroy);
+
+		$document.on("keypress", onKeyDown);
 
 
 		if($rootScope.assignment) {
@@ -82,6 +84,51 @@
 			// remove watch handlers
 			self._watch();
 			self._destroy();
+
+			$document.off("keypress", onKeyDown);
+		}
+
+		self.navigateToUser = function(user_id) {
+			//console.log("navigating to user: " + user_id)
+			$state.go("code.user.tweets", {
+				assignment: $state.params.assignment_id,
+				user_id: user_id,
+				page: 1,
+				list_type: "tweets"
+			}, {location: true});
+		}
+
+		self.navigateNextUser = function() {
+			if(self.next_user !== null) {
+				self.navigateToUser(self.next_user);
+			} else {
+				toastr.info("This is the last profile", "end of the road");
+			}
+		}
+
+		self.navigatePreviousUser = function() {
+			if(self.prev_user !== null) {
+				self.navigateToUser(self.prev_user);
+			} else {
+				toastr.info("This is the first profile. Try the next one.", "end of the road");
+			}
+		}
+
+		function onKeyDown(event) {
+			var key = String.fromCharCode(event.keyCode);
+
+			//console.log("keydown! : " + event.keyCode);
+			//console.dir(event);
+			switch(event.keyCode) {
+				case 91: 
+					// go back
+					self.navigatePreviousUser();
+					break;
+				case 93:
+					// go forward
+					self.navigateNextUser();
+					break;
+			}
 		}
 	}
 
