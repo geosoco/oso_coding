@@ -56,6 +56,10 @@ class HashtagSerializer(serializers.ModelSerializer):
 
 
 class MediaSerializer(serializers.ModelSerializer):
+    id = serializers.CharField()
+    media_id = serializers.CharField()
+    source_status_id = serializers.CharField()
+
     class Meta:
         model = main_models.Media
         fields = (
