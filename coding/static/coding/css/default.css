@@ -63,7 +63,7 @@ li.code .code-delete { font-size: 18px; position: absolute; right: 8px; top: 0px
 .profile-img-container.large { width: 200px; height: 200px; margin-top: -150px; }
 .profile-image-url.large { overflow: hidden; border: 2px solid #fff;}
 .profile-img-container.large, .profile-image-url.large { border-radius: 10px; }
-.profile-img-container.small, .profile-image-url.small { border-radius: 5px; }
+.profile-img-container.small, .profile-image-url.small { border-radius: 5px; margin: 10px 0; }
 .profile-image-url > img { max-width: 194px; max-height: 194px; }
 .profile-name { font-size: 28px; }
 .profile-screen-name { color: #888; }
