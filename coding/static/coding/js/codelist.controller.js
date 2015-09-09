@@ -123,8 +123,11 @@
 				//console.log("keydown: " + event.keyCode);
 				//console.dir(event);
 				var key = String.fromCharCode(event.keyCode);
-				if(key in self.key_map) {
-					self.toggleCode(self.key_map[key]);
+				if(!event.ctrlKey && !event.altKey && !event.metaKey) {
+
+					if(key in self.key_map) {
+						self.toggleCode(self.key_map[key]);
+					}
 				}
 			}
 
