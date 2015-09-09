@@ -5,7 +5,7 @@
 					<div class="col-md-2">
 						<div class="retweet-icon"><span class="glyphicon glyphicon-retweet"></span></div>
 					</div>
-					<div class="col-md-8">
+					<div class="col-md-10">
 						<span class="user-tweet-name">{{tweet.user.name}}</span> retweeted: 
 						<span class="user-tweet-dot">&middot;</span>
 						<span class="user-tweet-creation-time">{{tweet.created_ts | amDateFormat:'MMM Do YYYY  h:mm a' }}</span>
@@ -19,7 +19,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-8">
+					<div class="col-md-10">
 						<div class="tweet-header">
 							<span ng-if="tweet.retweeted_status.in_reply_to_status"><i class="fa fa-reply"></i></span>
 							<span class="user-tweet-name">{{tweet.retweeted_status.user.name}}</span>
@@ -38,7 +38,7 @@
 				</div>
 
 				<div class="row">
-					<div class="col-md-8 col-md-offset-2">
+					<div class="col-md-10 col-md-offset-2">
 
 						<!-- media -->
 						<div class="container-fluid">
@@ -85,7 +85,7 @@
 
 				<!-- extra metadata -->
 				<div class="row tweet-extra-data" ng-if="cntrl.showDetails">
-					<div class="col-md-8 col-md-offset-2">
+					<div class="col-md-10 col-md-offset-2">
 						<ul class="styleless">
 							<li><em>id</em>: {{tweet.id}}</li>
 							<li><em>in reply to id</em>: {{tweet.in_reply_to_status.id}}</li>
@@ -106,10 +106,10 @@
 
 				<!-- extra metadata -->
 				<div class="row tweet-extra-data"  ng-if="cntrl.showDetails">
-					<div class="col-md-8 col-md-offset-2">
+					<div class="col-md-10 col-md-offset-2">
 						<div class="container-fluid">
 							<div class="row">
-								<div class="col-md-8" ng-if="tweet.mentions.length > 0">
+								<div class="col-md-10" ng-if="tweet.mentions.length > 0">
 									<div class="tweet-mentions">
 										<h4>Mentions</h4>
 										<ul class="styleless">
@@ -136,7 +136,7 @@
 
 				<!-- replies -->
 				<div class="row tweet-replies-container" ng-if="tweet.replies.length > 0">
-					<div class="col-md-8 col-md-offset-1">
+					<div class="col-md-10 col-md-offset-1">
 
 							<div class="row">
 								<div class="tweet-replies col-md-12">
