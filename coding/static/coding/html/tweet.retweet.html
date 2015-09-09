@@ -9,6 +9,7 @@
 						<span class="user-tweet-name">{{tweet.user.name}}</span> retweeted: 
 						<span class="user-tweet-dot">&middot;</span>
 						<span class="user-tweet-creation-time">{{tweet.created_ts | amDateFormat:'MMM Do YYYY  h:mm a' }}</span>
+ 						<span class="tweet-link"><a href="http://twitter.com/{{tweet.user.screen_name}}/status/{{tweet.id}}" target="_blank"><span class="fa fa-twitter"></span></a></span>
 					</div>
 				</div>
 				<div class="retweet-tweet row">
@@ -26,6 +27,7 @@
 							<span class="user-tweet-screen-name">@{{tweet.retweeted_status.user.screen_name}}</span>
 							<span class="user-tweet-dot">&middot;</span>
 							<span class="user-tweet-creation-time">{{tweet.retweeted_status.created_ts | amDateFormat:'MMM Do YYYY  h:mm a' }}</span>
+ 							<span class="tweet-link"><a href="http://twitter.com/{{tweet.retweeted_status.user.screen_name}}/status/{{tweet.retweeted_status.id}}" target="_blank"><span class="fa fa-twitter"></span></a></span>
 						</div>
 						<div class="tweet-text-container">
 							<emtweet-text tweet="tweet" assignment="assignment" text="tweet.retweeted_status.text">{{tweet.retweeted_status.text}}</emtweet-text>
@@ -157,7 +159,7 @@
 															<span class="user-tweet-screen-name">@{{reply.user.screen_name}}</span>
 															<span class="user-tweet-dot">&middot;</span>
 															<span class="user-tweet-creation-time">{{reply.created_ts | amDateFormat:'MMM Do YYYY  h:mm a' }}</span>
-															<span class="tweet-link"><a href="http://twitter.com/{{reply.user.screen_name}}/{{reply.id}}"><span class="fa fa-twitter"></span></a></span>
+															<span class="tweet-link"><a href="http://twitter.com/{{reply.user.screen_name}}/status/{{reply.id}}" target="_blank"><span class="fa fa-twitter"></span></a></span>
 														</div>
 
 														<div class="tweet-text">{{reply.text}}</div>

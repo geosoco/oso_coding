@@ -79,9 +79,16 @@ class TweetMentionSerializer(serializers.ModelSerializer):
 
 
 class TweetSnapshotSerializer(serializers.ModelSerializer):
+    id = serializers.CharField()
+    snapshot_tweet_id = serializers.CharField()
+    retweet_source_id = serializers.CharField()
+    tweet_id = serializers.CharField()
     user = serializers.PrimaryKeyRelatedField(read_only=True)
     retweeted_status_user = serializers.PrimaryKeyRelatedField(read_only=True)
+    retweeted_status_id = serializers.CharField()
     in_reply_to_user = serializers.PrimaryKeyRelatedField(read_only=True)
+    in_reply_to_status_id = serializers.CharField()
+
 
     class Meta:
         model = main_models.TweetSnapshot
@@ -115,6 +122,7 @@ class TweetSnapshotSerializer(serializers.ModelSerializer):
 
 
 class SimpleTweetSerializer(serializers.ModelSerializer):
+    id = serializers.CharField()
     user = UserWithProfileSerializer(read_only=True)
 
     class Meta:
@@ -123,6 +131,7 @@ class SimpleTweetSerializer(serializers.ModelSerializer):
 
 
 class SimplifiedTweetSerializer(serializers.ModelSerializer):
+    id = serializers.CharField()
     user = UserWithProfileSerializer(read_only=True)
     replies = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
@@ -135,6 +144,7 @@ class SimplifiedTweetSerializer(serializers.ModelSerializer):
 
 
 class TweetSerializer(serializers.ModelSerializer):
+    id = serializers.CharField()
     user = UserWithProfileSerializer(read_only=True)
     retweeted_status = SimplifiedTweetSerializer(read_only=True)
     retweeted_status_user = UserSimpleSerializer(read_only=True)

@@ -13,7 +13,7 @@
 							<span class="user-tweet-screen-name">@{{tweet.in_reply_to_status.user_screen_name}}</span>
 							<span class="user-tweet-dot">&middot;</span>
 							<span class="user-tweet-creation-time">{{tweet.in_reply_to_status.created_ts | amDateFormat:'MMM Do YYYY  h:mm a' }}</span>
-							<span class="tweet-link"><a href="http://twitter.com/{{tweet.in_reply_to_status.user.screen_name}}/{{tweet.in_reply_to_status.id}}"><span class="fa fa-twitter"></span></a></span>
+							<span class="tweet-link"><a href="http://twitter.com/{{tweet.in_reply_to_status.user.screen_name}}/status/{{tweet.in_reply_to_status.id}}" target="_blank"><span class="fa fa-twitter"></span></a></span>
 						</div>
 						
 						<div class="tweet-text-container">
@@ -41,7 +41,7 @@
 								<span class="user-tweet-screen-name">@{{tweet.user_screen_name}}</span>
 								<span class="user-tweet-dot">&middot;</span>
 								<span class="user-tweet-creation-time">{{tweet.created_ts | amDateFormat:'MMM Do YYYY  h:mm a' }}</span>
-								<span class="tweet-link"><a href="http://twitter.com/{{tweet.user.screen_name}}/{{tweet.id}}"><span class="fa fa-twitter"></span></a></span>
+								<span class="tweet-link"><a href="http://twitter.com/{{tweet.user.screen_name}}/status/{{tweet.id}}" target="_blank"><span class="fa fa-twitter"></span></a></span>
 							</div>
 						
 							<div class="tweet-text-container">
@@ -166,7 +166,7 @@
 															<span class="user-tweet-screen-name">@{{reply.user.screen_name}}</span>
 															<span class="user-tweet-dot">&middot;</span>
 															<span class="user-tweet-creation-time">{{reply.created_ts | amDateFormat:'MMM Do YYYY  h:mm a' }}</span>
-															<span class="tweet-link"><a href="http://twitter.com/{{reply.user.screen_name}}/{{reply.id}}"><span class="fa fa-twitter"></span></a></span>
+															<span class="tweet-link"><a href="http://twitter.com/{{reply.user.screen_name}}/twitter/{{reply.id}}" target="_blank"><span class="fa fa-twitter"></span></a></span>
 														</div>
 
 														<div class="tweet-text">{{reply.text}}</div>
