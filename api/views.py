@@ -24,7 +24,8 @@ class DjangoUserViewSet(viewsets.ModelViewSet):
     filter_fields = ("id", )
 
     def get_queryset(self):
-        if self.request.query_params.get("pk", None) == "current":
+        current_user = self.request.query_params.get("current_user", None)
+        if current_user is not None and current_user.lower() == "True":
             user = self.request.user
             return User.objects.filter(pk=user.id)
         else:
@@ -222,8 +223,8 @@ class TweetCodeInstanceViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
 
     def get_queryset(self):
-        pk = self.request.query_params.get("created_by", None)
-        if pk == "current":
+        current_user = self.request.query_params.get("current_user", None)
+        if current_user is not None and current_user.lower() == "true":
             user = self.request.user
             return coding_models.TweetCodeInstance.objects.filter(
                 created_by=user.id)
@@ -245,8 +246,8 @@ class UserCodeInstanceViewSet(viewsets.ModelViewSet):
         "created_by",)
 
     def get_queryset(self):
-        pk = self.request.query_params.get("created_by", None)
-        if pk == "current":
+        current_user = self.request.query_params.get("current_user", None)
+        if current_user is not None and current_user.lower() == "true":
             user = self.request.user
             filtered = coding_models.UserCodeInstance.objects.filter(
                 created_by=user.id, deleted_date=None)
@@ -292,8 +293,8 @@ class AssignmentViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
 
     def get_queryset(self):
-        pk = self.request.query_params.get("coder", None)
-        if pk == "current":
+        current_user = self.request.query_params.get("current_user", None)
+        if current_user is not None and current_user.lower() == "true":
             user = self.request.user
             qs = coding_models.Assignment.objects.filter(coder=user.id)
             qs = qs.prefetch_related(
@@ -306,3 +307,5 @@ class AssignmentViewSet(viewsets.ModelViewSet):
                 Prefetch("assigned_users__usercodeinstance_set"))
 
         return qs
+
+

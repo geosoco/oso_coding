@@ -115,7 +115,7 @@
 				})
 
 
-			var user = SysUser.get({'pk': "current"}).$promise.then(function(data){
+			var user = SysUser.get({'current_user': "True"}).$promise.then(function(data){
 				console.log("got user")
 				console.dir(data);
 				if(data.results && data.results.length == 1) {

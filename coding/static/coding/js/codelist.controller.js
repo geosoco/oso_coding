@@ -38,7 +38,7 @@
 
 				// request instances
 				$rootScope.user_instances = UserCodeInstance.query({
-					created_by: "current",
+					current_user: "True",
 					assignment: $stateParams.assignment_id,
 					user: $stateParams.user_id
 				});

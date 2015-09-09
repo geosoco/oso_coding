@@ -4,14 +4,14 @@
 	<h2>Uncoded Users</h2>
 	<h4>{{assignment.uncoded.length}}</h4>
 	<ul>
-		<li ng-repeat="user in (assignment.uncoded = (assignment.assignment.assigned_users | filter: assignment.filterHasCodes))"> 
-			<a ui-sref="code.user.tweets({'assignment_id': assignment.assignment.id, 'user_id': user.id})">{{user.screen_name}} <span ng-if="user.usercodeinstance_set.length > 0">({{user.usercodeinstance_set.length}}) - </span></a>
+		<li ng-repeat="user in (assignment.uncoded = (assignment.assigned_users | filter: assignment.filterHasCodes))"> 
+			<a ui-sref="code.user.tweets({'assignment_id': assignment.assignment.id, 'user_id': user.id})">{{user.screen_name}} <span ng-if="user.codes.length > 0">({{user.codes.length}}) - </span></a>
 		</li>
 	</ul>
 	<h2>Coded Users</h2>
 	<ul>
-		<li ng-repeat="user in assignment.assignment.assigned_users | filter: assignment.filterHasNoCodes"> 
-			<a ui-sref="code.user.tweets({'assignment_id': assignment.assignment.id, 'user_id': user.id})">{{user.screen_name}} <span ng-if="user.usercodeinstance_set.length > 0">({{user.usercodeinstance_set.length}}) - </span></a>
+		<li ng-repeat="user in assignment.assigned_users | filter: assignment.filterHasNoCodes"> 
+			<a ui-sref="code.user.tweets({'assignment_id': assignment.assignment.id, 'user_id': user.id})">{{user.screen_name}} <span ng-if="user.codes.length > 0">({{user.codes.length}}) - </span></a>
 		</li>
 	</ul>
 

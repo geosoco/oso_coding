@@ -305,7 +305,7 @@ class UserSimpleWithCodesSerializer(serializers.ModelSerializer):
 class AssignmentSerializer(serializers.ModelSerializer):
     coder = serializers.PrimaryKeyRelatedField(
         queryset=User.objects.all(), many=False)
-    assigned_users = UserSimpleWithCodesSerializer(
+    assigned_users = UserSimpleSerializer(
         many=True,
         style={'base_template': 'input.html'})
     assigned_tweets = TweetSerializer(
