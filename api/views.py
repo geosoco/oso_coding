@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User, Group
 from django.utils import timezone
 from django.db.models import Prefetch
-import django_filters
 from rest_framework import filters, viewsets
 from rest_framework.authentication import (
     SessionAuthentication, BasicAuthentication, TokenAuthentication)
@@ -16,7 +15,7 @@ class DjangoUserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    
+
     serializer_class = api_serializers.DjangoUserSerializer
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
@@ -24,13 +23,13 @@ class DjangoUserViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ("id", )
 
-
     def get_queryset(self):
         if self.request.query_params.get("pk", None) == "current":
             user = self.request.user
             return User.objects.filter(pk=user.id)
         else:
             return User.objects.all()
+
 
 
 class DjangoGroupViewSet(viewsets.ModelViewSet):
@@ -58,7 +57,6 @@ class AccountTypeViewSet(viewsets.ModelViewSet):
 
 
 
-
 class HashtagViewSet(viewsets.ModelViewSet):
     """
     Viewset for Hashtag
@@ -72,7 +70,6 @@ class HashtagViewSet(viewsets.ModelViewSet):
 
 
 
-
 class MediaViewSet(viewsets.ModelViewSet):
     """
     Viewset for Media
@@ -83,7 +80,6 @@ class MediaViewSet(viewsets.ModelViewSet):
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
     filter_backends = (filters.DjangoFilterBackend,)
-
 
 
 
@@ -134,8 +130,8 @@ class TweetViewSet(viewsets.ModelViewSet):
     Viewset for Tweet
     """
     queryset = main_models.Tweet.objects.all().prefetch_related(
-        "retweeted_status", "user", "mentions", "media_set", 
-        "in_reply_to_user", "in_reply_to_status", "hashtag_set", 
+        "retweeted_status", "user", "mentions", "media_set",
+        "in_reply_to_user", "in_reply_to_status", "hashtag_set",
         "url_set")
     serializer_class = api_serializers.TweetSerializer
     authentication_classes = (SessionAuthentication,
@@ -229,7 +225,8 @@ class TweetCodeInstanceViewSet(viewsets.ModelViewSet):
         pk = self.request.query_params.get("created_by", None)
         if pk == "current":
             user = self.request.user
-            return coding_models.TweetCodeInstance.objects.filter(created_by=user.id)
+            return coding_models.TweetCodeInstance.objects.filter(
+                created_by=user.id)
         else:
             return coding_models.TweetCodeInstance.objects.all()
 
@@ -243,21 +240,26 @@ class UserCodeInstanceViewSet(viewsets.ModelViewSet):
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ("code", "assignment", "user", "deleted_date")
+    filter_fields = (
+        "code", "assignment", "user", "deleted_date", "deleted_by",
+        "created_by",)
 
     def get_queryset(self):
         pk = self.request.query_params.get("created_by", None)
         if pk == "current":
             user = self.request.user
-            filtered = coding_models.UserCodeInstance.objects.filter(created_by=user.id, deleted_date=None)
+            filtered = coding_models.UserCodeInstance.objects.filter(
+                created_by=user.id, deleted_date=None)
             print filtered.count()
             return filtered
         else:
-            return coding_models.UserCodeInstance.objects.filter(deleted_date=None)
+            return coding_models.UserCodeInstance.objects.filter(
+                deleted_date=None)
 
     def create(self, request, *args, **kwargs):
         request.data["created_by"] = request.user.id
-        return super(UserCodeInstanceViewSet, self).create(request, *args, **kwargs)
+        return super(UserCodeInstanceViewSet, self).create(
+            request, *args, **kwargs)
 
     def perform_destroy(self, instance):
         print "performing delete..."

@@ -14,7 +14,7 @@
 		self.instances = [];
 
 
-		self._destroy = $scope.$on("$destroy", onDestroy);
+		self._ondestroy = $scope.$on("$destroy", onDestroy);
 
 		init();
 
