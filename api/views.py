@@ -25,7 +25,7 @@ class DjangoUserViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         current_user = self.request.query_params.get("current_user", None)
-        if current_user is not None and current_user.lower() == "True":
+        if current_user is not None and current_user.lower() == "true":
             user = self.request.user
             return User.objects.filter(pk=user.id)
         else:
@@ -285,7 +285,6 @@ class AssignmentViewSet(viewsets.ModelViewSet):
     """
     Viewset for assignment
     """
-    #queryset = coding_models.Assignment.objects.all()
     serializer_class = api_serializers.AssignmentSerializer
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
@@ -297,14 +296,10 @@ class AssignmentViewSet(viewsets.ModelViewSet):
         if current_user is not None and current_user.lower() == "true":
             user = self.request.user
             qs = coding_models.Assignment.objects.filter(coder=user.id)
-            qs = qs.prefetch_related(
-                Prefetch(
-                    "assigned_users__usercodeinstance_set",
-                    queryset=coding_models.UserCodeInstance.objects.filter(
-                        created_by=self.request.user, deleted_date=None)))
+            qs = qs.prefetch_related("assigned_users")
         else:
             qs = coding_models.Assignment.objects.all().prefetch_related(
-                Prefetch("assigned_users__usercodeinstance_set"))
+                "assigned_users")
 
         return qs
 
