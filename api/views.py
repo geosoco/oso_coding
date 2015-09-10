@@ -236,7 +236,7 @@ class UserCodeInstanceViewSet(viewsets.ModelViewSet):
     """
     Viewset for User code instance
     """
-    serializer_class = api_serializers.UserCodeInstanceSerializer
+    serializer_class = api_serializers.SimpleUserCodeInstanceSerializer
     authentication_classes = (SessionAuthentication,
                               BasicAuthentication, TokenAuthentication)
     permission_classes = (IsAuthenticated,)
@@ -249,13 +249,18 @@ class UserCodeInstanceViewSet(viewsets.ModelViewSet):
         current_user = self.request.query_params.get("current_user", None)
         if current_user is not None and current_user.lower() == "true":
             user = self.request.user
-            filtered = coding_models.UserCodeInstance.objects.filter(
+            filtered = coding_models.UserCodeInstance.objects.select_related(
+                "code").filter(
                 created_by=user.id, deleted_date=None)
-            print filtered.count()
+            #print filtered.count()
             return filtered
         else:
-            return coding_models.UserCodeInstance.objects.filter(
+            filtered = coding_models.UserCodeInstance.objects.select_related(
+                "code").filter(
                 deleted_date=None)
+
+        return filtered
+        
 
     def create(self, request, *args, **kwargs):
         request.data["created_by"] = request.user.id

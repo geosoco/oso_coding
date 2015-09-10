@@ -280,16 +280,23 @@ class UserCodeInstanceSerializer(serializers.ModelSerializer):
 
 
 class SimpleUserCodeInstanceSerializer(serializers.ModelSerializer):
+    code_name = serializers.CharField(source='code.name', read_only=True)
     code = serializers.PrimaryKeyRelatedField(
-        queryset=coding_models.Code.objects.filter(
-            deleted_date__isnull=False),
+        queryset=coding_models.Code.objects.all(),
         many=False,
+        style={'base_template': 'input.html'})
+    user = serializers.PrimaryKeyRelatedField(
+        queryset=main_models.User.objects.all(), many=False,
+        style={'base_template': 'input.html'})
+    assignment = serializers.PrimaryKeyRelatedField(
+        queryset=coding_models.Assignment.objects.all(), many=False,
         style={'base_template': 'input.html'})
 
     class Meta:
         model = coding_models.UserCodeInstance
         fields = (
-            'id', 'code', 'assignment', 'created_by')
+            'id', 'created_by', 'created_date', 'code', 'user',
+            'assignment', 'code_name')
 
 
 class UserSimpleWithCodesSerializer(serializers.ModelSerializer):

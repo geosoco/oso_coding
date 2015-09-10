@@ -26,11 +26,13 @@
 			self.assignment = Assignment.get({id: $stateParams.assignment_id, current_user: "true"});
 
 			// request code instances
-			self.assigned_user_codes = UserCodeInstance.get({assignment: self.assignment_id, current_user: "true"});
+			self.assigned_user_codes = []
+			var userInstancesRequest = getUserCodeInstances(1);
 
 
-			$q.all([self.assignment.$promise, self.assigned_user_codes.$promise]).then(
-				processData);
+			$q.all([self.assignment.$promise, userInstancesRequest.$promise]).then(function(data){
+				getRemainingCodeInstances(data[1]);
+			});
 
 
 			console.log("assignment");
@@ -38,11 +40,56 @@
 			console.dir(self.assignment);
 		}
 
+		function getUserCodeInstances(page) {
+			return UserCodeInstance.get({
+				assignment: self.assignment_id, 
+				current_user: "true", 
+				page_size: 100,
+				page: page
+			});			
+		}
+
+		function getRemainingCodeInstances(data) {
+
+			// first append 
+			self.assigned_user_codes.push.apply(
+				self.assigned_user_codes, 
+				data.results);
+
+			// now do the next request
+			if(data.count > self.assigned_user_codes.length) {
+				var page = (self.assigned_user_codes.length / 100) + 1;
+				var next = getUserCodeInstances(page);
+
+				next.$promise.then(getRemainingCodeInstances);
+			} else {
+				processData();
+			}
+		}
+
 
 		function processData() {
+			buildCodeSchemeMap();
 			buildUserCodeInstanceMap();
 			buildCodedArrays()
 		}
+
+		function buildCodeSchemeMap() {
+			self.codes = self.assignment.code_schemes.reduce(
+				function(obj, scheme) {
+					scheme.code_set.forEach(function(code){
+						obj[code.id] = {
+							id: code.id,
+							name: code.name,
+							description: code.description,
+							scheme: code.scheme
+						}
+					})
+					return obj;
+				}, 
+				{});
+		}
+
 
 		function buildUserCodeInstanceMap() {
 			// build a giant map of
@@ -63,10 +110,12 @@
 				}, {});
 
 			// now apply actual code instances
-			for(var i = 0; i < self.assigned_user_codes.results.length; i++) {
-				var inst = self.assigned_user_codes.results[i];
+			for(var i = 0; i < self.assigned_user_codes.length; i++) {
+				var inst = self.assigned_user_codes[i],
+					instcode = self.codes[inst.code];
 
-				self.user_instance_map[inst.code_obj.scheme][inst.user][inst.code_obj.name] = true;
+
+				self.user_instance_map[instcode.scheme][inst.user][instcode.name] = true;
 			}
 
 		}
@@ -127,8 +176,8 @@
 			}
 
 			// now do codes;
-			for(var i = 0; i < self.assigned_user_codes.results.length; i++) {
-				var instance = self.assigned_user_codes.results[i];
+			for(var i = 0; i < self.assigned_user_codes.length; i++) {
+				var instance = self.assigned_user_codes[i];
 
 				var user = user_map[instance.user];
 
