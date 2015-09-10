@@ -11,9 +11,11 @@
 	function AssignmentController($stateParams, $q, Assignment, UserCodeInstance, CodeScheme) {
 		var self = this;
 
-		self.test = "testing!"
+		self.scheme_order_by = [];
 
 		init();
+
+
 
 		//////////
 
@@ -38,30 +40,80 @@
 
 
 		function processData() {
-			buildCodeSchemeArray()
-
-			joinCodeInstancesAndUsers();
+			buildUserCodeInstanceMap();
+			buildCodedArrays()
 		}
 
+		function buildUserCodeInstanceMap() {
+			// build a giant map of
+			// [scheme id][user id][code name]
+			self.user_instance_map = self.assignment.code_schemes.reduce(
+				function(map,scheme){
+					map[scheme.id] = self.assignment.assigned_users.reduce(
+						function(map, user){
+							map[user.id] = scheme.code_set.reduce(
+								function(map, code){
+									map[code.name] = false;
 
-		function buildCodeSchemeArray() {
-			/*
-			self.code_schemes = [];
+									return map
+								}, {})
+							return map;
+						}, {})
+					return map;
+				}, {});
 
-			for(var i = 0; i < self.assignment.code_schemes.length; i++ ) {
-				var scheme = self.assignment.code_scheme[i],
-					scheme_array = [];
+			// now apply actual code instances
+			for(var i = 0; i < self.assigned_user_codes.results.length; i++) {
+				var inst = self.assigned_user_codes.results[i];
 
-				for(var j = 0; j < scheme.code_set.length; j++ ) {
-					var code = self.assignment.code_set[j];
-
-					scheme_array.push(code);
-				}
-
-				code_map[scheme.id] = scheme_map;
+				self.user_instance_map[inst.code_obj.scheme][inst.user][inst.code_obj.name] = true;
 			}
-			*/
+
 		}
+
+		function buildUserCodeArray(scheme_id, users) {
+			
+			return users.map(function(user){
+
+				return angular.extend(
+					{}, 
+					self.user_instance_map[scheme_id][user.id], 
+					{
+						user_id: user.id,
+						user_name: user.name,
+						user_screen_name: user.screen_name
+				})
+			});
+		}
+
+
+		function buildCodedArrays() {
+			self.code_schemes = self.assignment.code_schemes.map(function(scheme, i){
+				// create array of simplified code objects
+				var codes = scheme.code_set.map(function(code) {
+					return { id: code.id, name: code.name }
+				});
+
+
+				var users = buildUserCodeArray(
+					scheme.id,/*
+					code_map, */
+					self.assignment.assigned_users);
+
+				return {
+					id: scheme.id,
+					name: scheme.name,
+					codes: codes,
+					users: users,
+					_order_dirs: {},
+					_order_by: []
+				}
+			});
+
+
+
+		}
+
 
 
 		function joinCodeInstancesAndUsers() {
@@ -101,14 +153,14 @@
 			}
 		}
 
-		self.filterHasCodes = function(value, index, array) {
+		self.filterHasNoCodes = function(value, index, array) {
 			return (value.codes === undefined ||
 				value.codes === null ||
 			 value.codes.length === 0);
 		}
 
-		self.filterHasNoCodes = function(value, index, array) {
-			return !self.filterHasCodes(value,index,array);
+		self.filterHasCodes = function(value, index, array) {
+			return !self.filterHasNoCodes(value,index,array);
 		}
 
 		self.isCodeAppliedForUser = function(code_id, user_codes) {
@@ -118,6 +170,63 @@
 
 			return (code_id in user_codes);
 		}
+
+
+		self.toggleOrderBy = function(scheme, field) {
+			var order_by = scheme._order_by;
+
+			for(var i=0; i < order_by.length; i++ ) {
+				var col = order_by[i],
+					sort = '';
+
+				// parse current status
+				var m = col.match(/([+-])?([\w\d-_\.]*)/);
+				if(m) {
+					sort = m[1];
+					col = m[2];
+				}
+
+				// if it's not a match, continue to next
+				if(col != field) {
+					continue;
+				}
+
+				// toggle current sort
+				switch(sort) {
+					case '+': sort = '-'; break;
+					case '-': sort = ''; break;
+					case '': 
+					default: sort = '+'; break;
+				}
+
+				// change the order
+				if(sort) {
+					order_by[i] = sort + col;
+					scheme._order_dirs[field] = sort;
+				} else {
+					// remove the element from the sort
+					order_by.splice(i,1);
+					delete scheme._order_dirs[field];
+				}
+
+
+				
+
+				// shortcut the rest of the function
+				return order_by;
+			}
+
+			order_by.push("+" + field);
+
+			scheme._order_dirs[field] = '+';
+
+			return order_by;
+		}
+	}
+
+
+	self.getOrderDirection = function(scheme, col) {
+		return scheme._order_dirs[col];
 	}
 
 })();

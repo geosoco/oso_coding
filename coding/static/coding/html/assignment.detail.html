@@ -5,7 +5,7 @@
 	<h4>{{assignment.uncoded.length}}</h4>
 	<div class="row">
 		<ul class="uncoded-users-list styleless">
-			<li class="col-md-2" ng-repeat="user in (assignment.uncoded = (assignment.assigned_users | filter: assignment.filterHasCodes))"> 
+			<li class="col-md-2" ng-repeat="user in (assignment.uncoded = (assignment.assigned_users | filter: assignment.filterHasNoCodes))"> 
 				<a ui-sref="code.user.tweets({'assignment_id': assignment.assignment.id, 'user_id': user.id})">{{user.screen_name}} <span ng-if="user.codes.length > 0">({{user.codes.length}}) - </span></a>
 			</li>
 		</ul>
@@ -13,25 +13,44 @@
 
 	<h2>Coded Users</h2>
 
-	<div ng-repeat="scheme in assignment.assignment.code_schemes">
+	<div ng-repeat="scheme in assignment.code_schemes">
 		<h2>Code Scheme: {{scheme.name}}</h2>
-		<table class="table table-striped code-table">
+		<pre>
+			_order_by: {{scheme._order_by}}
+			_order_dirs: {{scheme._order_dirs}}
+		</pre>
+		<table class="table table-striped table-hover code-table">
 			<thead>
 				<tr>
-					<th rowspan="2">User</th>
-					<th colspan="{{scheme.code_set.length}}">Codes</th>
+					<th class="table-sort-header-link" rowspan="2">
+						<a href="" ng-click="(scheme._order_by = assignment.toggleOrderBy(scheme, 'user_screen_name'))">Screen name
+							<span class="sort-order-containter" ng-switch="scheme._order_dirs.user_screen_name">
+								<span ng-switch-when="+" class="glyphicon glyphicon-triangle-top"></span>
+								<span ng-switch-when="-" class="glyphicon glyphicon-triangle-bottom"></span>
+							</span>
+						</a>
+					</th>
+					<th colspan="{{scheme.codes.length}}">Codes</th>
 				</tr>
 				<tr>
-					<th ng-repeat="code in scheme.code_set">{{code.name}}</th>
+					<th ng-repeat="code in scheme.codes" class="table-sort-header-link">
+						<a href="" ng-click="(scheme._order_by = assignment.toggleOrderBy(scheme, code.name))">{{code.name}}
+							<span class="sort-order-containter" ng-switch="scheme._order_dirs[code.name]">
+								<span ng-switch-when="+" class="glyphicon glyphicon-triangle-top"></span>
+								<span ng-switch-when="-" class="glyphicon glyphicon-triangle-bottom"></span>
+							</span>
+
+						</a>
+					</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="user in assignment.assigned_users | filter: assignment.filterHasNoCodes">
+				<tr ng-repeat="user in scheme.users | orderBy:scheme._order_by">
 					<th>
-						<a ui-sref="code.user.tweets({'assignment_id': assignment.assignment.id, 'user_id': user.id})">{{user.screen_name}}</a>
+						<a ui-sref="code.user.tweets({'assignment_id': assignment.assignment.id, 'user_id': user.user_id})">{{user.user_screen_name}}</a>
 					</th>
-					<td ng-repeat="code in scheme.code_set" ng-class="{ 'code-applied': assignment.isCodeAppliedForUser(code.id, user.code_map)}">
-						<div ng-if="assignment.isCodeAppliedForUser(code.id, user.code_map)"><i class="fa fa-check-circle"></i></div>
+					<td ng-repeat="code in scheme.codes" ng-class="{ 'code-applied': user[code.name]}">
+						<div ng-if="user[code.name]"><i class="fa fa-check-circle"></i></div>
 					</td>
 				</tr>
 			</tbody>
