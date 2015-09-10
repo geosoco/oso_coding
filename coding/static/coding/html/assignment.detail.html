@@ -2,7 +2,7 @@
 	<h1>Assignment: {{assignment.assignment.name}} ({{assignment.assignment.id}})</h1>
 
 	<h2>Uncoded Users</h2>
-	<h4>{{assignment.uncoded.length}}</h4>
+	<h4>len: {{assignment.uncoded.length}}</h4>
 	<div class="row">
 		<ul class="uncoded-users-list styleless">
 			<li class="col-md-2" ng-repeat="user in (assignment.uncoded = (assignment.assigned_users | filter: assignment.filterHasNoCodes))"> 
@@ -47,7 +47,7 @@
 			<tbody>
 				<tr ng-repeat="user in scheme.users | orderBy:scheme._order_by">
 					<th>
-						<a ui-sref="code.user.tweets({'assignment_id': assignment.assignment.id, 'user_id': user.user_id})">{{user.user_screen_name}}</a>
+						<a ui-sref="code.user.tweets({'assignment_id': assignment.assignment.id, 'user_id': user.user_id})">{{user.user_screen_name}} ({{user.user_id}})</a>
 					</th>
 					<td ng-repeat="code in scheme.codes" ng-class="{ 'code-applied': user[code.name]}">
 						<div ng-if="user[code.name]"><i class="fa fa-check-circle"></i></div>

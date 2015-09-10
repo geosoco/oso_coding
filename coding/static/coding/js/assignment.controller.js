@@ -40,6 +40,7 @@
 			console.dir(self.assignment);
 		}
 
+
 		function getUserCodeInstances(page) {
 			return UserCodeInstance.get({
 				assignment: self.assignment_id, 
@@ -48,6 +49,7 @@
 				page: page
 			});			
 		}
+
 
 		function getRemainingCodeInstances(data) {
 
@@ -71,8 +73,10 @@
 		function processData() {
 			buildCodeSchemeMap();
 			buildUserCodeInstanceMap();
-			buildCodedArrays()
+			buildCodedArrays();
+			joinCodeInstancesAndUsers();
 		}
+
 
 		function buildCodeSchemeMap() {
 			self.codes = self.assignment.code_schemes.reduce(
@@ -119,6 +123,7 @@
 			}
 
 		}
+
 
 		function buildUserCodeArray(scheme_id, users) {
 			
