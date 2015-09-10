@@ -1,0 +1,144 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<h1>Code Comparison</h1>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<form class="form" ng-submit="cntrl.doFilter()">
+				<div class="container-fluid">
+					<!-- select controls -->
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="filter-user">User</label>
+								<select class="form-control" name="user" id="filter-user" ng-model="cntrl.filter.users" multiple>
+									<option ng-repeat="user in cntrl.sysusers" value="{{user.id}}">{{user.username}}</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="filter-assignment">Assignment</label>
+								<select class="form-control" name="assignment" id="filter-assignment" ng-model="cntrl.filter.assignments" multiple>
+									<option ng-repeat="assignment in cntrl.assignments" value="{{assignment.id}}">{{assignment.name}} ({{assignment.id}})</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="filter-scheme">Scheme</label>
+								<select class="form-control" name="scheme" id="filter-scheme" ng-model="cntrl.filter.schemes" multiple>
+									<option ng-repeat="scheme in cntrl.code_schemes" value="scheme.id">{{scheme.name}} ({{scheme.id}})</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="filter-code">Codes</label>
+								<select class="form-control" name="code" id="filter-code" ng-model="cntrl.filter.codes" multiple>
+									<option ng-repeat="code in cntrl.codes" value="scheme.id">{{code.name}} ({{code.id}})</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<input type="submit" class="btn btn-primary" value="Filter"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+
+	<!-- debug filters -->
+	<div class="row">
+		<pre>
+			filter users: {{cntrl.filter.users}}
+			filter assignments: {{cntrl.filter.assignments}}
+			filter schemes: {{cntrl.filter.schemes}}
+			filter codes: {{cntrl.filter.codes}}
+		</pre>
+	</div>
+
+	<!-- results -->
+	<div class="row">
+		<div class="col-md-12">
+
+			<div ng-repeat="scheme in cntrl.processed_schemes">
+				<h2>Code Scheme: {{scheme.name}}</h2>
+				<pre>
+					_order_by: {{scheme._order_by}}
+					_order_dirs: {{scheme._order_dirs}}
+				</pre>
+				<table class="table table-striped table-hover code-table">
+					<thead>
+						<tr>
+							<th class="table-sort-header-link" rowspan="2">
+								<a href="" ng-click="(scheme._order_by = assignment.toggleOrderBy(scheme, 'user_screen_name'))">Screen name
+									<span class="sort-order-containter" ng-switch="scheme._order_dirs.user_screen_name">
+										<span ng-switch-when="+" class="glyphicon glyphicon-triangle-top"></span>
+										<span ng-switch-when="-" class="glyphicon glyphicon-triangle-bottom"></span>
+									</span>
+								</a>
+							</th>
+							<th rowspan="2">Code</th>
+							<th colspan="{{scheme.coders.length}}">Coder</th>
+						</tr>
+						<tr>
+							<th ng-repeat="coder in scheme.coders" class="table-sort-header-link">
+								<a href="" ng-click="(scheme._order_by = assignment.toggleOrderBy(scheme, coder.username))">{{coder.username}}
+									<span class="sort-order-containter" ng-switch="scheme._order_dirs[coder.username]">
+										<span ng-switch-when="+" class="glyphicon glyphicon-triangle-top"></span>
+										<span ng-switch-when="-" class="glyphicon glyphicon-triangle-bottom"></span>
+									</span>
+
+								</a>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="user in scheme.users | orderBy:scheme._order_by">
+							<th ng-if="user.first_row" rowspan="{{cntrl.code_list.length}}">
+								<a ui-sref="code.user.tweets({'assignment_id': 0, 'user_id': user.id})">{{user.screen_name}}</a>
+							</th>
+							<th>{{cntrl.code_map[user.code_id].name}}</th>
+							<td ng-repeat="coder in scheme.coders">
+									<div ng-if="cntrl.isCodeApplied(user.code_id, user.id, coder.id)">
+										<i class="fa fa-check-circle"></i>
+									</div>								
+							</td>
+									<!--
+									<div ng-if="code_id in cntrl.user_instance_map[user.id].coders[coder.id].codes">
+										<i class="fa fa-check-circle"></i>
+									</div>
+									-->
+
+
+							<!--
+							<td ng-repeat="code in scheme.codes" ng-class="{ 'code-applied': user[code.name]}">
+								<div ng-if="user[code.name]"><i class="fa fa-check-circle"></i></div>
+							</td>
+							-->
+						</tr>
+					</tbody>
+
+				</table>
+			</div>
+
+
+
+
+
+		</div>
+	</div>
+</div>

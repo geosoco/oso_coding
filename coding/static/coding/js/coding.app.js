@@ -82,6 +82,12 @@
 							}
 						})
 					.state(
+						"code_comparison", {
+							url: "/comparison/",
+							templateUrl: "static/coding/html/code.comparison.detail.html",
+							controller: "CodeComparisonController as cntrl"
+						})
+					.state(
 						"assignment", {
 							url: "/{assignment_id:int}/",
 							templateUrl: "/static/coding/html/assignment.detail.html",
