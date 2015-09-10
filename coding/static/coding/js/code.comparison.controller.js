@@ -322,7 +322,9 @@
 
 
 			self.isCodeApplied = function(code_id, user_id, coder_id) {
-				return (code_id in self.user_instance_map[user_id].coders[coder_id].codes);
+				var coder = self.user_instance_map[user_id].coders[coder_id];
+
+				return (coder.codes && code_id in coder.codes);
 			}
 			
 	}
