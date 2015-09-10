@@ -3,16 +3,40 @@
 
 	<h2>Uncoded Users</h2>
 	<h4>{{assignment.uncoded.length}}</h4>
-	<ul>
-		<li ng-repeat="user in (assignment.uncoded = (assignment.assigned_users | filter: assignment.filterHasCodes))"> 
-			<a ui-sref="code.user.tweets({'assignment_id': assignment.assignment.id, 'user_id': user.id})">{{user.screen_name}} <span ng-if="user.codes.length > 0">({{user.codes.length}}) - </span></a>
-		</li>
-	</ul>
+	<div class="row">
+		<ul class="uncoded-users-list styleless">
+			<li class="col-md-2" ng-repeat="user in (assignment.uncoded = (assignment.assigned_users | filter: assignment.filterHasCodes))"> 
+				<a ui-sref="code.user.tweets({'assignment_id': assignment.assignment.id, 'user_id': user.id})">{{user.screen_name}} <span ng-if="user.codes.length > 0">({{user.codes.length}}) - </span></a>
+			</li>
+		</ul>
+	</div>
+
 	<h2>Coded Users</h2>
-	<ul>
-		<li ng-repeat="user in assignment.assigned_users | filter: assignment.filterHasNoCodes"> 
-			<a ui-sref="code.user.tweets({'assignment_id': assignment.assignment.id, 'user_id': user.id})">{{user.screen_name}} <span ng-if="user.codes.length > 0">({{user.codes.length}}) - </span></a>
-		</li>
-	</ul>
+
+	<div ng-repeat="scheme in assignment.assignment.code_schemes">
+		<h2>Code Scheme: {{scheme.name}}</h2>
+		<table class="table table-striped code-table">
+			<thead>
+				<tr>
+					<th rowspan="2">User</th>
+					<th colspan="{{scheme.code_set.length}}">Codes</th>
+				</tr>
+				<tr>
+					<th ng-repeat="code in scheme.code_set">{{code.name}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="user in assignment.assigned_users | filter: assignment.filterHasNoCodes">
+					<th>
+						<a ui-sref="code.user.tweets({'assignment_id': assignment.assignment.id, 'user_id': user.id})">{{user.screen_name}}</a>
+					</th>
+					<td ng-repeat="code in scheme.code_set" ng-class="{ 'code-applied': assignment.isCodeAppliedForUser(code.id, user.code_map)}">
+						<div ng-if="assignment.isCodeAppliedForUser(code.id, user.code_map)"><i class="fa fa-check-circle"></i></div>
+					</td>
+				</tr>
+			</tbody>
+
+		</table>
+	</div>
 
 </div>

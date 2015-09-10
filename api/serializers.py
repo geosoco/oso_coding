@@ -311,11 +311,12 @@ class AssignmentSerializer(serializers.ModelSerializer):
     assigned_tweets = TweetSerializer(
         many=True,
         style={'base_template': 'input.html'})
+    code_schemes = CodeSchemeSerializer(many=True)
 
     class Meta:
         model = coding_models.Assignment
         fields = (
             'created_by', 'created_date', 'deleted_by', 'deleted_date',
             'id', 'name', 'description',
-            'coder', 'assigned_users', 'assigned_tweets'
+            'coder', 'assigned_users', 'assigned_tweets', 'code_schemes'
             )

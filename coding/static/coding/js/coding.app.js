@@ -118,13 +118,23 @@
 			var user = SysUser.get({'current_user': "True"}).$promise.then(function(data){
 				console.log("got user")
 				console.dir(data);
-				if(data.results && data.results.length == 1) {
-					$rootScope.sysuser = data.results[0];
-					$rootScope.sysuserid = data.results[0].id;
-					toastr.success('Logged in!', 'Success');
+				if(data.results) {
+					if(data.results.length == 1) {
+						$rootScope.sysuser = data.results[0];
+						$rootScope.sysuserid = data.results[0].id;
+						toastr.success('Logged in!', 'Success');
+					} else {
+						if(data.results.length == 0) {
+							toastr.error('You are not logged in');	
+						} else {
+							toastr.error("Multiple personality syndrome (or system error)")
+						}
+					}
 				} else {
-					toastr.error('Could not get current user');
+					toastr.error("Current user requests returned no results");
 				}
+			}, function(error) {
+				toastr.error("Current user requests failed");
 			})
 
 
