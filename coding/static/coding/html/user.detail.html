@@ -6,8 +6,7 @@
 					<div class="col-md-6">
 						<div ng-if="user.user">
 							<span></span>  Share: </span>
-							<a class="user-share-profile-link" ui-sref="user.tweets({ 'user_id': user.user.id, 'list_type': '{{user.state_params.list_type}}', 'page': {{user.state_params.page}}  })">@{{user.user.screen_name}}
-							</a>
+							<a class="user-share-profile-link" ui-sref="user.tweets({ 'user_id': user.user.id, 'list_type': '{{user.state_params.list_type}}', 'page': {{user.state_params.page}}  })">@{{user.user.screen_name}}</a>
 							<a ng-click="user.copyUserLink()" class="btn btn-default share-copy-btn">Copy</a>
 						</div>
 					</div>
