@@ -3,17 +3,27 @@
 		<div class="profile-bar-top">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-md-2">
-						<a href="http://www.twitter.com/{{user.user.screen_name}}/" target="_blank" class="btn btn-default">Visit Account Page on Twitter&nbsp;<i class="fa fa-twitter"></i></a>
+					<div class="col-md-6">
+						<div ng-if="user.user">
+							<span></span>  Share: </span>
+							<a class="user-share-profile-link" ui-sref="user.tweets({ 'user_id': user.user.id, 'list_type': '{{user.state_params.list_type}}', 'page': {{user.state_params.page}}  })">@{{user.user.screen_name}}
+							</a>
+							<a ng-click="user.copyUserLink()" class="btn btn-default share-copy-btn">Copy</a>
+						</div>
 					</div>
+					<div class="col-md-3">
+						<div ng-if="user.user">
+							<a href="http://www.twitter.com/{{user.user.screen_name}}/" target="_blank" class="btn btn-default"><i class="fa fa-twitter"></i> Visit Account Page on Twitter&nbsp;</a>
+						</div>
+					</div>	
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="profile-banner">
-			<div class="profile-background" style="background-color: {{user.user.profile_background_color}}; background-image: url({{user.user.profile_background_image_url}});"></div>
-			<div ng-if="user.user.profile_banner_url" class="profile-banner-img" style="background-image: url('{{user.user.profile_banner_url}}/1500x500');">
+			<div class="profile-background" style="background-color: #{{user.user.profile_background_color}}; background-image: url({{user.user.profile_background_image_url}});"></div>
+			<div ng-if="user.user.profile_banner_url" class="profile-banner-img" style="background-image: url({{user.user.profile_banner_url}}/1500x500);">
 			</div>
 		</div>
 	</div>
@@ -53,7 +63,7 @@
 					<div class="profile-details">
 						<div class="profile-img-container large">
 							<div ng-if="user.user.profile_image_url">
-								<tweet-profile-image user="user" size="large" user="user"></tweet-profile-image>
+								<tweet-profile-image user="user.user" size="large" ></tweet-profile-image>
 							</div>
 						</div>
 						<div class="profile-name" ng-bind="user.user.name"></div>

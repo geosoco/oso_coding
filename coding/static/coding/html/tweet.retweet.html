@@ -50,10 +50,12 @@
 										<li ng-repeat="media in tweet.media_set">
 											<div ng-switch on="media.type">
 												<div ng-switch-when="photo">
-													<img src="{{media.media_url}}" />
+													<a ng-href="{{media.media_url}}">
+														<img ng-src="{{media.media_url}}" />
+													</a>
 												</div>
 												<div ng-switch-when="video">
-													<div>video: <a href="{{media.media_url}}">Video # {{media.media_id}}</a></div>
+													<div>video: <a ng-href="{{media.media_url}}">Video # {{media.media_id}}</a></div>
 												</div>
 											</div>
 										</li>
@@ -90,8 +92,14 @@
 					<div class="col-md-10 col-md-offset-2">
 						<ul class="styleless">
 							<li><em>id</em>: {{tweet.id}}</li>
+							<li><em>user id</em>: {{tweet.user.id}}</li>
+							<li><em>user time zone</em>: {{tweet.user_time_zone}}</li>
+							<li><em>user utc offset</em>: {{tweet.utc_offset}}</li>
 							<li><em>in reply to id</em>: {{tweet.in_reply_to_status.id}}</li>
+							<li><em>in reply to user</em>: {{tweet.in_reply_to_user.id}}</li>
 							<li><em>retweeted status id</em>: {{tweet.retweeted_status.id}}</li>
+							<li><em>retweeted status user id</em>: {{tweet.retweeted_status.user.id}}</li>}}
+							<li><em>raw text</em>: {{tweet.text}}</li>							
 							<li></li>
 							<li><em>language</em>: {{tweet.lang}}</li>
 							<li><em>source</em>: <span ng-bind-html="tweet.source_html"></span></li>
@@ -101,6 +109,11 @@
 							<li><em>user followers count</em>: {{tweet.user_followers_count}}</li>
 							<li><em>user friends count</em>: {{tweet.user_friends_count}}</li>
 							<li><em>user statuses count</em>: {{tweet.user_statuses_count}}</li>
+							<li></li>
+							<li><em>retweeted_status_user_statuses_count</em>: {{tweet.retweeted_status_user_statuses_count}}</li>
+							<li><em>retweeted_status_user_friends_count</em>: {{tweet.retweeted_status_user_friends_count}}</li>
+							<li><em>retweeted_status_user_followers_count</em>: {{tweet.retweeted_status_user_followers_count}}</li>
+							<li><em>retweeted_status_user_time_zone</em>: {{tweet.retweeted_status_user_time_zone}}</li>
 						</ul>
 					</div>
 				</div>

@@ -1,4 +1,4 @@
-	<div class="tweet-normal" >
+	<div class="tweet-normal" data-tweet-id="tweet.id">
 		<div class="tweet-in-reply-to-tweet" ng-if="tweet.in_reply_to_status">
 			<div class="container-fluid">
 				<div class="row">
@@ -38,7 +38,7 @@
 							<div class="tweet-header">
 								<span ng-if="tweet.in_reply_to_status"><i class="fa fa-reply"></i></span>
 								<span class="user-tweet-name">{{tweet.user.name}}</span>
-								<span class="user-tweet-screen-name">@{{tweet.user_screen_name}}</span>
+								<span class="user-tweet-screen-name"><tweet-user user_id="tweet.user.id" screen_name="tweet.user.screen_name"></tweet-user></span>
 								<span class="user-tweet-dot">&middot;</span>
 								<span class="user-tweet-creation-time">{{tweet.created_ts | amDateFormat:'MMM Do YYYY  h:mm a' }}</span>
 								<span class="tweet-link"><a href="http://twitter.com/{{tweet.user.screen_name}}/status/{{tweet.id}}" target="_blank"><span class="fa fa-twitter"></span></a></span>
@@ -56,10 +56,10 @@
 									<li ng-repeat="media in tweet.media_set">
 										<div ng-switch on="media.type">
 											<div ng-switch-when="photo">
-												<img src="{{media.media_url}}" />
+												<a ng-href="{{media.media_url}}"><img ng-src="{{media.media_url}}" /></a>
 											</div>
 											<div ng-switch-when="video">
-												<div>video: <a href="{{media.media_url}}">Video # {{media.media_id}}</a></div>
+												<div>video: <a ng-href="{{media.media_url}}">Video # {{media.media_id}}</a></div>
 											</div>
 										</div>
 									</li>
@@ -69,7 +69,7 @@
 							<!-- geo -->
 							<div ng-if="tweet.geo_coordinates_0">
 								<div class="user-geo-data">
-									<a href="http://www.google.com/maps/@{{tweet.geo_coordinates_0}},{{tweet.geo_coordinates_1}},13z" target="_blank"><span class="glyphicon glyphicon-map-marker"></span> {{tweet.geo_coordinates_0}}, {{tweet.geo_coordinates_1}}</a>
+									<a href="http://www.google.com/maps/@{{tweet.geo_coordinates_0}},{{tweet.geo_coordinates_1}},16z" target="_blank"><span class="glyphicon glyphicon-map-marker"></span> {{tweet.geo_coordinates_0}}, {{tweet.geo_coordinates_1}}</a>
 								</div>
 							</div>
 
@@ -102,8 +102,14 @@
 					<div class="col-md-10 col-md-offset-2">
 						<ul class="styleless">
 							<li><em>id</em>: {{tweet.id}}</li>
+							<li><em>user id</em>: {{tweet.user.id}}</li>
+							<li><em>user time zone</em>: {{tweet.user_time_zone}}</li>
+							<li><em>user utc offset</em>: {{tweet.utc_offset}}</li>
 							<li><em>in reply to id</em>: {{tweet.in_reply_to_status.id}}</li>
+							<li><em>in reply to user</em>: {{tweet.in_reply_to_user.id}}</li>
 							<li><em>retweeted status id</em>: {{tweet.retweeted_status.id}}</li>
+							<li><em>retweeted status user id</em>: {{tweet.retweeted_status.user.id}}</li>}}
+							<li><em>raw text</em>: {{tweet.text}}</li>
 							<li></li>
 							<li><em>language</em>: {{tweet.lang}}</li>
 							<li><em>source</em>: <span ng-bind-html="tweet.source_html"></span></li>
