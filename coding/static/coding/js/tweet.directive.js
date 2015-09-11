@@ -10,6 +10,7 @@
 	app.directive("tweetMedia", ['$compile', emTweetMediaDirective]);
 	app.directive("tweetHashtag", ['$compile', emTweetHashtagDirective]);
 	app.directive("tweetProfileImage", ['$compile', emTweetProfileImageDirective]);
+	app.directive("tweetUser", ['$compile', emTweetUserDirective]);
 	//app.controller("tweetController", ["$compile", "$scope", "$element" tweetController]);
 
 
@@ -36,7 +37,7 @@
 
 		function emTweetTextDirectiveLink($scope, $elem, $attrs) {
 			var tweet = $scope.tweet,
-				html = $scope.text;
+				html = $scope.text
 
 			$scope.unresolved_mentions = [];
 			$scope.unresolveld_urls = [];
@@ -49,7 +50,7 @@
 				for(var i=0; i < tweet.mentions.length; i++) {
 					var mention = tweet.mentions[i];
 
-					var mentionLink = '<tweet-mention assignment_id="' + $scope.assignment.id + '" screen_name="' + 
+					var mentionLink = '<tweet-mention screen_name="' + 
 					mention.screen_name + '" user_id="' + mention.id + '"></tweet-mention>';
 
 					if(html.indexOf(mention.screen_name) >= 0) {
@@ -124,16 +125,31 @@
 	function emTweetMentionDirective($compile) {
 		return {
 			restrict: 'E',
-			scope: { assignmentId: '=', screenName: '@', userId: '='},
+			scope: { screenName: '@', userId: '='},
 			transclude: 'element',
 			replace: true,
 			template: ('<span class="tweet-mention">' + 
-				'<a ui-sref="code.user({\'assignment_id\': {{assignmentId}}, \'id\': {{userId}}})">' +
+				'<a href="" ui-sref="user.tweets({\'user_id\': {{userId}}, \'list_type\': \'tweets\', \'page\': \'1\'})">' +
 				'@{{screenName}}</a>' + 
 				'<a href="http://www.twitter.com/{{screenName}}' + 
 				'/" target="_blank" title="View user on Twitter">' + 
 				'<i class="fa fa-twitter"></i><span class="sr-only">Twitter</a></a></span>')
 		}
+	}
+
+	function emTweetUserDirective($compile) {
+		return {
+			restrict: 'E',
+			scope: { screenName: '=', userId: '='},
+			transclude: 'element',
+			replace: true,
+			template: ('<span class="tweet-user">' + 
+				'<a href="" ui-sref="user.tweets({\'user_id\': {{userId}}, \'list_type\': \'tweets\', \'page\': \'1\'})">' +
+				'@{{screenName}}</a>' + 
+				'<a href="http://www.twitter.com/{{screenName}}' + 
+				'/" target="_blank" title="View user on Twitter">' + 
+				'<i class="fa fa-twitter"></i><span class="sr-only">Twitter</a></a></span>')
+		}		
 	}
 
 	function emTweetUrlDirective($compile) {

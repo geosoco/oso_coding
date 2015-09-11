@@ -24,7 +24,7 @@
 						<div class="tweet-header">
 							<span ng-if="tweet.retweeted_status.in_reply_to_status"><i class="fa fa-reply"></i></span>
 							<span class="user-tweet-name">{{tweet.retweeted_status.user.name}}</span>
-							<span class="user-tweet-screen-name">@{{tweet.retweeted_status.user.screen_name}}</span>
+							<span class="user-tweet-screen-name"><tweet-user user_id="tweet.retweeted_status.user.id" screen_name="tweet.retweeted_status.user.screen_name"></span>
 							<span class="user-tweet-dot">&middot;</span>
 							<span class="user-tweet-creation-time">{{tweet.retweeted_status.created_ts | amDateFormat:'MMM Do YYYY  h:mm a' }}</span>
  							<span class="tweet-link"><a href="http://twitter.com/{{tweet.retweeted_status.user.screen_name}}/status/{{tweet.retweeted_status.id}}" target="_blank"><span class="fa fa-twitter"></span></a></span>

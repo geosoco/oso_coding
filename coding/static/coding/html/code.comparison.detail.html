@@ -109,7 +109,7 @@
 					<tbody>
 						<tr ng-repeat="user in scheme.users | orderBy:scheme._order_by">
 							<th ng-if="user.first_row" rowspan="{{cntrl.code_list.length}}">
-								<a ui-sref="code.user.tweets({'assignment_id': 0, 'user_id': user.id})">{{user.screen_name}}</a>
+								<a href="/coding/assignment/" base="/coding/assignment/" ui-sref="user.tweets({'assignment_id': 0, 'user_id': user.id})">{{user.screen_name}}</a>
 							</th>
 							<th>{{cntrl.code_map[user.code_id].name}}</th>
 							<td ng-repeat="coder in scheme.coders">

@@ -40,13 +40,13 @@
 				/*
 				 * route setup
 				 */
-				$urlRouterProvider.otherwise("");
+				$urlRouterProvider.otherwise("assignment");
 
 				$stateProvider
 					.state(
 						"code", {
 							url: "/code/{assignment_id:int}",
-							templateUrl: "static/coding/html/code.html",
+							templateUrl: "/static/coding/html/code.html",
 							controller: "CodingController"				
 						})
 					.state(
@@ -55,10 +55,10 @@
 							abstract: true,							
 							views: {
 								"sidebar": {
-									templateUrl: "static/coding/html/code.sidebar.html"
+									templateUrl: "/static/coding/html/code.sidebar.html"
 								},
 								"main-content": {
-									templateUrl: "static/coding/html/code.user.html",
+									templateUrl: "/static/coding/html/code.user.html",
 									controller: "UserCodingController as user",
 								}
 							}
@@ -76,7 +76,7 @@
 							},
 							views: {
 								"tweet-list": {
-									templateUrl: "static/coding/html/user.tweetlist.html",
+									templateUrl: "/static/coding/html/user.tweetlist.html",
 									controller: "TweetListController as tweetlist"
 								}
 							}
@@ -84,12 +84,42 @@
 					.state(
 						"code_comparison", {
 							url: "/comparison/",
-							templateUrl: "static/coding/html/code.comparison.detail.html",
+							templateUrl: "/static/coding/html/code.comparison.detail.html",
 							controller: "CodeComparisonController as cntrl"
 						})
 					.state(
+						"user", {
+							url: "/user/{user_id}",
+							templateUrl: "/static/coding/html/user.detail.html",
+							controller: "UserDetailController as user",
+							abstract: true
+						})
+					.state(
+						"user.tweets", {
+							url: "/{list_type}/{page:int}",
+							templateUrl: "/static/coding/html/user.detail.html",
+							controller: function($scope) {
+								console.log("lkjlkjlkjlkjlkjlkjlkjlkj");
+							},
+							params: {
+								list_type : {
+									value: "tweets", squash: true
+								},
+								page: {
+									value: 1, squash: true
+								}
+							},
+
+							views: {
+								"tweet-list": {
+									templateUrl: "/static/coding/html/user.tweetlist.html",
+									controller: "TweetListController as tweetlist"
+								}
+							}						
+						})
+					.state(
 						"assignment", {
-							url: "/{assignment_id:int}/",
+							url: "/assignment/{assignment_id:int}",
 							templateUrl: "/static/coding/html/assignment.detail.html",
 							controller: "AssignmentController as assignment"
 						})

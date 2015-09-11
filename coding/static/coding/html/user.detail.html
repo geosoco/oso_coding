@@ -1,3 +1,89 @@
-<h1>User Detail</h1>
+<div class="container-fluid">
+	<div class="row">
+		<div class="profile-bar-top">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-2">
+						<a href="http://www.twitter.com/{{user.user.screen_name}}/" target="_blank" class="btn btn-default">Visit Account Page on Twitter&nbsp;<i class="fa fa-twitter"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="profile-banner">
+			<div class="profile-background" style="background-color: {{user.user.profile_background_color}}; background-image: url({{user.user.profile_background_image_url}});"></div>
+			<div ng-if="user.user.profile_banner_url" class="profile-banner-img" style="background-image: url('{{user.user.profile_banner_url}}/1500x500');">
+			</div>
+		</div>
+	</div>
 
-<h2>{{user.id}}</h2>
+	<!-- stats bar -->
+	<div class="row">
+		<div class="profile-stats-banner">
+			<div class="container-fluid">
+				<div class="col-md-1 col-md-offset-3">
+					<div class="profile-stats-label">Tweets</div>
+					<div class="profile-stats-value">{{user.user.statuses_count | number}}</div>				
+				</div>		
+				<div class="col-md-1">
+					<div class="profile-stats-label">Followers</div>
+					<div class="profile-stats-value">{{user.user.followers_count | number}}</div>
+				</div>
+				<div class="col-md-1">
+					<div class="profile-stats-label">Following</div>
+					<div class="profile-stats-value">{{user.user.friends_count | number}}</div>				
+				</div>
+				<div class="col-md-1">
+					<div class="profile-stats-label">Favorites</div>
+					<div class="profile-stats-value">{{user.user.favourites_count | number}}</div>				
+				</div>			
+				<div class="col-md-1">
+					<div class="profile-stats-label">Listed</div>
+					<div class="profile-stats-value">{{user.user.listed_count | number}}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="profile-main-content container-fluid">
+
+				<div class="col-md-3">
+					<div class="profile-details">
+						<div class="profile-img-container large">
+							<div ng-if="user.user.profile_image_url">
+								<tweet-profile-image user="user" size="large" user="user"></tweet-profile-image>
+							</div>
+						</div>
+						<div class="profile-name" ng-bind="user.user.name"></div>
+						<div class="profile-screen-name">@{{user.user.screen_name}}</div>
+						<div class="profile-description" ng-bind="user.user.description"></div>
+						<div class="profile-details-spacer"></div>
+						<div class="profile-location icon-detail-list" ng-if="user.user.location">
+							<span class="glyphicon glyphicon-map-marker list-icon"></span>
+							<span class="list-text" ng-bind="user.user.location"></span>
+						</div>
+						<div class="profile-url icon-detail-list" ng-if="user.user.url">
+							<span class="glyphicon glyphicon-link list-icon"></span>
+							<span class="list-text"><a href="{{user.user.url}}">{{user.user.url}}</a></span>
+						</div>
+						<div class="profile-joined-date icon-detail-list" ng-if="user.user.created_ts">
+							<span class="glyphicon glyphicon-time list-icon"></span>
+							<span class="list-text" am-time-ago="user.user.created_ts"></span>	
+							<span class="list-text user-tweet-creation-time">({{user.user.created_ts | amDateFormat:'MMM Do YYYY  h:mm a' }})</span>
+						</div>
+					</div>
+				</div>
+			<div class="col-md-8">
+				<div class="user-tweet-list-container">
+
+					<div ui-view="tweet-list">
+					</div>
+
+				</div>
+
+			</div>		
+		</div>
+	</div>
+</div>

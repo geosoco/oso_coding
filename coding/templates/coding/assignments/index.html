@@ -1,7 +1,7 @@
 {% extends "angular-base.html" %}
 {% load staticfiles %}
 
-
+{% block base_url %}{{request.build_absolute_uri}}{% endblock %}
 {% block ng_app %}coding.app{% endblock %}
 
 {% block body_attributes %}{% endblock %}
@@ -23,4 +23,5 @@
 	<script src="{% static "coding/js/pagination.controller.js" %}"></script>
 	<script src="{% static "coding/js/assignment.nav.controller.js" %}"></script>
 	<script src="{% static "coding/js/code.comparison.controller.js" %}"></script>
+	<script src="{% static "coding/js/user.detail.controller.js" %}"></script>
 {% endblock %}
