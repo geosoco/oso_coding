@@ -4,12 +4,11 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-6">
-						<div ng-if="user.user">
-							<span></span>  Share: </span>
-							<a class="user-share-profile-link" ui-sref="user.tweets({ 'user_id': user.user.id, 'list_type': '{{user.state_params.list_type}}', 'page': {{user.state_params.page}}  })">@{{user.user.screen_name}}</a>
-							<a ng-click="user.copyUserLink()" class="btn btn-default share-copy-btn">Copy</a>
-						</div>
-					</div>
+                        <div ng-if="user.user">
+                            <span> Share: </span>
+<span class="user-share-profile-link-cntr"><a class="user-share-profile-link" ui-sref="user.tweets({ 'user_id': user.user.id, 'list_type': '{{user.state_params.list_type}}', 'page': {{user.state_params.page}}  })">@{{user.user.screen_name}}</a><a ng-click="user.copyUserLink()" class="btn btn-default share-copy-btn">Copy</a></span>
+                        </div>					
+                    </div>
 					<div class="col-md-3">
 						<div ng-if="user.user">
 							<a href="http://www.twitter.com/{{user.user.screen_name}}/" target="_blank" class="btn btn-default"><i class="fa fa-twitter"></i> Visit Account Page on Twitter&nbsp;</a>

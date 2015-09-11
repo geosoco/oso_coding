@@ -47,6 +47,7 @@
 					range = document.createRange();
 
 				range.selectNode(link);
+                window.getSelection().removeAllRanges();
 				window.getSelection().addRange(range);
 
 				try {
