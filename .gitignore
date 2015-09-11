@@ -68,3 +68,6 @@ env/
 oso_coding/local_wsgi.py
 oso_coding/wsgi_params
 
+scripts/
+
+assets/
