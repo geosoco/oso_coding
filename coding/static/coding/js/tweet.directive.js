@@ -207,7 +207,7 @@
 			size = size.toLowerCase();
 
 			if($scope.size === "large") {
-				url = url.replace("_normal.", "_400x400.");
+				url = url.replace("_normal.", "_200x200.");
 			}
 			else if($scope.size === "medium") {
 				url = url.replace("_normal.", "_bigger.")
