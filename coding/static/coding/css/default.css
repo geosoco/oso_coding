@@ -13,6 +13,7 @@ ul.styleless { list-style: none; list-style-position: inside; padding-left: 0;}
 .code-sidebar-link a:link, .code-sidebar-link a:visited, .code-sidebar-link a { color: #eee; text-decoration: none; }
 .code-sidebar-link a:hover, .code-sidebar-link a:active { color: #fff; text-decoration: underline; }
 
+.assignment-nav-links { margin-top: 30px;}
 .assignment-next-user { text-align: right; }
 .assignment-status { text-align: center; }
 
@@ -47,6 +48,14 @@ li.code .code-delete { font-size: 18px; position: absolute; right: 8px; top: 0px
 
 
 .loading-container { position: relative; min-height: 50px;}
+
+
+/*
+ *
+ * profile data
+ *
+ */
+.share-copy-btn { margin-left: 20px;}
 
 .profile-bar-top { margin: 10px 0;}
 
