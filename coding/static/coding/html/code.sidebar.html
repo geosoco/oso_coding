@@ -1,17 +1,35 @@
 				<div>
 					<div class="code-sidebar-link">
+						<p><a ui-sref="assignment({'assignment_id': {{assignment_id}} })"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Return to list</a></p>					
 						<h4>Current Assignment</h4>
-						<p><a ui-sref="assignment({'assignment_id': {{assignment_id}} })"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Return to list</a></p>
+						
 
 						<div class="assignment-nav-links" ng-controller="AssignmentNavigationController as anc">
 							<div class="row">
-								<div ng-if="anc.prev_user" class="col-md-3 assignment-previous-user">
-									<a ui-sref="code.user.tweets({'assignment_id': {{assignment_id}}, 'user_id': anc.prev_user, 'page': 1, 'list_type': 'tweets'})"><span class="glyphicon glyphicon-chevron-left"></span>Prev User</a>
+								<div class="col-md-3 assignment-previous-user">
+									<div ng-if="anc.prev_user" class="container-fluid">
+										<div class="row">
+											<div class="nav-left-arrow pull-left"><span class="glyphicon glyphicon-chevron-left"></span></div>
+											<div class="pull-left">
+												<a ui-sref="code.user.tweets({'assignment_id': {{assignment_id}}, 'user_id': anc.prev_user, 'page': 1, 'list_type': 'tweets'})">Prev User</a>
+											</div>
+										</div>
+									</div>
+									
 								</div>
-								<div class="col-md-6 assignment-status">{{anc.current_user_idx}} of {{anc.total_users}}</div>
+								<div class="col-md-6 assignment-status">{{anc.current_user_idx+1}} of {{anc.total_users}}</div>
 
-								<div ng-if="anc.next_user" class="col-md-3 pull-right assignment-next-user">
-									<a ui-sref="code.user.tweets({'assignment_id': {{assignment_id}}, 'user_id': anc.next_user, 'page': 1, 'list_type': 'tweets'})">Next User<span class="glyphicon glyphicon-chevron-right"></span></a>
+								<div class="col-md-3 pull-right assignment-next-user">
+									<div ng-if="anc.next_user" class="container-fluid">
+										<div class="row">
+											<div class="nav-right-arrow pull-right">
+												<span class="glyphicon glyphicon-chevron-right"></span>
+											</div>									
+											<div class="pull-right">
+												<a ng-if="anc.next_user" ui-sref="code.user.tweets({'assignment_id': {{assignment_id}}, 'user_id': anc.next_user, 'page': 1, 'list_type': 'tweets'})">Next User</a>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
