@@ -234,7 +234,7 @@
 					sort = '';
 
 				// parse current status
-				var m = col.match(/$([+-])?(.*)/);
+				var m = col.match(/^([+-])?(.*)/);
 				if(m) {
 					sort = m[1];
 					col = m[2];
