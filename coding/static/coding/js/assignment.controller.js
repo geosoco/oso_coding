@@ -104,7 +104,7 @@
 						function(map, user){
 							map[user.id] = scheme.code_set.reduce(
 								function(map, code){
-									map[code.name] = false;
+									map[code.id] = false;
 
 									return map
 								}, {})
@@ -119,7 +119,7 @@
 					instcode = self.codes[inst.code];
 
 
-				self.user_instance_map[instcode.scheme][inst.user][instcode.name] = true;
+				self.user_instance_map[instcode.scheme][inst.user][instcode.id] = true;
 			}
 
 		}

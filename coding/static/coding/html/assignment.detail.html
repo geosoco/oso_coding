@@ -34,8 +34,8 @@
 				</tr>
 				<tr>
 					<th ng-repeat="code in scheme.codes" class="table-sort-header-link">
-						<a href="" ng-click="(scheme._order_by = assignment.toggleOrderBy(scheme, code.name))">{{code.name}}
-							<span class="sort-order-containter" ng-switch="scheme._order_dirs[code.name]">
+						<a href="" ng-click="(scheme._order_by = assignment.toggleOrderBy(scheme, code.id))">{{code.name}}
+							<span class="sort-order-containter" ng-switch="scheme._order_dirs[code.id]">
 								<span ng-switch-when="+" class="glyphicon glyphicon-triangle-top"></span>
 								<span ng-switch-when="-" class="glyphicon glyphicon-triangle-bottom"></span>
 							</span>
@@ -49,8 +49,8 @@
 					<th>
 						<a ui-sref="code.user.tweets({'assignment_id': assignment.assignment.id, 'user_id': user.user_id})">{{user.user_screen_name}} ({{user.user_id}})</a>
 					</th>
-					<td ng-repeat="code in scheme.codes" ng-class="{ 'code-applied': user[code.name]}">
-						<div ng-if="user[code.name]"><i class="fa fa-check-circle"></i></div>
+					<td ng-repeat="code in scheme.codes" ng-class="{ 'code-applied': user[code.id]}">
+						<div ng-if="user[code.id]"><i class="fa fa-check-circle"></i></div>
 					</td>
 				</tr>
 			</tbody>
