@@ -4,13 +4,13 @@
 								<nav class="tweet-list-filter-tabs">
 									<ul class="styleless nav nav-pills">
 										<li class="col-md-3 tweet-list-tab" ng-class="{active: ('tweets' == tweetlist.list_type )}">
-											<a href="" ui-sref="^.tweets({page: 1, list_type: 'tweets'})">All Tweets</a>
+											<a href="" ui-sref="^.tweets({page: 1, list_type: 'tweets'})">All Tweets <span ng-if="('tweets' == tweetlist.list_type && tweetlist.total != undefined)" class="badge pull-right">{{tweetlist.total}}</span></a>
 										</li>
 										<li class="col-md-3 tweet-list-tab" ng-class="{active: 'original' == tweetlist.list_type}">
-											<a href="" ui-sref="^.tweets({page: 1, list_type: 'original'})">Original Tweets</a>
+											<a href="" ui-sref="^.tweets({page: 1, list_type: 'original'})">Original Tweets  <span ng-if="('original' == tweetlist.list_type && tweetlist.total != undefined)" class="badge pull-right">{{tweetlist.total}}</span></a>
 										</li>
 										<li class="col-md-3 tweet-list-tab" ng-class="{active: 'media' == tweetlist.list_type}">
-											<a href="" ui-sref="^.tweets({page: 1, list_type: 'media'})">Media</a>
+											<a href="" ui-sref="^.tweets({page: 1, list_type: 'media'})">Media <span ng-if="('media' == tweetlist.list_type && tweetlist.total != undefined)" class="badge pull-right">{{tweetlist.total}}</span></a>
 										</li>									
 									</ul>
 								</nav>

@@ -55,6 +55,7 @@
 
 				$scope.page_data = data;
 				self.tweets = data.results;
+                self.total = data.count;
 				self.loading = false;
 			});			
 		}
