@@ -55,7 +55,7 @@
         function calculateGeoDistanceFromOso() {
             return calcDistance($scope.tweet.geo_coordinates_0,
                     $scope.tweet.geo_coordinates_1,
-                    48.277781, -121.843519);            
+                    48.277781, -121.843519) * 0.621371;            
         }
 
 
