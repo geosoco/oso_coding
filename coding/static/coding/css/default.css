@@ -136,7 +136,8 @@ li.code .code-delete { font-size: 18px; position: absolute; right: 8px; top: 0px
 .tweet-profile-img-outer { position: relative; width: 80px; padding: 15px 10px 10px 17px; float: left; }
 .tweet-profile-img-outer .tweet-profile-img-container { position: relative; width: 48px; height: 60px; }
 
-
+.user-geo-data .glyphicon-map-marker { color: #F00; font-size: 20px }
+.user-geo-data a:hover .glyphicon-map-marker, .user-geo-data a:active .glyphicon-map-marker { color: #F66; }
 
 /*
  *
@@ -149,3 +150,11 @@ li.code .code-delete { font-size: 18px; position: absolute; right: 8px; top: 0px
 .table-sort-header-link a { display: block; width: 100%; height: 100%;}
 .table-sort-header-link:hover, .table-sort-header-link:active { background-color: #f0f0f0;}
 
+
+/*
+ *
+ * project specific
+ *
+ *
+ */
+.oso-distance { color: #aaa; }

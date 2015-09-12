@@ -64,6 +64,15 @@
 							</div>
 						</div>
 
+                                                        <!-- geo -->
+                                                        <div ng-if="tweet.geo_coordinates_0">
+                                                                <div class="user-geo-data">
+                                                                        <a href="http://www.google.com/maps/@{{tweet.geo_coordinates_0}},{{tweet.geo_coordinates_1}},16z" target="_blank"><span class="glyphicon glyphicon-map-marker"></span> {{tweet.geo_coordinates_0}}, {{tweet.geo_coordinates_1}}</a> <span class="oso-distance">( {{oso_distance | number: 2}} miles from the slide)</span>
+                                                                </div>
+                                                        </div>
+
+
+
 						<!-- retweet bar -->
 						<div class="row">
 							<div class="col-md-2 tweet-retweet-count"><span class="glyphicon glyphicon-retweet"></span> {{tweet.retweeted_status.retweet_count}}</div>
@@ -99,7 +108,8 @@
 							<li><em>in reply to user</em>: {{tweet.in_reply_to_user.id}}</li>
 							<li><em>retweeted status id</em>: {{tweet.retweeted_status.id}}</li>
 							<li><em>retweeted status user id</em>: {{tweet.retweeted_status.user.id}}</li>}}
-							<li><em>raw text</em>: {{tweet.text}}</li>							
+							<li><em>raw text</em>: {{tweet.text}}</li>
+                            <li><em>geo</em>: {{tweet.geo_coordinates_0}}, {{tweet.geo_coordinates_1}}</li>
 							<li></li>
 							<li><em>language</em>: {{tweet.lang}}</li>
 							<li><em>source</em>: <span ng-bind-html="tweet.source_html"></span></li>
