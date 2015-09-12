@@ -107,7 +107,7 @@ li.code .code-delete { font-size: 18px; position: absolute; right: 8px; top: 0px
 .retweet-header {  padding: 10px 0 0 5px; margin-bottom: 10px;}
 .retweet-icon { position: absolute; right: 0px; 
     background-color: #77b255;
-    padding: 0 2px;
+    padding: 4px 6px;
     font-size: 12px;
     color: #fff;
 }
