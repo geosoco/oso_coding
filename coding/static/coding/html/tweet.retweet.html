@@ -50,12 +50,12 @@
 										<li ng-repeat="media in tweet.media_set">
 											<div ng-switch on="media.type">
 												<div ng-switch-when="photo">
-													<a ng-href="{{media.media_url}}">
+													<a ng-href="{{media.media_url}}" target="_blank">
 														<img ng-src="{{media.media_url}}" />
 													</a>
 												</div>
 												<div ng-switch-when="video">
-													<div>video: <a ng-href="{{media.media_url}}">Video # {{media.media_id}}</a></div>
+													<div>video: <a ng-href="{{media.media_url}}" target="_blank">Video # {{media.media_id}}</a></div>
 												</div>
 											</div>
 										</li>
